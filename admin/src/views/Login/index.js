@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, Checkbox } from 'antd'
+import { Form, Input, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import logo from '@src/assets/images/logo.svg'
 import './login.less'
@@ -7,10 +7,15 @@ import './login.less'
 class Login extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {}
     }
     onFinish(values) {
-        console.log('提交: ', values);
+        localStorage.setItem('isLogin', '1');
+        // 模拟生成一些数据
+        // this.props.setUserInfo(Object.assign({}, values, { role: { type: 1, name: '超级管理员' } }));
+        localStorage.setItem('userInfo', JSON.stringify(Object.assign({}, values, { role: { type: 1, name: '超级管理员' } })));
         this.props.history.push('/home')
+        console.log('提交: ', values);
     }
     render() {
         return (
@@ -53,7 +58,7 @@ class Login extends React.Component {
                                 />
                             </Form.Item>
                             <div className="code-box">
-                                <img src={logo} className='pic'/>
+                                <img src={logo} className='pic' alt=""/>
                                 <Form.Item
                                     className="code-ins"
                                     name='code'

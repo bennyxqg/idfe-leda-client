@@ -10,18 +10,10 @@ class Index extends React.Component{
     router(){
         this.props.history.push('/list')
     }
-    add(num){
-        let count = this.state.count
-        this.setState({
-            count: count + num
-        })
-    }
     render() {
         return (
             <div>
-                <p>这是首页</p>
-                <p>{this.state.count}<button onClick={() => this.add(2)}>增加2</button></p>
-                <button onClick={() => this.router()}>去其他页面</button>
+                <p>评论页面</p>
             </div>
         )
     }
