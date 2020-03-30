@@ -22,7 +22,7 @@ class Login extends React.Component {
             <div className='login-page'>
                 <div className='box'>
                     <div className="logo-box">
-                        <a href="http://www.idreamsky.com" target="_blank">
+                        <a href="http://www.idreamsky.com" target="_blank" rel="noopener noreferrer">
                             <img src={logo} className='logo' alt='logo' />
                         </a>
                     </div>
