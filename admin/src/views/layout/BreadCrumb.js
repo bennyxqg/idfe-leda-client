@@ -9,9 +9,11 @@ class BreadCrumb extends React.Component {
     const list = menus.filter(key => key.path === location.pathname)
     const name = list.length ? list[0].name : ''
     return (
-      <Breadcrumb>
-        <Breadcrumb.Item>{name}</Breadcrumb.Item>
-      </Breadcrumb>
+      <div className="breadCrumb">
+          <Breadcrumb>
+            <Breadcrumb.Item>{name}</Breadcrumb.Item>
+          </Breadcrumb>
+      </div>
     )
   }
 }

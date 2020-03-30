@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
-import logo from '@src/assets/images/logo.svg'
+import logo from '@src/assets/images/logo.png'
 import './login.less'
 
 class Login extends React.Component {
@@ -21,7 +21,11 @@ class Login extends React.Component {
         return (
             <div className='login-page'>
                 <div className='box'>
-                    <img src={logo} className='logo' alt='logo' />
+                    <div className="logo-box">
+                        <a href="http://www.idreamsky.com" target="_blank">
+                            <img src={logo} className='logo' alt='logo' />
+                        </a>
+                    </div>
                     <div className='form-box'>
                         <Form
                             name='normal_login'
@@ -81,6 +85,7 @@ class Login extends React.Component {
                             </Form.Item>
                         </Form>
                     </div>
+                    <p className="info">Copyright©2009-2020 深圳市创梦天地科技有限公司 版权所有 粤ICP备11018438号</p>
                 </div>
             </div>
         )
