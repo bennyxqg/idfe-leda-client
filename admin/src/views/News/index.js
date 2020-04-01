@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, Row, Col, Button, Form, Select, Input} from 'antd';
+import './index.less'
 const FormItem = Form.Item;
 const { Option } = Select;
 const { Column } = Table
@@ -25,6 +26,7 @@ class Index extends React.Component {
 				name: '栏目1',
 				num: 333,
 				time: '2019-04-11 13:00',
+				sort: false,
 				id: 1
 			},
 			{
@@ -33,6 +35,7 @@ class Index extends React.Component {
 				name: '栏目3453',
 				num: 555,
 				time: '2019-04-11 13:00',
+				sort: true,
 				id: 2
 			},
 		]
@@ -124,11 +127,12 @@ class Index extends React.Component {
 						title="操作"
 						key="id"
 						render={(text, record) => (
-							<span>
-								<Button style={{ marginRight: 16 }} onClick={()=>{this.handleRouter('edit', record)}} type="primary">编辑</Button>
-								<Button style={{ marginRight: 16 }} type="primary">预览</Button>
+							<div className="btns">
+								{record.sort ? <Button type="primary" className="first">置顶</Button> : <Button type="primary" className="first">已置顶</Button>}
+								<Button onClick={()=>{this.handleRouter('edit', record)}} type="primary">编辑</Button>
+								<Button type="primary">预览</Button>
 								<Button onClick={() => {this.handleDel(record)}} danger type="primary">删除</Button>
-							</span>
+							</div>
 						)}
 					/>
 				</Table>
