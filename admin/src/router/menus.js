@@ -6,7 +6,7 @@ export const menus = [
     child: [
 			{
 				path: '/detail',
-				name: '新闻详情'
+				name: '新闻'
 			}
 		]
   },

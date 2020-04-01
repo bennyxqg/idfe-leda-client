@@ -1,25 +1,18 @@
 import React from 'react';
-import { Table, Row, Col, Button, Form, Select, Input} from 'antd';
+import { Table, Button, Form, Select, Input} from 'antd';
 import './index.less'
 const FormItem = Form.Item;
 const { Option } = Select;
-const { Column } = Table
 
 class Index extends React.Component {
 	formRef = React.createRef();
 	state = {
-		data: [],
 		pagination: {
 			pageSize: 10,
 			current: 1
 		},
-		searchForm: {
-			title: '',
-			type: ''
-		},
 		loading: false,
-		selectedRowKeys: [],
-		columns: [
+		data: [
 			{
 				title: '表哈哈1',
 				dataIndex: 'name',
@@ -38,6 +31,38 @@ class Index extends React.Component {
 				sort: true,
 				id: 2
 			},
+		],
+		columns: [
+			{
+				title: '标题',
+				dataIndex: 'title',
+			},
+			{
+				title: '新闻栏目',
+				dataIndex: 'name',
+			},
+			{
+				title: '阅读数',
+				dataIndex: 'num',
+			},
+			{
+				title: '发布时间',
+				dataIndex: 'time',
+			},
+			{
+				title: '操作',
+				dataIndex: 'action',
+				align: 'center',
+				width: 600,
+				render: (text, record) => (
+					<div className="btns">
+						{record.sort ? <Button type="primary" className="first">置顶</Button> : <Button type="primary" className="first">已置顶</Button>}
+						<Button onClick={()=>{this.handleRouter('edit', record)}} type="primary">编辑</Button>
+						<Button type="primary">预览</Button>
+						<Button onClick={() => {this.handleDel(record)}} danger type="primary">删除</Button>
+					</div>
+				)
+			},
 		]
 	};
 	componentWillMount() {
@@ -49,13 +74,6 @@ class Index extends React.Component {
 		this.setState = () => {
 			return;
 		};
-	}
-
-	router() {
-		this.props.history.push('/list')
-	}
-	getFieldDecorator() {
-
 	}
 	onFinish(value) {
 		console.log(value)
@@ -84,59 +102,32 @@ class Index extends React.Component {
 		return (
 			<div className="shadow-radius">
 				<Form
+					layout="inline"
 					ref={this.formRef}
 					className="search-form"
-					layout="inline"
 					onFinish={this.onFinish}
 				>
-					<Row gutter={24}>
-						<Col span={10}>
-							<FormItem label="新闻标题" name="title">
-								<Input />
-							</FormItem>
-						</Col>
-						<Col span={10}>
-							<FormItem label="新闻栏目" name="type">
-								<Select placeholder="请选择">
-									<Option value="male">male</Option>
-									<Option value="female">female</Option>
-								</Select>
-							</FormItem>
-						</Col>
-						<Col span={2} style={{ marginRight: '10px', display: 'flex' }} className="serarch-btns">
-							<FormItem>
-								<Button type="primary" className={'btn'} htmlType='submit'>
-									搜索
-								</Button>
-							</FormItem>
-							<FormItem>
-								<Button className={'btn'} onClick={() => this.handleRouter('add')}>
-									发布图文
-								</Button>
-							</FormItem>
-						</Col>
-					</Row>
+					<FormItem label="新闻标题" name="title">
+						<Input />
+					</FormItem>
+					<FormItem label="新闻栏目" name="type">
+						<Select placeholder="请选择" className="width200">
+							<Option value="male">male</Option>
+							<Option value="female">female</Option>
+						</Select>
+					</FormItem>
+					<FormItem>
+						<Button type="primary" className={'btn'} htmlType='submit'>
+							搜索
+						</Button>
+					</FormItem>
+					<FormItem>
+						<Button className={'btn'} onClick={() => this.handleRouter('add')}>
+							发布图文
+						</Button>
+					</FormItem>
 				</Form>
-
-				<Table dataSource={this.state.columns} rowKey="id" pagination={paginationProps}>
-					<Column title="标题" dataIndex="title" key="title" />
-					<Column title="栏目" dataIndex="name" key="name" />
-					<Column title="阅读数" dataIndex="num" key="num" />
-					<Column title="时间" dataIndex="time" key="time" />
-					<Column
-						title="操作"
-						key="id"
-						render={(text, record) => (
-							<div className="btns">
-								{record.sort ? <Button type="primary" className="first">置顶</Button> : <Button type="primary" className="first">已置顶</Button>}
-								<Button onClick={()=>{this.handleRouter('edit', record)}} type="primary">编辑</Button>
-								<Button type="primary">预览</Button>
-								<Button onClick={() => {this.handleDel(record)}} danger type="primary">删除</Button>
-							</div>
-						)}
-					/>
-				</Table>
-
+				<Table columns={this.state.columns} dataSource={this.state.data} rowKey="id" bordered="true" pagination={paginationProps}/>
 			</div>
 		)
 	}

@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { Select, Form, Input, Button, Radio, Upload} from 'antd';
+import { Select, Form, Input, Button, Radio, Upload, Modal} from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import Editor from '@src/components/ReactQuill'
+import './index.less'
 const { Option } = Select;
 const { TextArea } = Input;
 
 class index extends Component {
   state = {
     loading: false,
-    imageUrl: ''
+    imageUrl: '',
+    visible: false
   }
   componentDidMount() {
     console.log(this.props.history.location);
@@ -15,8 +18,21 @@ class index extends Component {
   onChange(value) {
     console.log(value)
   }
-  onFinish(value) {
+  onFinish = (value) => {
     console.log('提交表单' + value)
+  }
+  showEditor = e => {
+    this.setState({
+      visible: true,
+    })
+  }
+  handleOk = e =>{
+    console.log(this.editor.submitContent())
+  }
+  handleCancel = e => {
+    this.setState({
+      visible: false,
+    })
   }
   render() {
     const uploadButton = (
@@ -29,9 +45,9 @@ class index extends Component {
     return (
       <div className="detail">
         <Form
-          name='normal_login'
-          className='login-form'
-          onFinish={(value) => { this.onFinish(value) }}
+          name='normal_new'
+          className='new-form'
+          onFinish={this.onFinish}
         >
           <Form.Item>
             <Select
@@ -49,7 +65,15 @@ class index extends Component {
               <Option value="tom">Tom</Option>
             </Select>
           </Form.Item>
-          <Form.Item>
+          <Form.Item
+            name='username'
+            rules={[
+              {
+                required: true,
+                message: '请输入用户名!'
+              }
+            ]}
+          >
             <Radio.Group name="radiogroup" defaultValue={1}>
               <Radio value={1}>悬念站首页新闻</Radio>
               <Radio value={2}>开发者博客图文</Radio>
@@ -59,9 +83,7 @@ class index extends Component {
           <Form.Item
             label="新闻标题"
           >
-            <Input
-              placeholder='用户名'
-            />
+            <Input/>
           </Form.Item>
           <Form.Item
             label="新闻摘要"
@@ -83,42 +105,48 @@ class index extends Component {
               {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
             </Upload>
           </Form.Item>
-          <Form.Item></Form.Item>
-          <Form.Item></Form.Item>
-          <Form.Item></Form.Item>
           <Form.Item
-            name='username'
-            rules={[
-              {
-                required: true,
-                message: '请输入用户名!'
-              }
-            ]}
+            label="缩略图(手机端)"
           >
-            <Input
-              placeholder='用户名'
-            />
-          </Form.Item>
+            <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                beforeUpload={this.beforeUpload}
+                onChange={this.handleChange}
+              >
+                {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+              </Upload>
+            </Form.Item>
           <Form.Item
-            name='password'
-            rules={[
-              {
-                required: true,
-                message: '请输入密码!'
-              }
-            ]}
+            label="新闻详情"
           >
-            <Input
-              type='password'
-              placeholder='密码'
-            />
+            <Button type='primary' onClick={this.showEditor}>编辑</Button>
           </Form.Item>
           <Form.Item>
-            <Button type='primary' htmlType='submit' className='login-form-button'>
-              登录
-								</Button>
+            <div className="btns">
+              <Button>取消</Button>
+              <Button type='primary' htmlType='submit'>保存</Button>
+            </div>
           </Form.Item>
         </Form>
+
+        <Modal
+          title="新闻内容"
+          width="50%"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <Editor
+              value={'这是内容'} 
+              ref={e => {
+                  this.editor = e;
+              }}
+          />
+        </Modal>
       </div>
     );
   }
