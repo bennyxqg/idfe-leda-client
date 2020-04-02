@@ -1,6 +1,7 @@
 import React from 'react';
-import { Table, Button, Form, Select, Input} from 'antd';
+import { Table, Button, Form, Select, Input } from 'antd';
 import './index.less'
+import $axios from "@src/utils/http";
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -57,16 +58,18 @@ class Index extends React.Component {
 				render: (text, record) => (
 					<div className="btns">
 						{record.sort ? <Button type="primary" className="first">置顶</Button> : <Button type="primary" className="first">已置顶</Button>}
-						<Button onClick={()=>{this.handleRouter('edit', record)}} type="primary">编辑</Button>
+						<Button onClick={() => { this.handleRouter('edit', record) }} type="primary">编辑</Button>
 						<Button type="primary">预览</Button>
-						<Button onClick={() => {this.handleDel(record)}} danger type="primary">删除</Button>
+						<Button onClick={() => { this.handleDel(record) }} danger type="primary">删除</Button>
 					</div>
 				)
 			},
 		]
 	};
-	componentWillMount() {
+	async componentWillMount() {
 		// this.fetch();
+		const result = await $axios.get('/config/list')
+		console.log(result)
 	}
 
 	componentWillUnmount() {
@@ -79,16 +82,16 @@ class Index extends React.Component {
 		console.log(value)
 	}
 	handleRouter(type, row) {
-		let url = type === 'add' ? {pathname: `/detail`} : {pathname: `/detail`, search: `?id=${row.id}`}
-		this.props.history.push(url) 
+		let url = type === 'add' ? { pathname: `/detail` } : { pathname: `/detail`, search: `?id=${row.id}` }
+		this.props.history.push(url)
 	}
-	handleDel(row){
+	handleDel(row) {
 		console.log(row)
 	}
-	handleTableChange(page){
+	handleTableChange(page) {
 		console.log('跳转页数' + page)
 	}
-	onShowSizeChange(current, pageSize){
+	onShowSizeChange(current, pageSize) {
 		console.log(current, pageSize)
 	}
 	render() {
@@ -99,6 +102,7 @@ class Index extends React.Component {
 			showSizeChanger: true,
 			showQuickJumper: true
 		};
+		const { loading, columns, data } = this.state
 		return (
 			<div className="shadow-radius">
 				<Form
@@ -127,7 +131,7 @@ class Index extends React.Component {
 						</Button>
 					</FormItem>
 				</Form>
-				<Table columns={this.state.columns} dataSource={this.state.data} rowKey="id" bordered="true" pagination={paginationProps}/>
+				<Table loading={loading} columns={columns} dataSource={data} rowKey="id" bordered="true" pagination={paginationProps} />
 			</div>
 		)
 	}
