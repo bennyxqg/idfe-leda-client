@@ -1,12 +1,18 @@
 import React from 'react';
-import { Table, Button, Form, Select, Input, DatePicker, Modal } from 'antd';
+import { Table, Button, Form, Select, Input, DatePicker, Modal, message } from 'antd';
 import './index.less'
+import { messagePage, dealMessage } from '@/http/hmessages'
+import { formatTime } from '@/utils/helper'
+import lodash from 'lodash'
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 class Index extends React.Component {
     formRef = React.createRef();
+    confirmFormRef = React.createRef();
     state = {
         visible: false,
         pagination: {
@@ -14,35 +20,7 @@ class Index extends React.Component {
             current: 1
         },
         loading: false,
-        data: [
-            {
-                pic: 'http://192.168.4.124:930/wpk/0/image/efd/028/e09/efde028ee09047eafff895b7f2620d11.jpg',
-                player: '玩家昵称1',
-                repley: '评论内容哈哈1',
-                title: '文章标题',
-                time: '2019-04-11 13:00',
-                status: 0,
-                id: 1
-            },
-            {
-                pic: 'http://192.168.4.124:930/wpk/0/image/7aa/164/d37/7aa21647d37d7234d236fea44bf1f3f8.jpg',
-                player: '玩家昵称222',
-                repley: '评论内容dfgdfg',
-                title: '文章标题11',
-                time: '2019-04-11 13:00',
-                status: 1,
-                id: 2
-            },
-            {
-                pic: 'http://192.168.4.124:930/wpk/0/image/7aa/164/d37/7aa21647d37d7234d236fea44bf1f3f8.jpg',
-                player: '玩家昵称333',
-                repley: '评论内容345345',
-                title: '文章标题222',
-                time: '2019-04-11 13:00',
-                status: 2,
-                id: 3
-            },
-        ],
+        tableData: [],
         columns: [
             {
                 title: '头像',
@@ -54,14 +32,31 @@ class Index extends React.Component {
                 dataIndex: 'action',
                 render: (text, record) => (
                     <div className="info">
-                        <p className="player"><span>{record.player}</span> 对我的文章发表了评论</p>
-                        <p className="text">{record.repley}</p>
+                        {
+                            record.status != 2?(
+                                <div>
+                                    <p className="player"><span>{record.user_name}</span> 的留言</p>
+                                    <p className="text">{record.message}</p>
+                                </div>
+                            ):(
+                                <div>
+                                    <div>回复了{record.user_name}的留言</div>
+                                    <div>回复内容：{record.answer_content}</div>
+                                    <div>{record.user_name}：{record.message}</div>
+                                </div>
+                            
+                                
+                            )
+                        }
                     </div>
                 )
             },
             {
                 title: '发布时间',
-                dataIndex: 'time',
+                dataIndex: 'created',
+				render: (text, record) => (
+					<span>{formatTime(text) || '--'}</span>
+				)
             },
             {
                 title: '状态',
@@ -86,13 +81,20 @@ class Index extends React.Component {
         ]
     }
     statusHtml = e => {
+        e = parseInt(e)
         let html = ''
         switch (e) {
-            case 1:
-                html = '已处理'
+            case -1:
+                html = '已删除'
                 break;
             case 0:
-                html = '未处理'
+                html = '待审核'
+                break;
+            case 1:
+                html = '已通过'
+                break;
+            case 2:
+                html = '已置顶'
                 break;
             default:
                 html = '未知'
@@ -100,31 +102,115 @@ class Index extends React.Component {
         return html
     }
     actionHtml = e => {
-        if (e.status) {
+        if (e.status == 0) { // 未审核
             return (
                 <>
-                    <Button onClick={() => this.handleAction(e, 'pass')} type="primary">通过</Button>
-                    <Button type="primary" danger onClick={() => this.handleAction(e, 'del')}>删除</Button>
-                    <Button type="primary" onClick={() => this.handleAction(e, 'first')}>置顶</Button>
+                    <Button size='small' type="primary" onClick={() => this.handleAction(e, 1)} >通过</Button>
+                    <Button size='small' type="primary" danger onClick={() => this.handleAction(e, -1)}>删除</Button>
                 </>
             )
-        } else {
+        } else if (e.status == -1) { // 删除
             return (
                 <>
-                    <Button onClick={() => this.handleAction(e, 'reply')}>回复</Button>
-                    <Button onClick={() => this.handleAction(e, 'cancle')}>撤销操作</Button>
+                    <Button size='small' type="primary" onClick={() => this.handleAction(e, 0)}>撤销操作</Button>
+                </>
+            )
+        } else if (e.status == 1) { // 已通过
+            return (
+                <>
+                    <Button size='small' type="primary" onClick={() => this.handleAction(e, 0)}>撤销操作</Button>
+                    <Button size='small' type="primary" onClick={() => this.handleAction(e, 2)}>回复</Button>
+                </>
+            )
+        } else if (e.status == 2) { // 已回复
+            return (
+                <>
+                    <Button size='small' type="primary" onClick={() => this.handleAction(e, 1)}>撤销回复</Button>
                 </>
             )
         }
     }
-    onFinish = e => {
+    componentWillMount() {
+		this.getPageList()
+    }
+    // 获取分页数据
+    getPageList(pageNum) {
+        let searchData = {}
+        if(this.formRef.current) {
+            searchData = lodash.cloneDeep(this.formRef.current.getFieldsValue()) 
+            if(searchData.timeRange && searchData.timeRange.length === 2) {
+                searchData.start_time = Math.round(searchData.timeRange[0].valueOf() / 1000)
+                searchData.end_time = Math.round((searchData.timeRange[1].valueOf() + 24 * 60 * 60 *1000)/1000)
+            }
+            delete searchData.timeRange
+        }
+		// const pageNum = this.state.pagination.current
+		let sendData = {
+			page: pageNum,
+            is_deal: 0
+        }
+        sendData = Object.assign({}, sendData, searchData)
+        // 更新column表头内容
+        this.setColumns(sendData.is_deal)
 
+        
+		messagePage(sendData).then((rep) => {
+			if(rep.error_code === 0) {
+				if(rep.data && rep.data.list && rep.data.list.length) {
+					this.setState({'tableData': rep.data.list})
+                    this.setState({'pagination': Object.assign({}, this.state.pagination, {total: 10 * rep.data.total_page})})
+				} else {
+					this.setState({'tableData': []})
+					if(pageNum != 1) {
+                        this.getPageList(1)
+                        this.setState({'pagination': Object.assign({}, this.state.pagination, {current: 1})})
+					} else {
+                        this.setState({'pagination': Object.assign({}, this.state.pagination, {total: 0})})
+                    }
+				}
+			}
+		})
+    }
+    
+    setColumns = (is_deal) => {
+        if(is_deal == 2) {
+            const columns = this.state.columns
+            columns.splice(2, 1, {
+                title: '回复时间',
+                dataIndex: 'answer_time',
+                render: (text, record) => (
+                    <span>{formatTime(text) || '--'}</span>
+                )
+            })
+            this.setState({
+                columns
+            })
+        } else {
+            const columns = this.state.columns
+            columns.splice(2, 1, {
+                title: '发布时间',
+                dataIndex: 'created',
+                render: (text, record) => (
+                    <span>{formatTime(text) || '--'}</span>
+                )
+            })
+            this.setState({
+                columns
+            })
+        }
+        
+    }
+
+    onFinish = e => {
+        this.getPageList()
     }
     handleDel(row) {
         console.log(row)
     }
     handleTableChange(page) {
         console.log('跳转页数' + page)
+        this.setState({'pagination': Object.assign({}, this.state.pagination, {current: page})})
+		this.getPageList(page)
     }
     onShowSizeChange(current, pageSize) {
         console.log(current, pageSize)
@@ -132,14 +218,118 @@ class Index extends React.Component {
     onChange() {
 
     }
-    handleAction(row, type) {
+    handleAction = (row, type) => {
         console.log(row, type)
-        if (type === 'reply') {
-            this.setState({
-                visible: true
-            })
-            return
+        let tipsText = ''
+        let content = ''
+        if(type === 1 && row.status != 2) { // 通过
+            tipsText = '通过'
+        } else if(type === -1) { // 删除
+            tipsText = '删除'
+        } else if(type === 2) { // 已回复
+            tipsText = '置顶'
+        } else if(type === 0) { // 撤销操作
+            tipsText = '撤销操作'
+        } else if(type === 1 && row.status == 2) { // 撤销回复
+            tipsText = '撤销回复'
         }
+        content = '确认'+tipsText+'吗？'
+        if(type === -1) {
+            content = (
+                <div>
+                    <Form
+                        ref={this.confirmFormRef}
+                    >
+                        <Form.Item
+                            label=""
+                            name="delete_reason"
+                            rules={[{ required: true, message: '请输入删除原因' }]}
+                        >
+                            <TextArea rows={4} 
+                                
+                                placeholder="请输入删除原因" />
+                        </Form.Item>
+
+                        
+                    </Form>
+                </div>
+            )
+        } else if(type === 2) {
+            content = (
+                <div>
+                    <Form
+                        ref={this.confirmFormRef}
+                    >
+                        <FormItem 
+                            name="answer_name"
+                            rules={[{ required: true, message: '请选择主创' }]}
+                        >
+                            <Select placeholder="请选择主创" className="width200">
+                                <Option value="主创A">主创A</Option>
+                                <Option value="主创B">主创B</Option>
+                                <Option value="主创C">主创C</Option>
+                            </Select>
+                        </FormItem>
+                        <Form.Item
+                            label=""
+                            name="answer_content"
+                            rules={[{ required: true, message: '请输入留言内容' }]}
+                        >
+                            <TextArea rows={4} 
+                                placeholder="请输入留言内容" />
+                        </Form.Item>
+
+                        
+                    </Form>
+                </div>
+            )
+        }
+        Modal.confirm({
+            title: '确认操作',
+            content,
+            okText: '确认',
+            cancelText: '取消',
+            icon: <ExclamationCircleOutlined />,
+            onOk: () => {
+                return new Promise((resolve, reject) => {
+                    if(type === -1 || type === 2) {
+                        this.confirmFormRef.current.validateFields().then((val) => {
+                            console.log('-----validateFields------', val)
+                            const rowTemp = Object.assign({}, row, val)
+                            this.dealReq(rowTemp, type)
+                            resolve()
+                        }).catch(() => {
+                            reject()
+                        }) 
+                    } else {
+                        this.dealReq(row, type)
+                        resolve()
+                    }
+                    
+                })
+            }
+        });
+    }
+    dealReq = (row, type) => {
+        const sendData = {
+            id: row.id,
+            status: type
+        }
+        if(type === -1) { // 删除
+            sendData.delete_reason = row.delete_reason || ''
+        }
+        if(type === 2) { // 回复
+            sendData.answer_name = row.answer_name || ''
+            sendData.answer_content = row.answer_content || ''
+        }
+        dealMessage(sendData).then((rep) => {
+            if(rep.error_code === 0) {
+                message.success('操作成功');
+                this.getPageList(this.state.pagination.current)
+            } else {
+                message.error(rep.msg);
+            }
+        })
     }
     handleOk = e => {
         console.log(e)
@@ -154,10 +344,10 @@ class Index extends React.Component {
             onChange: page => this.handleTableChange(page),
             onShowSizeChange: (current, pageSize) => this.onShowSizeChange(current, pageSize), //  pageSize 变化的回调
             ...this.state.pagination,
-            showSizeChanger: true,
+            showSizeChanger: false,
             showQuickJumper: true
         };
-        const { loading, columns, data } = this.state
+        const { loading, columns, tableData } = this.state
         return (
             <div className="shadow-radius">
                 <Form
@@ -165,23 +355,27 @@ class Index extends React.Component {
                     className="search-form"
                     layout="inline"
                     onFinish={this.onFinish}
+                    initialValues={{
+                        is_deal: '0'
+                    }}
                 >
-                    <FormItem name="name">
-                        <Input placeholder="玩家昵称" />
+                    <FormItem name="user_name">
+                        <Input allowClear={true} placeholder="玩家昵称" />
                     </FormItem>
-                    <FormItem label="时间" name="time">
-                        <RangePicker />
+                    <FormItem label="时间" name="timeRange">
+                        <RangePicker allowClear={true} />
                     </FormItem>
-                    <FormItem label="状态" name="type">
-                        <Select placeholder="请选择" className="width200">
-                            <Option value="male">所有</Option>
-                            <Option value="male">未处理</Option>
-                            <Option value="female">已处理</Option>
-                            <Option value="female">已回复</Option>
+                    <FormItem label="状态" name="is_deal">
+                        <Select placeholder="请选择" 
+                            allowClear={true}
+                            className="width200">
+                            <Option value="0">未处理</Option>
+                            <Option value="1">已处理</Option>
+                            <Option value="2">已回复</Option>
                         </Select>
                     </FormItem>
-                    <FormItem name="title">
-                        <Input placeholder="留言内容/昵称" />
+                    <FormItem name="message">
+                        <Input allowClear={true} placeholder="留言内容/昵称" />
                     </FormItem>
                     <FormItem>
                         <Button type="primary" className={'btn'} htmlType='submit'>
@@ -190,7 +384,9 @@ class Index extends React.Component {
                     </FormItem>
                 </Form>
 
-                <Table dataSource={data} columns={columns} loading={loading} rowKey="id" pagination={paginationProps} />
+                <Table dataSource={tableData} columns={columns} 
+                    bordered="true"
+                    loading={loading} rowKey="id" pagination={paginationProps} />
                 <Modal
                     title="发表回复"
                     width="50%"

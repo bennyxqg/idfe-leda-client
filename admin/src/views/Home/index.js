@@ -1,23 +1,52 @@
 import React, { Component } from 'react'
 import { Row, Col, Button, Input, Form} from 'antd';
+import InfoItem from './Comp/InfoItem'
+import AddModal from './Comp/AddModal'
+import { basicConfigList } from '@/http/hwebInfo'
 import './home.less'
 
 export default class index extends Component {
   state = {
-    list: [
-      {'name': '首页视频', value: 'home_video'},
-      {'name': '网站标题', value: 'web_title'},
-      {'name': '网站关键字', value: 'web_keywords'},
-      {'name': '网站摘要', value: 'web_abstract'}
-    ]
+    list: [],
+    addModalVisible: false
   }
-  onFinish(value, type){
-    console.log(value, type)
+
+  componentWillMount() {
+		// this.fetch();
+    this.getListData()
   }
+
+  getListData = () => {
+    basicConfigList().then((rep) => {
+      if(rep.error_code === 0) {
+        this.setState({
+          list: rep.data
+        })
+      }
+    })
+  }
+  
+  handleAdd = () => {
+    this.setState({addModalVisible: true})
+  }
+
+  addModalChange = (val) => {
+		this.setState({addModalVisible: val})
+  }
+  
+  addSuccess = () => {
+    this.getListData()
+  }
+  
   render() {
     return (
       <div className="shadow-radius">
-        <Row gutter={16}>
+        <div style={{marginBottom: '10px', textAlign: 'right'}}>
+          <Button type="primary" onClick={this.handleAdd}>
+              新增
+          </Button>
+        </div>
+        <Row gutter={16} style={{backgroundColor: '#F6F6FA'}}>
           <Col className="gutter-row" span={5}>
             <div className="item">名称</div>
           </Col>
@@ -34,37 +63,22 @@ export default class index extends Component {
         {
           this.state.list.map(el => {
             return (
-              <Form
-                key={el.name}
-                onFinish={(value) => this.onFinish(value, el.value)}
-              >
-                <Row gutter={16}>
-                  <Col className="gutter-row" span={5}>
-                    <div className="item">{el.name}</div>
-                  </Col>
-                  <Col className="gutter-row" span={5}>
-                    <div className="item">{el.value}</div>
-                  </Col>
-                  <Col className="gutter-row" span={9}>
-                    <div className="item">
-                    <Form.Item
-                      label=""
-                      name={el.value}
-                    >
-                      <Input />
-                    </Form.Item>
-                    </div>
-                  </Col>
-                  <Col className="gutter-row" span={5}>
-                    <div className="item">
-                      <Button type='primary' htmlType="submit" className='button'>保存</Button>
-                    </div>
-                  </Col>
-                </Row>
-              </Form>
+              <div key={el.id}>
+                <InfoItem data={el}
+                  successCB = {this.addSuccess}
+                ></InfoItem>
+              </div>
             )
           })
         }
+        {
+					this.state.addModalVisible && (
+						<AddModal
+              modalChange={this.addModalChange}
+              successCB={this.addSuccess}
+						/>
+					)
+				}
       </div>
     )
   }

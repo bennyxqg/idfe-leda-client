@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { routes } from '@src/router/router';
+import { routes } from '@/router/router';
 
 const MainContent = ({ location }) => {
 	return (

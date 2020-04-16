@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Breadcrumb } from 'antd';
-import { menus } from '@src/router/menus';
+import { menus } from '@/router/menus';
 
 class BreadCrumb extends React.Component {
   createBreadCrumbData(location, data){
