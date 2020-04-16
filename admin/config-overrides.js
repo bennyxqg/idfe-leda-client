@@ -33,10 +33,9 @@ if(envConfig === 'sandbox' || envConfig === 'prod' || envConfig === 'test' || en
 }
 
 let publicPath = '/'
-if(envConfig === 'sandbox' || envConfig === 'prod') { // 区分环境打包
-  // publicPath = '/activity'
+if(envConfig !== 'dev') {
+  publicPath = '/admin'
 }
-
 
 const extra_config= ()=>(config, env)=>{
   config.resolve.alias = {
