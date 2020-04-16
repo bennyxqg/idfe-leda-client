@@ -6,24 +6,29 @@ const { override, setWebpackPublicPath, fixBabelImports, addWebpackPlugin, disab
 
 const envConfig = process.env.env_config
 
+let publicPath = '/'
+if(envConfig !== 'dev') {
+  publicPath = '/manager'
+}
+
 const envConfigData = {
   dev: {
     evnFlag: 'dev'
   },
   dev_build: {
-    buildPath: 'dist/dist_dev', // 编译目录
+    buildPath: 'dist/dist_dev' + publicPath, // 编译目录
     evnFlag: 'dev_build'
   },
   test: {
-    buildPath: 'dist/dist_test',
+    buildPath: 'dist/dist_test' + publicPath,
     evnFlag: 'test'
   },
   sandbox: {
-    buildPath: 'dist/dist_sandbox',
+    buildPath: 'dist/dist_sandbox' + publicPath,
     evnFlag: 'sandbox'
   },
   prod: {
-    buildPath: 'dist/dist_prd',
+    buildPath: 'dist/dist_prd' + publicPath,
     evnFlag: 'prod'
   }
 }
@@ -32,10 +37,7 @@ if(envConfig === 'sandbox' || envConfig === 'prod' || envConfig === 'test' || en
   paths.appBuild = path.join(path.dirname(paths.appBuild), envConfigData[envConfig].buildPath);
 }
 
-let publicPath = '/'
-if(envConfig !== 'dev') {
-  publicPath = '/admin'
-}
+
 
 const extra_config= ()=>(config, env)=>{
   config.resolve.alias = {
@@ -67,6 +69,7 @@ module.exports = {
       new webpack.DefinePlugin({ // 全局变量
         'process.env': {
           'buildTime': buildTime,
+          publicPath: '"' + publicPath + '"',
           evnFlag: '"' + envConfigData[envConfig].evnFlag + '"'
         }
       }),

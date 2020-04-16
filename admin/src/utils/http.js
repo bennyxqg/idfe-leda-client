@@ -48,7 +48,7 @@ $axios.interceptors.response.use(
       if (response.data.error_code === 0) {
         return response.data
       } else if(response.data.error_code === 401 || response.data.error_code === 400) { // 未登录已过期
-        window.location.href = '/#login'
+        window.location.href = process.env.publicPath + '/#login'
         return Promise.reject()
       } else {
         message.error(response.data.msg)
