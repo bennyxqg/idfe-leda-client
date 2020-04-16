@@ -41,7 +41,15 @@ class Index extends React.Component {
                             ):(
                                 <div>
                                     <div>回复了{record.user_name}的留言</div>
-                                    <div>回复内容：{record.answer_content}</div>
+                                    {
+                                        record.reply_info.map((reply, index) => {
+                                            return (
+                                            <div key={index}>（{reply.answer_name}--{formatTime(reply.answer_time)}）回复内容：{reply.answer_content}
+                                                <span onClick={() => {this.cancelReply(record, index)}} style={{color: '#2469F2', marginLeft: '4px', cursor: 'pointer'}}>撤销</span>
+                                            </div>
+                                            )
+                                        })
+                                    }
                                     <div>{record.user_name}：{record.message}</div>
                                 </div>
                             
@@ -94,7 +102,7 @@ class Index extends React.Component {
                 html = '已通过'
                 break;
             case 2:
-                html = '已置顶'
+                html = '已回复'
                 break;
             default:
                 html = '未知'
@@ -125,7 +133,8 @@ class Index extends React.Component {
         } else if (e.status == 2) { // 已回复
             return (
                 <>
-                    <Button size='small' type="primary" onClick={() => this.handleAction(e, 1)}>撤销回复</Button>
+                    {/* <Button size='small' type="primary" onClick={() => this.handleAction(e, 1)}>撤销回复</Button> */}
+                    <Button size='small' type="primary" onClick={() => this.handleAction(e, 2)}>回复</Button>
                 </>
             )
         }
@@ -174,17 +183,17 @@ class Index extends React.Component {
     
     setColumns = (is_deal) => {
         if(is_deal == 2) {
-            const columns = this.state.columns
-            columns.splice(2, 1, {
-                title: '回复时间',
-                dataIndex: 'answer_time',
-                render: (text, record) => (
-                    <span>{formatTime(text) || '--'}</span>
-                )
-            })
-            this.setState({
-                columns
-            })
+            // const columns = this.state.columns
+            // columns.splice(2, 1, {
+            //     title: '回复时间',
+            //     dataIndex: 'answer_time',
+            //     render: (text, record) => (
+            //         <span>{formatTime(text) || '--'}</span>
+            //     )
+            // })
+            // this.setState({
+            //     columns
+            // })
         } else {
             const columns = this.state.columns
             columns.splice(2, 1, {
@@ -199,6 +208,41 @@ class Index extends React.Component {
             })
         }
         
+    }
+
+    // 撤销回复
+    cancelReply = (row, index) => {
+        Modal.confirm({
+            title: '确认操作',
+            content: '确认撤销回复吗',
+            okText: '确认',
+            cancelText: '取消',
+            icon: <ExclamationCircleOutlined />,
+            onOk: () => {
+                return new Promise((resolve, reject) => {
+                    const rowTemp = Object.assign({}, row)
+                    let reply_info = lodash.cloneDeep(rowTemp.reply_info)
+                    if(reply_info && Array.isArray(reply_info)) {
+                        if(reply_info.length <= 1) {
+                            reply_info = ''
+                        } else {
+                            reply_info.splice('index', 1)
+                        }
+                    } else {
+                        reply_info = ''
+                    }
+                    if(reply_info) {
+                        rowTemp.reply_info = JSON.stringify(reply_info)
+                    } else {
+                        rowTemp.reply_info = ''
+                    }   
+                    this.dealReq(rowTemp, -2)
+                    resolve()
+                })
+            }
+        });
+        
+
     }
 
     onFinish = e => {
@@ -319,8 +363,35 @@ class Index extends React.Component {
             sendData.delete_reason = row.delete_reason || ''
         }
         if(type === 2) { // 回复
-            sendData.answer_name = row.answer_name || ''
-            sendData.answer_content = row.answer_content || ''
+            // sendData.answer_name = row.answer_name || ''
+            // sendData.answer_content = row.answer_content || ''
+            if(row.reply_info && Array.isArray(row.reply_info)) {
+                sendData.reply_info = [
+                    ...row.reply_info,
+                    {
+                        answer_name: row.answer_name || '',
+                        answer_content: row.answer_content || '',
+                        answer_time: Math.round(new Date().getTime()) 
+                    }
+                ]
+            } else {
+                sendData.reply_info = [
+                    {
+                        answer_name: row.answer_name || '',
+                        answer_content: row.answer_content || '',
+                        answer_time: Math.round(new Date().getTime()) 
+                    }
+                ]
+            }
+            sendData.reply_info = JSON.stringify(sendData.reply_info)
+        }
+        if(type === -2) { // 撤销回复
+            sendData.reply_info = row.reply_info
+            if(sendData.reply_info) {
+                sendData.status = 2
+            } else {
+                sendData.status = 1
+            }
         }
         dealMessage(sendData).then((rep) => {
             if(rep.error_code === 0) {
