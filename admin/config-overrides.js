@@ -6,7 +6,7 @@ const { override, setWebpackPublicPath, fixBabelImports, addWebpackPlugin, disab
 
 const envConfig = process.env.env_config
 
-let publicPath = '/'
+let publicPath = ''
 if(envConfig !== 'dev') {
   publicPath = '/manager'
 }

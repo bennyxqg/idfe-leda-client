@@ -14,7 +14,9 @@ class index extends React.Component {
     // 没有token时返回登录页
     const token = localStorage.token;
     if(!token) {
-      window.location.href = process.env.publicPath + '/#login'
+      setTimeout(() => {
+        window.location.href = process.env.publicPath + '/#login'
+      }, 400)
     }
   }
   
