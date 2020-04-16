@@ -62,6 +62,9 @@ $bgColor: #F6F6FA; // 背景色、按钮点击色
         border-color: $mainColor;
       }
     }
+    &.ant-btn-dangerous {
+      color: white;
+    }
     &.ant-btn-sm {
       height: 30px;
       padding: 0 18px;
