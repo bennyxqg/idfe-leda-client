@@ -5,7 +5,6 @@ import { messagePage, dealMessage } from '@/http/hmessages'
 import { formatTime } from '@/utils/helper'
 import lodash from 'lodash'
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import DiffDemo from '@/components/DiffDemo'
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -388,7 +387,6 @@ class Index extends React.Component {
                 <Table dataSource={tableData} columns={columns} 
                     bordered="true"
                     loading={loading} rowKey="id" pagination={paginationProps} />
-                <DiffDemo />
                 <Modal
                     title="发表回复"
                     width="50%"
