@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter} from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import { menus } from '@src/router/menus'
+import { menus } from '@/router/menus'
 const { Sider } = Layout;
 
 class SideMenu extends Component {

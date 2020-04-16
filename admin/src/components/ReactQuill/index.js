@@ -14,19 +14,23 @@ class Editer extends Component {
         accepts: {
           image: 'image/png,image/jpeg,image/gif,image/webp,image/apng,image/svg',
           audio: false,
+          video: false
         },
         //允许插入的外部媒体的类型
         externals: {
           // 是否允许插入外部图片，
           image: true,
           // 是否允许插入外部视频，
-          video: true,
+          video: false,
           // 是否允许插入外部视频，
           audio: false,
           // 是否允许插入嵌入式媒体，例如embed和iframe标签等，
           embed: false
         }
-      }
+      },
+      // uploadFn: () => {
+
+      // }
     }
   }
 

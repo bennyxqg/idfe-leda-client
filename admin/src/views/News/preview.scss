@@ -1,0 +1,20 @@
+
+.preview-content {
+  iframe {
+    width: 100%;
+    border: none;
+    height: 500px;
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 2.5px;
+        background-color: #a4c9f5;
+    }
+    &::-webkit-scrollbar-track {
+        border-radius: 2.5px;
+        background-color: #e6e6e6;
+    }
+  }
+}

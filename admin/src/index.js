@@ -4,7 +4,7 @@ import { ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import { Provider } from 'react-redux';
 import './assets/css/base.less'
-import './assets/css/dsky-antd.less'
+import './assets/css/dsky-antd.scss'
 import Router from './router'
 import store from './store'
 import * as serviceWorker from './serviceWorker';
