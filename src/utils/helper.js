@@ -2,6 +2,7 @@ import moment from 'moment'
 
 // 时间戳转时间
 export const formatTime = (val, type) => {
+  val += ''
   if(val && val.length === 10) {
     val += '000'
     val = parseInt(val)
