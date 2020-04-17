@@ -9,6 +9,22 @@ import GlobalContext from "./GlobalContext";
 const {Content}  = Layout
 
 class index extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      userInfo: {
+        name: localStorage.name + '11'
+      }
+    }
+  }
+
+  setUserInfo = (name) => {
+    this.setState({
+      userInfo: {
+        name
+      }
+    })
+  }
 
   componentWillMount() {
     // 没有token时返回登录页
@@ -21,14 +37,15 @@ class index extends React.Component {
   }
   
   render() {
-    const userInfo = {
-      name: localStorage.name
-    }
+    // const userInfo = {
+    //   name: localStorage.name
+    // }
     return (
       <div className="layout">
         <GlobalContext.Provider
           value={{
-            userInfo,
+            userInfo: this.state.userInfo,
+            setUserInfo: this.setUserInfo
           }}
         >
           <Layout style={{ minHeight: '100vh' }}>

@@ -6,6 +6,7 @@ import { newsAll } from '@/http/hnews'
 import { formatTime } from '@/utils/helper'
 import lodash from 'lodash'
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import moment from 'moment'
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -136,7 +137,7 @@ class Index extends React.Component {
         this.setState({
             allNewsList: newsList
         })
-		this.getPageList()
+		this.getPageList(1)
     }
     // 获取全部新闻数据
 	getAllNewsList() {
@@ -156,8 +157,8 @@ class Index extends React.Component {
         if(this.formRef.current) {
             searchData = lodash.cloneDeep(this.formRef.current.getFieldsValue()) 
             if(searchData.timeRange && searchData.timeRange.length === 2) {
-                searchData.start_time = Math.round(searchData.timeRange[0].valueOf() / 1000)
-                searchData.end_time = Math.round((searchData.timeRange[1].valueOf() + 24 * 60 * 60 *1000)/1000)
+                searchData.start_time = Math.round(moment(searchData.timeRange[0].format('YYYY-MM-DD') + ' 00:00:00').valueOf() / 1000)
+                searchData.end_time = Math.round((moment(searchData.timeRange[1].format('YYYY-MM-DD') + ' 23:59:59').valueOf())/1000)
             }
             delete searchData.timeRange
         }
@@ -198,8 +199,7 @@ class Index extends React.Component {
 		})
 	}
     onFinish = e => {
-        console.log(e)
-        this.getPageList()
+        this.getPageList(this.state.pagination.current)
     }
     handleDel(row) {
         console.log(row)

@@ -5,6 +5,8 @@ import { messagePage, dealMessage } from '@/http/hmessages'
 import { formatTime } from '@/utils/helper'
 import lodash from 'lodash'
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import GlobalContext from "@/views/layout/GlobalContext";
+import moment from 'moment'
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -140,16 +142,17 @@ class Index extends React.Component {
         }
     }
     componentWillMount() {
-		this.getPageList()
+		this.getPageList(1)
     }
     // 获取分页数据
     getPageList(pageNum) {
         let searchData = {}
         if(this.formRef.current) {
             searchData = lodash.cloneDeep(this.formRef.current.getFieldsValue()) 
+            
             if(searchData.timeRange && searchData.timeRange.length === 2) {
-                searchData.start_time = Math.round(searchData.timeRange[0].valueOf() / 1000)
-                searchData.end_time = Math.round((searchData.timeRange[1].valueOf() + 24 * 60 * 60 *1000)/1000)
+                searchData.start_time = Math.round(moment(searchData.timeRange[0].format('YYYY-MM-DD') + ' 00:00:00').valueOf() / 1000)
+                searchData.end_time = Math.round((moment(searchData.timeRange[1].format('YYYY-MM-DD') + ' 23:59:59').valueOf())/1000)
             }
             delete searchData.timeRange
         }
@@ -226,7 +229,7 @@ class Index extends React.Component {
                         if(reply_info.length <= 1) {
                             reply_info = ''
                         } else {
-                            reply_info.splice('index', 1)
+                            reply_info.splice(index, 1)
                         }
                     } else {
                         reply_info = ''
@@ -246,7 +249,7 @@ class Index extends React.Component {
     }
 
     onFinish = e => {
-        this.getPageList()
+        this.getPageList(this.state.pagination.current)
     }
     handleDel(row) {
         console.log(row)
@@ -363,15 +366,13 @@ class Index extends React.Component {
             sendData.delete_reason = row.delete_reason || ''
         }
         if(type === 2) { // 回复
-            // sendData.answer_name = row.answer_name || ''
-            // sendData.answer_content = row.answer_content || ''
             if(row.reply_info && Array.isArray(row.reply_info)) {
                 sendData.reply_info = [
                     ...row.reply_info,
                     {
                         answer_name: row.answer_name || '',
                         answer_content: row.answer_content || '',
-                        answer_time: Math.round(new Date().getTime()) 
+                        answer_time: Math.round(new Date().getTime() / 1000) 
                     }
                 ]
             } else {
@@ -379,7 +380,7 @@ class Index extends React.Component {
                     {
                         answer_name: row.answer_name || '',
                         answer_content: row.answer_content || '',
-                        answer_time: Math.round(new Date().getTime()) 
+                        answer_time: Math.round(new Date().getTime() / 1000) 
                     }
                 ]
             }
