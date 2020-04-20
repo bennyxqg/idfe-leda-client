@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Input , Button, Form, Select, DatePicker, Modal, message } from 'antd';
+import { Table, Input , Button, Form, Select, DatePicker, Modal, message, Tag } from 'antd';
 import './index.less'
 import { commentPage, dealComment } from '@/http/hcomment'
 import { newsAll } from '@/http/hnews'
@@ -56,9 +56,9 @@ class Index extends React.Component {
                     <div>
                         {
                             record.parent_id == 0?(
-                                <span>{record.newsTitle}</span>
+                                <span><Tag color="cyan">标题</Tag>{record.newsTitle}</span>
                             ):(
-                                <span>{record.be_commented_comment}</span>
+                                <span><Tag color="blue">内容</Tag>{record.be_commented_comment}</span>
                             )
                         }
                     </div>
@@ -205,7 +205,10 @@ class Index extends React.Component {
         console.log(row)
     }
     handleTableChange(page) {
-        console.log('跳转页数' + page)
+        console.log('跳转页数' + page, Object.assign({}, this.state.pagination, {current: page}))
+		this.setState({'pagination': Object.assign({}, this.state.pagination, {current: page})}, () => {
+            this.getPageList()
+        })
     }
     onShowSizeChange(current, pageSize) {
         console.log(current, pageSize)
