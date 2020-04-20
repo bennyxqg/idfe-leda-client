@@ -165,7 +165,6 @@ class Index extends React.Component {
         // 更新column表头内容
         this.setColumns(sendData.is_deal)
 
-        
 		messagePage(sendData).then((rep) => {
 			if(rep.error_code === 0) {
 				if(rep.data && rep.data.list && rep.data.list.length) {

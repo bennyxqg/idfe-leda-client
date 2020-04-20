@@ -98,6 +98,12 @@ $bgColor: #F6F6FA; // 背景色、按钮点击色
       margin-right: 8px;
     }
   }
+
+  // Input
+  input.ant-input {
+    padding: 6px 11px;
+    border-radius: 4px;
+  }
   
   // 下拉选择
   .ant-select-selector {
@@ -121,7 +127,7 @@ $bgColor: #F6F6FA; // 背景色、按钮点击色
   
   
   .ant-select-selection-item {
-    line-height: 34px;
+    // line-height: 34px;
   }
   
   .ant-select-multiple {
