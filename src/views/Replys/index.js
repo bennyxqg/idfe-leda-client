@@ -30,9 +30,7 @@ class Index extends React.Component {
                 title: '头像',
                 dataIndex: 'pic',
                 width: 80,
-                render: (pic) => (
-                    <img src={pic} className="pic" alt="" />
-                )
+                render: (text, record) => (<img src={record.third_user_avatar} className="pic" alt="" />)
             },
             {
                 title: '玩家信息',
