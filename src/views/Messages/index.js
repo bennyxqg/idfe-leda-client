@@ -27,6 +27,7 @@ class Index extends React.Component {
             {
                 title: '头像',
                 dataIndex: 'pic',
+                width: 80,
                 render: pic => <img src={pic} className="pic" alt="" />,
             },
             {
@@ -37,22 +38,24 @@ class Index extends React.Component {
                         {
                             record.status != 2?(
                                 <div>
-                                    <p className="player"><span>{record.user_name}</span> 的留言</p>
-                                    <p className="text">{record.message}</p>
+                                    <p className="player"><b>{record.user_name}</b> 的留言</p>
+                                    <p className="text" dangerouslySetInnerHTML={{ __html: record.message }}></p>
                                 </div>
                             ):(
                                 <div>
-                                    <div>回复了{record.user_name}的留言</div>
+                                    <div>回复了<b>{record.user_name}</b>的留言</div>
                                     {
                                         record.reply_info.map((reply, index) => {
                                             return (
-                                            <div key={index}>（{reply.answer_name}--{formatTime(reply.answer_time)}）回复内容：{reply.answer_content}
+                                            <div key={index}>（{reply.answer_name}--{formatTime(reply.answer_time)}）回复内容：<span dangerouslySetInnerHTML={{ __html: reply.answer_content }}></span>
                                                 <span onClick={() => {this.cancelReply(record, index)}} style={{color: '#2469F2', marginLeft: '4px', cursor: 'pointer'}}>撤销</span>
                                             </div>
                                             )
                                         })
                                     }
-                                    <div>{record.user_name}：{record.message}</div>
+                                    <div>{record.user_name}：
+                                    <span dangerouslySetInnerHTML={{ __html: record.message }}></span>
+                                    </div>
                                 </div>
                             
                                 
@@ -64,6 +67,7 @@ class Index extends React.Component {
             {
                 title: '发布时间',
                 dataIndex: 'created',
+                width: 160,
 				render: (text, record) => (
 					<span>{formatTime(text) || '--'}</span>
 				)
@@ -71,6 +75,7 @@ class Index extends React.Component {
             {
                 title: '状态',
                 dataIndex: 'status',
+                width: 80,
                 render: (status) => (
                     <>
                         {this.statusHtml(status)}
@@ -81,7 +86,7 @@ class Index extends React.Component {
                 title: '操作',
                 dataIndex: 'action',
                 align: 'center',
-                width: 600,
+                width: 400,
                 render: (text, record) => (
                     <div className="btns">
                         {this.actionHtml(record)}
@@ -163,7 +168,7 @@ class Index extends React.Component {
         }
         sendData = Object.assign({}, sendData, searchData)
         // 更新column表头内容
-        this.setColumns(sendData.is_deal)
+        // this.setColumns(sendData.is_deal)
 
 		messagePage(sendData).then((rep) => {
 			if(rep.error_code === 0) {
@@ -197,17 +202,17 @@ class Index extends React.Component {
             //     columns
             // })
         } else {
-            const columns = this.state.columns
-            columns.splice(2, 1, {
-                title: '发布时间',
-                dataIndex: 'created',
-                render: (text, record) => (
-                    <span>{formatTime(text) || '--'}</span>
-                )
-            })
-            this.setState({
-                columns
-            })
+            // const columns = this.state.columns
+            // columns.splice(2, 1, {
+            //     title: '发布时间',
+            //     dataIndex: 'created',
+            //     render: (text, record) => (
+            //         <span>{formatTime(text) || '--'}</span>
+            //     )
+            // })
+            // this.setState({
+            //     columns
+            // })
         }
         
     }
