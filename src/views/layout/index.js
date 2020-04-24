@@ -13,7 +13,7 @@ class index extends React.Component {
     super(props)
     this.state = {
       userInfo: {
-        name: localStorage.name + '11'
+        name: localStorage.name
       }
     }
   }
