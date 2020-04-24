@@ -27,10 +27,10 @@
   },
   "scripts": {
     "start": "cross-env PORT=3010 env_config=dev react-app-rewired start",
-    "build": "cross-env  env_config=dev_build react-app-rewired build",
-    "test": "cross-env  env_config=test react-app-rewired build",
-    "sandbox": "cross-env  env_config=sandbox react-app-rewired build",
-    "release": "cross-env  env_config=prod react-app-rewired build",
+    "build": "cross-env  env_config=dev_build REACT_APP_PATH=manager react-app-rewired build",
+    "test": "cross-env  env_config=test REACT_APP_PATH=manager react-app-rewired build",
+    "sandbox": "cross-env  env_config=sandbox REACT_APP_PATH=manager react-app-rewired build",
+    "release": "cross-env  env_config=prod REACT_APP_PATH=manager react-app-rewired build",
     "testProject": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },
