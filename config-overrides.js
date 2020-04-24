@@ -8,7 +8,7 @@ const envConfig = process.env.env_config
 
 let publicPath = ''
 if(envConfig !== 'dev') {
-  publicPath = '/manager'
+  publicPath = '/' + process.env.REACT_APP_PATH
 }
 
 const envConfigData = {
