@@ -12,6 +12,8 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
+console.log('--buildTime--', process.env.buildTime)
+
 ReactDOM.render(
     <Provider store={store}>
         <ConfigProvider locale={zhCN}>
