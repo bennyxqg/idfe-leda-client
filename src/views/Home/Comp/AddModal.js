@@ -1,17 +1,21 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef, useContext } from "react";
 import { Modal, Table, Button, Form, Input, message } from 'antd';
 import lodash from 'lodash'
 import { addBasicConfig } from '@/http/hwebInfo'
+import GlobalContext from "@/views/layout/GlobalContext";
 
 const CategoryInfo = (props) => {
   const [form] = Form.useForm();
+
+  // 获取根组件传递过来的数据
+  const context = useContext(GlobalContext)
 
   const [modalVisible, setModalVisible] = useState(true)
 
   const formRef = useRef();
 
   useEffect(() => {
-    
+    console.log('----context------', context)
   }, []);
   
   const handleOk = (value) => {

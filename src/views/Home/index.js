@@ -3,16 +3,22 @@ import { Row, Col, Button, Input, Form} from 'antd';
 import InfoItem from './Comp/InfoItem'
 import AddModal from './Comp/AddModal'
 import { basicConfigList } from '@/http/hwebInfo'
+import GlobalContext from "@/views/layout/GlobalContext";
 import './home.less'
 
 export default class index extends Component {
+  static contextType = GlobalContext;
   state = {
     list: [],
     addModalVisible: false
   }
 
   componentWillMount() {
-		// this.fetch();
+    // this.fetch();
+    console.log('---this.context--', this.context)
+    // setTimeout(() => {
+    //   this.context.setUserInfo('test name')
+    // }, 5000)
     this.getListData()
   }
 
