@@ -29,6 +29,7 @@ class Index extends React.Component {
             {
                 title: '头像',
                 dataIndex: 'pic',
+                width: 80,
                 render: (pic) => (
                     <img src={pic} className="pic" alt="" />
                 )
@@ -40,25 +41,26 @@ class Index extends React.Component {
                     <div className="info">
                         {
                             record.parent_id == 0?(
-                                <div className="player"><span>{record.third_user_name}</span> 对我的文章发表了评论</div>
+                                <div className="player"><b>{record.third_user_name}</b>对<b>我的文章</b>发表了评论</div>
                             ):(
-                            <div className="player"><span>{record.third_user_name}</span> 回复了玩家{record.be_commented_user_name}的评论</div>
+                            <div className="player"><b>{record.third_user_name}</b> 回复了玩家<b>{record.be_commented_user_name}</b>的评论</div>
                             )
                         }
-                        <div className="text">{record.comment}</div>
+                        <div className="text" dangerouslySetInnerHTML={{ __html: record.comment }}></div>
                     </div>
                 )
             },
             {
                 title: '文章标题/评论内容',
                 dataIndex: 'title',
+                className: 'replys-title-col',
                 render: (text, record) => (
                     <div>
                         {
                             record.parent_id == 0?(
                                 <span><Tag color="cyan">标题</Tag>{record.newsTitle}</span>
                             ):(
-                                <span><Tag color="blue">内容</Tag>{record.be_commented_comment}</span>
+                                <span><Tag color="blue">内容</Tag><span dangerouslySetInnerHTML={{ __html: record.be_commented_comment }}></span></span>
                             )
                         }
                     </div>
@@ -67,6 +69,7 @@ class Index extends React.Component {
             {
                 title: '发布时间',
                 dataIndex: 'created',
+                width: 160,
 				render: (text, record) => (
 					<span>{formatTime(text) || '--'}</span>
 				)
@@ -74,6 +77,7 @@ class Index extends React.Component {
             {
                 title: '状态',
                 dataIndex: 'status',
+                width: 80,
                 render: (status) => (
                     <>
                         {this.statusHtml(status)}
