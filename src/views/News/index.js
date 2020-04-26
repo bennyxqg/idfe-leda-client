@@ -296,7 +296,6 @@ class Index extends React.Component {
 					</FormItem>
 				</Form>
 				<Table loading={loading} 
-					scroll={{ x: 'auto' }}
 					columns={columns} dataSource={tableData} rowKey="id" bordered="true" pagination={paginationProps} />
 				{
 					this.state.categoryModalVisible && (

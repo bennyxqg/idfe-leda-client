@@ -145,7 +145,6 @@ class Index extends React.Component {
 	getAllNewsList() {
 		return newsAll().then((rep) => {
 			if(rep.error_code === 0) {
-				console.log('--------newsPage-------', rep)
 				if(rep.data && rep.data.length) {
 					return rep.data
 				}
