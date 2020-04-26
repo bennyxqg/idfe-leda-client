@@ -39,7 +39,7 @@ class Index extends React.Component {
                             record.status != 2?(
                                 <div>
                                     <p className="player"><b>{record.user_name}</b> 的留言</p>
-                                    <p className="text" dangerouslySetInnerHTML={{ __html: record.message }}></p>
+                                    <p className="text word-break" dangerouslySetInnerHTML={{ __html: record.message }}></p>
                                 </div>
                             ):(
                                 <div>
@@ -47,14 +47,14 @@ class Index extends React.Component {
                                     {
                                         record.reply_info.map((reply, index) => {
                                             return (
-                                            <div key={index}>（{reply.answer_name}--{formatTime(reply.answer_time)}）回复内容：<span dangerouslySetInnerHTML={{ __html: reply.answer_content }}></span>
+                                            <div key={index}>（{reply.answer_name}--{formatTime(reply.answer_time)}）回复内容：<span className="word-break" dangerouslySetInnerHTML={{ __html: reply.answer_content }}></span>
                                                 <span onClick={() => {this.cancelReply(record, index)}} style={{color: '#2469F2', marginLeft: '4px', cursor: 'pointer'}}>撤销</span>
                                             </div>
                                             )
                                         })
                                     }
                                     <div>{record.user_name}：
-                                    <span dangerouslySetInnerHTML={{ __html: record.message }}></span>
+                                    <span className="word-break" dangerouslySetInnerHTML={{ __html: record.message }}></span>
                                     </div>
                                 </div>
                             

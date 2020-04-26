@@ -44,7 +44,7 @@ class Index extends React.Component {
                             <div className="player"><b>{record.third_user_name}</b> 回复了玩家<b>{record.be_commented_user_name}</b>的评论</div>
                             )
                         }
-                        <div className="text" dangerouslySetInnerHTML={{ __html: record.comment }}></div>
+                        <div className="text word-break" dangerouslySetInnerHTML={{ __html: record.comment }}></div>
                     </div>
                 )
             },
@@ -56,9 +56,9 @@ class Index extends React.Component {
                     <div>
                         {
                             record.parent_id == 0?(
-                                <span><Tag color="cyan">标题</Tag>{record.newsTitle}</span>
+                                <span><Tag color="cyan">标题</Tag><span className="word-break">{record.newsTitle}</span></span>
                             ):(
-                                <span><Tag color="blue">内容</Tag><span dangerouslySetInnerHTML={{ __html: record.be_commented_comment }}></span></span>
+                                <span><Tag color="blue">内容</Tag><span className="word-break" dangerouslySetInnerHTML={{ __html: record.be_commented_comment }}></span></span>
                             )
                         }
                     </div>

@@ -52,8 +52,8 @@ class Index extends React.Component {
 				render: (text, record) => (
 					<div className="btns">
 						{record.isTop == 0 ? 
-							<Button size="small" onClick={() => { this.setTop(record, 1) }} type="primary" className="first">置顶</Button> : 
-							<Button size="small" onClick={() => { this.setTop(record, 0) }} type="primary" className="first">已置顶</Button>}
+							<Button size="small" onClick={() => { this.setTop(record, 1) }} type="primary">置顶</Button> : 
+							<Button size="small" onClick={() => { this.setTop(record, 0) }} className="first-btn">已置顶</Button>}
 							<Button size="small" onClick={() => { this.handleRouter('edit', record) }} type="primary">编辑</Button>
 							<Button size="small" onClick={() => { this.handlePreview(record) }} type="primary" type="primary">预览</Button>
 							<Button size="small" onClick={() => { this.handleDel(record) }} danger type="primary">删除</Button>
@@ -295,7 +295,9 @@ class Index extends React.Component {
 						</Button>
 					</FormItem>
 				</Form>
-				<Table loading={loading} columns={columns} dataSource={tableData} rowKey="id" bordered="true" pagination={paginationProps} />
+				<Table loading={loading} 
+					scroll={{ x: 'auto' }}
+					columns={columns} dataSource={tableData} rowKey="id" bordered="true" pagination={paginationProps} />
 				{
 					this.state.categoryModalVisible && (
 						<CategoryModal
