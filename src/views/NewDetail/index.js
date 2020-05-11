@@ -87,6 +87,7 @@ class index extends Component {
     sendData.content = this.state.formParams.editorContent
     sendData.big_url = this.state.formParams.big_url
     sendData.small_url = this.state.formParams.small_url
+    // sendData.decription = sendData.decription || ''
     if(!sendData.big_url) {
       message.error('请上传缩略图(电脑端)');
       return
@@ -235,7 +236,7 @@ class index extends Component {
           <Form.Item
             label="新闻摘要"
             name="decription"
-            rules={[{required: true,message: '请输入新闻摘要!'}]}
+            // rules={[{required: true,message: '请输入新闻摘要!'}]}
           >
             <TextArea rows={4} />
           </Form.Item>
