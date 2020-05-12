@@ -1,21 +1,73 @@
 import React, { Component } from 'react'
-import { Row, Col, Button, Input, Form} from 'antd';
+import { Table, Row, Col, Button, Input, Form, message, Modal } from 'antd';
 import InfoItem from './Comp/InfoItem'
 import AddModal from './Comp/AddModal'
 import { basicConfigList } from '@/http/hwebInfo'
 import GlobalContext from "@/views/layout/GlobalContext";
+import { editBasicConfig, delBasicConfig } from '@/http/hwebInfo'
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import lodash from 'lodash'
 import './home.less'
+
+const { TextArea } = Input;
 
 export default class index extends Component {
   static contextType = GlobalContext;
   state = {
     list: [],
-    addModalVisible: false
+    addModalVisible: false,
+    tableData: [],
+		allNewsList: [],
+		columns: [
+			{
+				title: '名称',
+        dataIndex: 'title',
+        width: 200,
+			},
+			{
+				title: '字段',
+        dataIndex: 'Abbr',
+        width: 200,
+			},
+			{
+				title: '配置值',
+				dataIndex: 'content',
+				render: (text, record, index) => (
+					<div>
+            {
+              !record.isEdit?
+              <div>{record.content}</div>:
+              <div>
+                <TextArea defaultValue={record.content} 
+                  onChange ={(event) => {
+                    event.persist()
+                    this.handleContent(event, record, index)
+                  }}
+                  rows={2} />
+              </div>
+            }
+					</div>
+				)
+			},
+			{
+				title: '操作',
+				dataIndex: 'action',
+				align: 'center',
+				width: 200,
+				render: (text, record, index) => (
+					<div className="btns">
+						<Button size='small' onClick={() => {this.saveOrEdit(record, index)}} style={{marginRight: '4px'}} type='primary' className='button'>{record.isEdit?'保存':'编辑'}</Button>
+            <Button size='small' onClick={() => {this.delItem(record, index)}}  className='button'>删除</Button>
+					</div>
+				)
+			},
+		]
   }
+
+  contentData = {}
 
   componentWillMount() {
     // this.fetch();
-    console.log('---this.context--', this.context)
     // setTimeout(() => {
     //   this.context.setUserInfo('test name')
     // }, 5000)
@@ -23,10 +75,14 @@ export default class index extends Component {
   }
 
   getListData = () => {
+    this.contentData = {}
     basicConfigList().then((rep) => {
       if(rep.error_code === 0) {
+        rep.data.forEach((item) => {
+          item.isEdit = false
+        })
         this.setState({
-          list: rep.data
+          tableData: rep.data
         })
       }
     })
@@ -43,8 +99,72 @@ export default class index extends Component {
   addSuccess = () => {
     this.getListData()
   }
+
+  // 改变content的值
+  handleContent = (event, record, index) => {
+    this.contentData[record.id] = event.target.value
+  }
+
+  saveData = (record, index) => {
+    const sendData = lodash.cloneDeep(record)
+    sendData.content = ''
+    if(typeof this.contentData[record.id] !== 'undefined') {
+      if(this.contentData[record.id] == '') {
+        message.error('配置值不能为空');
+        return
+      } else {
+        sendData.content = this.contentData[record.id]
+      }
+    } else {
+      if(record.content) {
+        sendData.content = record.content
+      } else {
+        message.error('配置值不能为空');
+        return
+      }
+    }
+    editBasicConfig(sendData).then((rep) => {
+      if(rep.error_code === 0) {
+        this.state.tableData[index].isEdit = !record.isEdit
+        this.state.tableData[index].content = sendData.content
+        this.setState({
+          tableData: this.state.tableData
+        })
+        message.success('操作成功');
+      }
+    })
+  }
+
+  saveOrEdit = (record, index) => {
+    if(!record.isEdit) {
+      this.state.tableData[index].isEdit = !record.isEdit
+      this.setState({
+        tableData: this.state.tableData
+      })
+    } else {
+      this.saveData(record, index)
+    }
+  }
+
+  delItem = (record, index) => {
+    Modal.confirm({
+      title: '确认删除吗？',
+      icon: <ExclamationCircleOutlined />,
+      onOk: () => {
+				delBasicConfig({
+          id: record.id
+        }).then((rep) => {
+          if(rep.error_code === 0) {
+            message.success('操作成功');
+            this.getListData()
+          }
+        })
+      }
+    })
+  }
   
   render() {
+    const { loading, columns, tableData } = this.state
     return (
       <div className="shadow-radius">
         <div style={{marginBottom: '10px', textAlign: 'right'}}>
@@ -52,31 +172,8 @@ export default class index extends Component {
               新增
           </Button>
         </div>
-        <Row gutter={16} style={{backgroundColor: '#F6F6FA'}}>
-          <Col className="gutter-row" span={5}>
-            <div className="item">名称</div>
-          </Col>
-          <Col className="gutter-row" span={5}>
-            <div className="item">字段</div>
-          </Col>
-          <Col className="gutter-row" span={9}>
-            <div className="item">配置值</div>
-          </Col>
-          <Col className="gutter-row" span={5}>
-            <div className="item">操作</div>
-          </Col>
-        </Row>
-        {
-          this.state.list.map(el => {
-            return (
-              <div key={el.id}>
-                <InfoItem data={el}
-                  successCB = {this.addSuccess}
-                ></InfoItem>
-              </div>
-            )
-          })
-        }
+        <Table loading={loading} 
+					columns={columns} dataSource={tableData} rowKey="id" bordered="true" pagination={false} />
         {
 					this.state.addModalVisible && (
 						<AddModal

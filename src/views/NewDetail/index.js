@@ -174,6 +174,7 @@ class index extends Component {
         // },
     let initialValues = {}
     return (
+      <div className="shadow-radius">
       <div className="detail">
         <Form
           name='normal_new'
@@ -283,6 +284,7 @@ class index extends Component {
               }}
           />
         </Modal>
+      </div>
       </div>
     );
   }
