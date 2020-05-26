@@ -53,7 +53,7 @@ export default class index extends Component {
 				title: '操作',
 				dataIndex: 'action',
 				align: 'center',
-				width: 200,
+				width: 180,
 				render: (text, record, index) => (
 					<div className="btns">
 						<Button size='small' onClick={() => {this.saveOrEdit(record, index)}} style={{marginRight: '4px'}} type='primary' className='button'>{record.isEdit?'保存':'编辑'}</Button>
