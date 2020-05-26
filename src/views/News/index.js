@@ -28,18 +28,22 @@ class Index extends React.Component {
 			{
 				title: '标题',
 				dataIndex: 'title',
+				ellipsis: true,
 			},
 			{
 				title: '新闻栏目',
+				width: 120,
 				dataIndex: 'category_name',
 			},
 			{
 				title: '阅读数',
+				width: 100,
 				dataIndex: 'clicks'
 			},
 			{
 				title: '发布时间',
 				dataIndex: 'created',
+				width: 160,
 				render: (text, record) => (
 					<span>{formatTime(text)}</span>
 				)
