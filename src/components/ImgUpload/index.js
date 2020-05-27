@@ -26,19 +26,27 @@ class ImgUpload extends React.Component {
   };
 
   beforeUpload = async (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
-    }
-    // const base64Data = await getBase64(file)
-    // this.setState({
-    //   extraParams: Object.assign({}, this.state.extraParams, {img: base64Data})
-    // })
-    return isJpgOrPng && isLt2M;
+    return new Promise((resolve, reject) => {
+      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      if (!isJpgOrPng) {
+        message.error('请上传 JPG/PNG 格式的图片!');
+      }
+      const maxSize = 2;
+      const isLt2M = file.size / 1024 / 1024 < maxSize;
+      if (!isLt2M) {
+        message.error('图片必须小于 ' + maxSize + 'MB!');
+      }
+      // const base64Data = await getBase64(file)
+      // this.setState({
+      //   extraParams: Object.assign({}, this.state.extraParams, {img: base64Data})
+      // })
+      if(isJpgOrPng && isLt2M) {
+        resolve()
+      } else {
+        reject()
+      }
+    })
+    
   }
 
   handleChange = info => {
