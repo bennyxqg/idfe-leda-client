@@ -451,7 +451,7 @@ class Index extends React.Component {
                         </Select>
                     </FormItem>
                     <FormItem name="message">
-                        <Input allowClear={true} placeholder="留言内容/昵称" />
+                        <Input allowClear={true} placeholder="留言内容" />
                     </FormItem>
                     <FormItem>
                         <Button type="primary" className={'btn'} htmlType='submit'>
