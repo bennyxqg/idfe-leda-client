@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Input , Button, Form, Select, DatePicker, Modal, message, Tag } from 'antd';
+import { Table, Input , Button, Form, Select, DatePicker, Modal, message, Tag, Popover } from 'antd';
 import './index.less'
 import { commentPage, dealComment } from '@/http/hcomment'
 import { newsAll } from '@/http/hnews'
@@ -44,6 +44,11 @@ class Index extends React.Component {
                             <div className="player"><b>{record.third_user_name}</b> 回复了玩家<b>{record.be_commented_user_name}</b>的评论</div>
                             )
                         }
+                        {/* <Popover placement="topLeft" content={
+                            <div className="text word-break" dangerouslySetInnerHTML={{ __html: record.comment }}></div>
+                        } title="" trigger="hover">
+                            <div className="text word-break" dangerouslySetInnerHTML={{ __html: record.comment }}></div>
+                        </Popover> */}
                         <div className="text word-break" dangerouslySetInnerHTML={{ __html: record.comment }}></div>
                     </div>
                 )
@@ -169,13 +174,11 @@ class Index extends React.Component {
             is_deal: 0
         }
         sendData = Object.assign({}, sendData, searchData)
-        console.log('-----sendData-------', sendData)
 		commentPage(sendData).then(async (rep) => {
 			if(rep.error_code === 0) {
 				if(rep.data && rep.data.list && rep.data.list.length) {
                     // 获取所有新闻
                     const newsList = this.state.allNewsList
-                    console.log('--------newsList-------', newsList)
                     rep.data.list.forEach((comment) => {
                         comment.newsTitle = ''
                         newsList.some((news) => {
@@ -184,6 +187,10 @@ class Index extends React.Component {
                                 return true
                             }
                         })
+                        // 收缩的评论信息内容
+                        if(comment.comment.length > 100) {
+                            comment.shrinkComment = comment.comment.substr(0, 100)
+                        }
                     })
 					this.setState({'tableData': rep.data.list})
                     this.setState({'pagination': Object.assign({}, this.state.pagination, {total: 10 * rep.data.total_page})})
@@ -206,7 +213,6 @@ class Index extends React.Component {
         console.log(row)
     }
     handleTableChange(page) {
-        console.log('跳转页数' + page, Object.assign({}, this.state.pagination, {current: page}))
 		this.setState({'pagination': Object.assign({}, this.state.pagination, {current: page})}, () => {
             this.getPageList()
         })
@@ -215,7 +221,6 @@ class Index extends React.Component {
         console.log(current, pageSize)
     }
     handleAction = (row, type) => {
-        console.log(row, type)
         let tipsText = ''
         let content = ''
         if(type === 1) { // 通过
@@ -259,7 +264,6 @@ class Index extends React.Component {
                 return new Promise((resolve, reject) => {
                     if(type === -1) {
                         this.confirmFormRef.current.validateFields().then((val) => {
-                            console.log('-----validateFields------', val)
                             const rowTemp = Object.assign({}, row, val)
                             this.dealReq(rowTemp, type)
                             resolve()
@@ -346,7 +350,7 @@ class Index extends React.Component {
                         </Select>
                     </FormItem>
                     <FormItem name="comment">
-                        <Input placeholder="留言内容/昵称" allowClear={true} />
+                        <Input placeholder="评论内容/昵称" allowClear={true} />
                     </FormItem>
                     <FormItem>
                         <Button type="primary" className={'btn'} htmlType='submit'>
