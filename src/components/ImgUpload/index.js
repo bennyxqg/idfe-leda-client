@@ -29,7 +29,7 @@ class ImgUpload extends React.Component {
     return new Promise((resolve, reject) => {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJpgOrPng) {
-        message.error('请上传 JPG/PNG 格式的图片!');
+        message.error('仅支持jpg、png的图片格式!');
       }
       const maxSize = 2;
       const isLt2M = file.size / 1024 / 1024 < maxSize;
