@@ -106,7 +106,10 @@ class Index extends React.Component {
                 <>
                     <Button size='small' onClick={() => this.handleAction(e, 1)} type="primary">通过</Button>
                     <Button size='small' type="primary" danger onClick={() => this.handleAction(e, -1)}>删除</Button>
-                    <Button size='small' type="primary" onClick={() => this.handleAction(e, 2)}>置顶</Button>
+                    {
+                        e.parent_id == 0 && 
+                        <Button size='small' type="primary" onClick={() => this.handleAction(e, 2)}>置顶</Button>
+                    }
                 </>
             )
         } else {
