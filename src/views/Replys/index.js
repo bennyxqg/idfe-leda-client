@@ -78,6 +78,14 @@ class Index extends React.Component {
 				)
             },
             {
+                title: '更新时间',
+                dataIndex: 'updated',
+                width: 160,
+				render: (text, record) => (
+					<span>{formatTime(text) || '--'}</span>
+				)
+            },
+            {
                 title: '状态',
                 dataIndex: 'status',
                 width: 80,
@@ -169,7 +177,13 @@ class Index extends React.Component {
                 searchData.start_time = Math.round(moment(searchData.timeRange[0].format('YYYY-MM-DD') + ' 00:00:00').valueOf() / 1000)
                 searchData.end_time = Math.round((moment(searchData.timeRange[1].format('YYYY-MM-DD') + ' 23:59:59').valueOf())/1000)
             }
+            if(searchData.updateTimeRange && searchData.updateTimeRange.length === 2) {
+                searchData.update_start_time = Math.round(moment(searchData.updateTimeRange[0].format('YYYY-MM-DD') + ' 00:00:00').valueOf() / 1000)
+                searchData.update_end_time = Math.round((moment(searchData.updateTimeRange[1].format('YYYY-MM-DD') + ' 23:59:59').valueOf())/1000)
+            }
+            
             delete searchData.timeRange
+            delete searchData.updateTimeRange
         }
 		const pageNum = this.state.pagination.current
 		let sendData = {
@@ -343,7 +357,10 @@ class Index extends React.Component {
                             }
 						</Select>
 					</FormItem>
-                    <FormItem label="时间" name="timeRange">
+                    <FormItem label="发布时间" name="timeRange">
+                        <RangePicker allowClear={true} />
+                    </FormItem>
+                    <FormItem label="更新时间" name="updateTimeRange">
                         <RangePicker allowClear={true} />
                     </FormItem>
                     <FormItem label="状态" name="is_deal">
