@@ -341,7 +341,7 @@ class Index extends React.Component {
 						<Select
 							showSearch
 							allowClear={true}
-							style={{ width: 300 }}
+							style={{ width: 200 }}
 							placeholder="搜索新闻标题"
 							optionFilterProp="children"
 							filterOption={(input, option) =>
@@ -364,13 +364,17 @@ class Index extends React.Component {
                         <RangePicker allowClear={true} />
                     </FormItem>
                     <FormItem label="状态" name="is_deal">
-                        <Select placeholder="请选择" className="width200">
+                        <Select placeholder="请选择" 
+                            style={{ width: 120 }}>
                             <Option value="0">未处理</Option>
                             <Option value="1">已处理</Option>
                         </Select>
                     </FormItem>
                     <FormItem name="comment">
-                        <Input placeholder="评论内容/昵称" allowClear={true} />
+                        <Input style={{ width: 140 }} placeholder="评论内容" allowClear={true} />
+                    </FormItem>
+                    <FormItem name="third_user_name">
+                        <Input style={{ width: 140 }} placeholder="昵称" allowClear={true} />
                     </FormItem>
                     <FormItem>
                         <Button type="primary" className={'btn'} htmlType='submit'>
