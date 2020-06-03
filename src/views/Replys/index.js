@@ -351,7 +351,9 @@ class Index extends React.Component {
 							{
                                 this.state.allNewsList.map(item => (
                                 <Option key={item.id} value={item.id}>
-                                    {item.title}
+                                    <span title={item.title}>
+                                        {item.title}
+                                    </span>
                                 </Option>
                                 ))
                             }
