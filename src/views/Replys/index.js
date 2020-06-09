@@ -63,7 +63,7 @@ class Index extends React.Component {
                             record.parent_id == 0?(
                                 <span><Tag color="cyan">标题</Tag><span className="word-break">{record.newsTitle}</span></span>
                             ):(
-                                <span><Tag color="blue">内容</Tag><span className="word-break" dangerouslySetInnerHTML={{ __html: record.be_commented_comment }}></span></span>
+                                <span><Tag color="blue">内容</Tag><span className="word-break" dangerouslySetInnerHTML={{ __html: record.be_commented_content }}></span></span>
                             )
                         }
                     </div>
