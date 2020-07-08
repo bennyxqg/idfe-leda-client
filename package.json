@@ -46,7 +46,8 @@
     "react-app-rewire-define-plugin": "^1.0.0",
     "react-app-rewired": "^2.1.5",
     "react-scripts": "^3.4.1",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "webpack": "^4.42.0"
   },
   "eslintConfig": {
     "extends": "react-app"
