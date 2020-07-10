@@ -3,15 +3,31 @@ import { Form, Button, Input, Radio, Upload, message } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import "./basic.less";
 const { TextArea } = Input;
-
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
 export default class GlobalConfig extends PureComponent {
   state = {
-    value: 1,
+    basicData: {
+      status: 1,
+    },
   };
   onChange = (e) => {
     this.setState({
-      value: e.target.value,
+      basicData: {
+        ...this.state.basicData,
+        status: e.target.value,
+      },
     });
+  };
+  submit = (e) => {
+    console.log(this.state.basicData);
+    console.log("提交");
+  };
+  cancel = (e) => {
+    console.log("取消");
   };
   beforeUpload = (file) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
@@ -24,7 +40,9 @@ export default class GlobalConfig extends PureComponent {
     }
     return isJpgOrPng && isLt2M;
   };
-  handleChange = (info) => {
+  handleChange = (type, info) => {
+    console.log(type, info);
+
     if (info.file.status === "uploading") {
       this.setState({ loading: true });
       return;
@@ -33,20 +51,23 @@ export default class GlobalConfig extends PureComponent {
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, (imageUrl) =>
         this.setState({
-          imageUrl,
+          basicData: {
+            ...this.state.basicData,
+            imageUrl,
+          },
           loading: false,
         })
       );
     }
   };
   render() {
-    const { imageUrl } = this.state;
+    const { basicData } = this.state;
     return (
       <div className="shadow-radius">
         <div>基本信息</div>
         <Form labelCol={{ span: 4 }} layout="horizontal">
           <Form.Item label="网站状态">
-            <Radio.Group onChange={this.onChange} value={this.state.value}>
+            <Radio.Group onChange={this.onChange} value={basicData.status}>
               <Radio value={1}>开启</Radio>
               <Radio value={2}>关闭</Radio>
             </Radio.Group>
@@ -70,8 +91,12 @@ export default class GlobalConfig extends PureComponent {
               beforeUpload={this.beforeUpload}
               onChange={this.handleChange}
             >
-              {imageUrl ? (
-                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+              {basicData.imageUrl ? (
+                <img
+                  src={basicData.imageUrl}
+                  alt="avatar"
+                  style={{ width: "100%" }}
+                />
               ) : (
                 <div>
                   {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -88,8 +113,12 @@ export default class GlobalConfig extends PureComponent {
               beforeUpload={this.beforeUpload}
               onChange={this.handleChange}
             >
-              {imageUrl ? (
-                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+              {basicData.imageUrl ? (
+                <img
+                  src={basicData.imageUrl}
+                  alt="avatar"
+                  style={{ width: "100%" }}
+                />
               ) : (
                 <div>
                   {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -99,10 +128,10 @@ export default class GlobalConfig extends PureComponent {
             </Upload>
           </Form.Item>
           <Form.Item style={{ textAlign: "right", width: "100%" }}>
-            <Button type="primary" htmlType="submit">
+            <Button onClick={this.submit} type="primary" htmlType="submit">
               提交
             </Button>
-            <Button htmlType="button" onClick={this.onReset}>
+            <Button htmlType="button" onClick={this.cancel}>
               取消
             </Button>
           </Form.Item>
