@@ -62,7 +62,9 @@ class ImgUpload extends React.Component {
           loading: false,
         })
       });
-      this.props.successCB(info.file.response);
+      if(this.props.successCB) {
+        this.props.successCB(info.file.response);
+      }
       if(this.props.onChange) {
         if(info.file.response && info.file.response.data && info.file.response.data.url) {
           this.props.onChange(info.file.response.data.url);
