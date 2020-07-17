@@ -263,7 +263,7 @@ class index extends Component {
             <Button type='primary' onClick={this.showEditor}>编辑</Button>
           </Form.Item>
           <Form.Item>
-            <div className="btns">
+            <div className="form-btns">
               <Button onClick={this.goBack}>取消</Button>
               <Button type='primary' htmlType='submit'>保存</Button>
             </div>

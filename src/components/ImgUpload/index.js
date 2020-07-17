@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { uploadImgUrl } from '@/http/hcommon'
+import './index.less'
 
 function getBase64(img, callback) {
   return new Promise((resolve) => {
@@ -27,9 +28,9 @@ class ImgUpload extends React.Component {
 
   beforeUpload = async (file) => {
     return new Promise((resolve, reject) => {
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'  || file.type === 'image/gif';
       if (!isJpgOrPng) {
-        message.error('仅支持jpg、png的图片格式!');
+        message.error('仅支持jpg、png、gif的图片格式!');
       }
       const maxSize = 2;
       const isLt2M = file.size / 1024 / 1024 < maxSize;
@@ -46,7 +47,6 @@ class ImgUpload extends React.Component {
         reject()
       }
     })
-    
   }
 
   handleChange = info => {
@@ -63,32 +63,55 @@ class ImgUpload extends React.Component {
         })
       });
       this.props.successCB(info.file.response);
+      if(this.props.onChange) {
+        if(info.file.response && info.file.response.data && info.file.response.data.url) {
+          this.props.onChange(info.file.response.data.url);
+        } else {
+          this.props.onChange('');
+        }
+      }
     }
   };
 
   render() {
-    console.log('---imageUrl--', this.props.imgUrl)
     const uploadButton = (
       <div>
-        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <PlusOutlined />
         <div className="ant-upload-text">选择图片</div>
       </div>
     );
     const { imageUrl, extraParams } = this.state;
-    let imgUrl = imageUrl?imageUrl:(this.props.imgUrl?this.props.imgUrl:'')
+    let imgUrl = ''
+    if(imageUrl) {
+      imgUrl = imageUrl
+    } else if(this.props.imgUrl) {
+      imgUrl = this.props.imgUrl
+    } else if(this.props.value) {
+      imgUrl = this.props.value
+    }
     return (
-      <Upload
-        name="img"
-        listType="picture-card"
-        className="avatar-uploader"
-        data={extraParams}
-        showUploadList={false}
-        action={uploadImgUrl}
-        beforeUpload={this.beforeUpload}
-        onChange={this.handleChange}
-      >
-        {imgUrl ? <img src={imgUrl} alt="img" style={{ width: '100%' }} /> : uploadButton}
-      </Upload>
+      <div className="img-uploader-wrapper">
+        <Upload
+          name="img"
+          listType="picture-card"
+          className="avatar-uploader"
+          data={extraParams}
+          showUploadList={false}
+          action={uploadImgUrl}
+          beforeUpload={this.beforeUpload}
+          onChange={this.handleChange}
+        >
+          {imgUrl ? <img src={imgUrl} alt="img" style={{ width: '100%' }} /> : uploadButton}
+        </Upload>
+        {
+          this.state.loading? (
+            <div className="img-uploader-loading">
+              <LoadingOutlined className="img-uploader-loading-icon" />
+            </div>
+          ): ''
+        }
+      </div>
+      
     );
   }
 }

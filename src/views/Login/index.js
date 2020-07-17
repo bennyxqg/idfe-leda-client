@@ -29,7 +29,7 @@ class Login extends React.Component {
                 localStorage.setItem('token', rep.data.token);
                 localStorage.setItem('name', rep.data.name);
                 message.success('登录成功');
-                this.props.history.push('/home')
+                this.props.history.push('/basic')
             } else {
                 message.error(rep.msg);
             }
