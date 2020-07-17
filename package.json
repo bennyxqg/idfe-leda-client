@@ -1,0 +1,67 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "antd": "^4.0.3",
+    "axios": "^0.19.2",
+    "braft-editor": "^2.3.9",
+    "classnames": "^2.2.6",
+    "core-js": "^3.6.4",
+    "diff": "^4.0.2",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "qs": "^6.9.3",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "react-transition-group": "^4.3.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "vconsole": "^3.3.4",
+    "xtree-store": "^2.0.1"
+  },
+  "scripts": {
+    "start": "cross-env PORT=3010 env_config=dev react-app-rewired start",
+    "build": "cross-env  env_config=dev_build REACT_APP_PATH=manager react-app-rewired build",
+    "test": "cross-env  env_config=test REACT_APP_PATH=manager react-app-rewired build",
+    "sandbox": "cross-env  env_config=sandbox REACT_APP_PATH=manager react-app-rewired build",
+    "release": "cross-env  env_config=prod REACT_APP_PATH=manager react-app-rewired build",
+    "testProject": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
+  },
+  "devDependencies": {
+    "babel-plugin-import": "^1.13.0",
+    "babel-plugin-search-and-replace": "^1.0.1",
+    "copy-webpack-plugin": "^5.1.1",
+    "cross-env": "^7.0.2",
+    "customize-cra": "^0.9.1",
+    "less": "^3.11.1",
+    "less-loader": "^5.0.0",
+    "node-sass": "^4.13.1",
+    "react-app-rewire-define-plugin": "^1.0.0",
+    "react-app-rewired": "^2.1.5",
+    "react-scripts": "^3.4.1",
+    "rimraf": "^3.0.2",
+    "webpack": "^4.42.0"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

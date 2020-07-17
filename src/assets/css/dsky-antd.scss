@@ -1,0 +1,251 @@
+$mainColor: #2469F2; // 主色、主按钮、划过/选中字体
+$fontColor: #17181A; // 标题、内容字体
+$grayFontColor: #8A8F99; // 灰显字体
+$borderColor: #E6E8F2; // 表单、分割线、外框线
+$bgColor: #F6F6FA; // 背景色、按钮点击色
+
+.dsky-antd {
+  .ant-pagination .ant-pagination-total-text{
+    color: $grayFontColor;
+  }
+  .ant-pagination .ant-pagination-options-quick-jumper {
+    color: $grayFontColor;
+  }
+  .ant-pagination .ant-pagination-item {
+    border-color: $borderColor;
+  }
+  
+  .ant-pagination {
+    .ant-pagination-item{
+      &.ant-pagination-item-active {
+        border-color: $mainColor;
+        a {
+          color: $mainColor;
+        }
+      }
+    }
+  }
+  
+  .ant-pagination {
+    .ant-pagination-item-link {
+      .anticon {
+        color: #808695;
+      }
+    }
+  }
+  
+  // 按钮
+  .ant-btn {
+    height: 36px;
+    border-radius: 4px;
+    padding: 4px 18px;
+    color: $fontColor;
+    border-color: #D9D9D9;
+    &:hover {
+      color: $mainColor;
+      border-color: #D9D9D9;
+    }
+    &:focus {
+      color: $mainColor;
+      border-color: #D9D9D9;
+    }
+    &.ant-btn-primary:not(.ant-btn-dangerous) {
+      color: white;
+      background-color: $mainColor;
+      border-color: $mainColor;
+      &:hover {
+        color: white;
+        border-color: $mainColor;
+      }
+      &:focus {
+        color: white;
+        border-color: $mainColor;
+      }
+    }
+    &.ant-btn-dangerous {
+      color: white;
+    }
+    &.ant-btn-sm {
+      height: 30px;
+      padding: 0 18px;
+    }
+    
+  }
+  
+  .ant-table {
+    line-height: 1.6;
+    &.ant-table-bordered {
+      thead > tr > th, tbody > tr > td {
+        border-right: 1px solid $bgColor;
+        background: $bgColor;
+        color: $fontColor;
+        font-size: 12px;
+        padding: 10px 16px;
+      }
+      tbody > tr > td {
+        background: white;
+        border-right: 1px solid $borderColor;
+      }
+    }
+  }
+  
+  .ant-alert {
+    border-radius: 4px;
+    color: $fontColor;
+    padding: 12px 15px 12px 16px;
+    .ant-alert-icon {
+      position: static;
+      margin-right: 8px;
+    }
+  }
+
+  // Input
+  input.ant-input {
+    // padding: 6px 11px;
+    border-radius: 4px;
+  }
+  
+  // 下拉选择
+  .ant-select-selector {
+    height: 36px;
+  }
+  
+  .ant-select-multiple .ant-select-selector {
+    border-radius: 4px;
+  }
+  
+  .ant-select-single {
+    &:not(.ant-select-customize-input) {
+      .ant-select-selector {
+        border-radius: 4px;
+      }
+    }
+    .ant-select-selector {
+      border-radius: 4px;
+    }
+  }
+  
+  
+  .ant-select-selection-item {
+    // line-height: 34px;
+  }
+  
+  .ant-select-multiple {
+    .ant-select-selection-item {
+      background: #F4F4F7;
+      border: 1px solid #E6E6E6;
+    }
+  }
+  
+  .ant-select-dropdown {
+    .ant-select-item {
+      min-height: 36px;
+      padding: 7px 12px;
+    }
+    .ant-select-item-option {
+      color: $fontColor;
+    }
+    .ant-select-item-option-active {
+      font-weight: normal;
+      background-color: white;
+      color: $mainColor;
+    }
+    .ant-select-item-option-selected {
+      font-weight: normal;
+      background-color: #EDF2FD;
+      color: $mainColor;
+    }
+  }
+  
+  // 树选择
+  .ant-select-tree-checkbox-checked {
+    .ant-select-tree-checkbox-inner {
+      background-color: $mainColor;
+      border-color: $mainColor;
+    }
+  }
+  .ant-select-tree-checkbox-indeterminate {
+    .ant-select-tree-checkbox-inner {
+      &::after {
+        background-color: $mainColor;
+      }
+    }
+  }
+  
+  
+  .ant-picker {
+    padding: 6px 11px 6px;
+    border-radius: 4px;
+  }
+  // #EDF3FF
+  .ant-picker-dropdown {
+    .ant-picker-cell-range-start, .ant-picker-cell-range-end {
+      &:before {
+        background: #EDF3FF !important;
+      }
+      // .ant-picker-cell-inner {
+      //   background: $mainColor;
+      // }
+    }
+    .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner, .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner, .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+        background: $mainColor;
+    }
+    .ant-picker-cell-inner {
+      &:after {
+        background: #EDF3FF !important;
+      }
+    }
+    .ant-picker-cell-in-view {
+      &:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end) {
+        &:hover {
+          .ant-picker-cell-inner {
+            color: #2E71EA;
+            background: transparent !important;
+          }
+        }
+      }
+    }
+    .ant-picker-cell-range-hover-start {
+      &:not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end) {
+        .ant-picker-cell-inner {
+          &:hover {
+            color: #2E71EA;
+          }
+        }
+      }
+    }
+    .ant-picker-cell-in-view.ant-picker-cell-in-range::before {
+      background: #EDF3FF;
+    }
+  }
+
+  // Radio 单选框组
+  .ant-radio-group {
+    .ant-radio-button-wrapper {
+      height: 36px;
+      line-height: 34px;
+      border: 1px solid $borderColor;
+      border-top-width: 1.02px;
+      border-left-width: 0;
+      color: $fontColor;
+      &:first-child {
+        border-left-width: 1px;
+      }
+      &.ant-radio-button-wrapper-checked:not([class*=' ant-radio-button-wrapper-disabled']) {
+        border-color: $mainColor;
+        color: $mainColor;
+        // border-right-color: red;
+        // #EDF5FD
+        background: #EDF5FD;
+        &:first-child {
+          border-right-color: $mainColor;
+          border-left-width: 1px;
+        }
+      }
+      &.ant-radio-button-wrapper-disabled {
+        color: rgba(0, 0, 0, 0.25);
+      }
+    }
+  }
+}
+
