@@ -11,7 +11,6 @@ const $axios = axios.create({
 
 //  request拦截器
 $axios.interceptors.request.use(config => {
-  console.log('----localStorage.token----', config)
   // 没有token时返回登录页面
   const token = localStorage.token
 
