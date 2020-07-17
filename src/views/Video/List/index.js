@@ -117,12 +117,7 @@ class Index extends React.Component {
 		this.getPageList()
 		this.modalChange(false)
 	}
-
-	onFinish(value) {
-		console.log(value)
-	}
 	
-
 	// 删除
 	handleDel(row) {
 		Modal.confirm({
@@ -178,7 +173,6 @@ class Index extends React.Component {
 				<Form
 					ref={this.formRef}
 					className="search-form"
-					onFinish={this.onFinish}
 				>
 					<FormItem>
 						<div style={{textAlign: 'right'}}>
