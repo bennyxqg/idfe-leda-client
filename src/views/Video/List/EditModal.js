@@ -11,17 +11,12 @@ const layout = {
 
 const EditModal = (props) => {
   const [modalVisible, setModalVisible] = useState(true)
-  const [formParams, setFormParams] = useState({})
 
-  const formRef = useRef();
   const [form] = Form.useForm();
 
   useEffect(() => {
     if(props.editForm && props.editForm.id) {
       form.setFieldsValue(props.editForm)
-      setFormParams(Object.assign({}, formParams, {
-        cover: props.editForm.cover
-      }))
     }
   }, []);
 
@@ -30,19 +25,20 @@ const EditModal = (props) => {
     form.submit()
   }
 
-  const handleCancel = (value) => {
-    props.modalChange(false);
+  const handleCancel = () => {
+    setModalVisible(false)
+    setTimeout(() => {
+      props.modalChange(false);
+    }, 500);
   }
 
   const onFinish = values => {
-    console.log('----onFinish-------', values)
     const sendData = values
     let reqFunc = addVideo
     if(props.editForm) {
       reqFunc = editVideo
       sendData.id = props.editForm.id
     }
-    sendData.cover = formParams.cover
     reqFunc(sendData).then((rep) => {
       if(rep.error_code === 0) {
         message.success('操作成功');
@@ -52,19 +48,6 @@ const EditModal = (props) => {
       }
     })
   };
-
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
-  };
-
-   // 上传成功
-   const uploadSuccess = (val) => {
-    console.log('-----uploadSuccess------', val)
-    const data = {
-      cover: val.data.url
-    }
-    setFormParams(Object.assign({}, formParams, data))
-  }
 
   return <Modal
     title={(props.editForm? '编辑': '新建') + '视频'}
@@ -81,8 +64,6 @@ const EditModal = (props) => {
       name="basic"
       initialValues={{}}
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      ref={formRef}
       form={form}
     >
       <Form.Item
@@ -104,8 +85,7 @@ const EditModal = (props) => {
           name="cover"
           rules={[{ required: true, message: '请上传视频截图' }]}
         >
-          <ImgUpload 
-            successCB={(val) => {uploadSuccess(val)}}></ImgUpload>
+          <ImgUpload />
         </Form.Item>
       <Form.Item
         label="描述"
