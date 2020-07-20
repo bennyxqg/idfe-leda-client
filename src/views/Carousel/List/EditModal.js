@@ -11,7 +11,6 @@ const layout = {
 };
 const EditModal = (props) => {
   const [modalVisible, setModalVisible] = useState(true)
-  const [formParams, setFormParams] = useState({})
 
   const formRef = useRef();
   const [form] = Form.useForm();
@@ -19,9 +18,6 @@ const EditModal = (props) => {
   useEffect(() => {
     if(props.editForm && props.editForm.id) {
       form.setFieldsValue(props.editForm)
-      setFormParams(Object.assign({}, formParams, {
-        url: props.editForm.url
-      }))
     }
   }, []);
 
@@ -41,6 +37,9 @@ const EditModal = (props) => {
       reqFunc = editPic
       sendData.id = props.editForm.id
     }
+    if(sendData.group_ids) {
+      sendData.group_id = sendData.group_ids.join(',')
+    }
     reqFunc(sendData).then((rep) => {
       if(rep.error_code === 0) {
         message.success('操作成功');
@@ -55,13 +54,6 @@ const EditModal = (props) => {
     console.log('Failed:', errorInfo);
   };
 
-   // 上传成功
-   const uploadSuccess = (val) => {
-    const data = {
-      url: val.data.url
-    }
-    setFormParams(Object.assign({}, formParams, data))
-  }
 
   return <Modal
     title={(props.editForm? '编辑': '新建') + '轮播图'}
@@ -101,17 +93,16 @@ const EditModal = (props) => {
           name="url"
           rules={[{ required: true, message: '请上传图片' }]}
         >
-          <ImgUpload 
-            imgUrl={formParams.url}
-            successCB={(val) => {uploadSuccess(val)}}></ImgUpload>
+          <ImgUpload></ImgUpload>
         </Form.Item>
       <Form.Item
         label="所属分组"
-        name="group_id"
+        name="group_ids"
         rules={[{ required: true, message: '请输入链接' }]}
       >
         <Select
           placeholder="请选择分组"
+          mode="multiple"
           allowClear
         >
           {

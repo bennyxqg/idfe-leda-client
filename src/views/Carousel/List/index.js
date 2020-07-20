@@ -45,7 +45,12 @@ class Index extends React.Component {
 			},
 			{
 				title: '所属分组',
-				dataIndex: 'groupName'
+				dataIndex: 'groupNames',
+				render: (text, record) => (
+					<div>
+							{text.join('，')}
+					</div>
+				)
 			},
 			{
 				title: '操作',
@@ -107,13 +112,19 @@ class Index extends React.Component {
 				if(rep.data && rep.data.list && rep.data.list.length) {
 					// allGroupList
 					rep.data.list.forEach((item) => {
-						this.state.allGroupList.some((group) => {
-							if(group.id === item.group_id) {
-								item.groupName = group.name
-								return true
-							}
-							return false
+						item.group_ids = item.group_id.split(',')
+						item.groupNames = []
+						item.group_ids.forEach((gItem) => {
+							this.state.allGroupList.some((group) => {
+								if(group.id == gItem) {
+									item.groupNames.push(group.name)
+									// item.groupName = group.name
+									return true
+								}
+								return false
+							})
 						})
+						
 					})
 					this.setState({'tableData': rep.data.list})
 				} else {

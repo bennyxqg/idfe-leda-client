@@ -76,7 +76,7 @@ const GlobalConfig = (props) => {
           <Form.Item label="网站描述" name="description">
             <TextArea rows={3} />
           </Form.Item>
-          <Form.Item label="上传证件">
+          <Form.Item label="上传图标">
             <ImgUpload 
               imgUrl={formParams.icon}
               successCB={(val) => {uploadSuccess(val)}}></ImgUpload>

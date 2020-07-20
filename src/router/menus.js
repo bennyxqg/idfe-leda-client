@@ -1,6 +1,7 @@
 export const menus = [{
         name: "网站信息",
         path: "",
+        key: '',
         icon: "",
         children: [{
                 name: "基本信息",
