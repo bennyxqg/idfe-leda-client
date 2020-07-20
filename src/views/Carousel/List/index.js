@@ -77,7 +77,6 @@ class Index extends React.Component {
 	}
 
 	handleEdit(type, row) {
-		console.log('------handleEdit-----', row)
 		this.handleEditModal(row)
 	}
 
