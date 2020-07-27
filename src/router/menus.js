@@ -59,3 +59,24 @@ export const menus = [{
         ]
     }
 ];
+
+export const adminMenus = [
+    {
+        name: "管理员模块",
+        path: "/adminConf",
+        icon: "",
+        children: [
+            {
+                name: "网站管理",
+                path: "/site",
+                icon: "",
+            },
+            {
+                name: "用户管理",
+                path: "/user",
+                icon: "",
+            },
+        ]
+    }
+]
+

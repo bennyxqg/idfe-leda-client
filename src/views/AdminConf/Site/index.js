@@ -1,8 +1,9 @@
 import React from 'react';
-import { Table, Button, Form, Select, Input, message, Modal } from 'antd';
-import { videoPage, delVideo } from '@/http/hvideo'
+import { Table, Button, Form, Select, Badge, message, Modal } from 'antd';
+import { sitePage, delSite } from '@/http/hsite'
 import { formatTime } from '@/utils/helper'
 import EditModal from './EditModal'
+import Visualization from './Visualization'
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -23,29 +24,39 @@ class Index extends React.Component {
 		allGroupList: [],
 		columns: [
 			{
-				title: 'ID',
+				title: '网站ID',
 				dataIndex: 'id'
 			},
 			{
-				title: '视频截图',
-				dataIndex: 'cover',
-				render: (text, record) => (
-					<div>
-							<img style={{maxWidth: '100px'}} src={text} alt={record.name} />
-					</div>
-				)
-			},
-			{
-				title: '视频标题',
+				title: '网站名称',
 				dataIndex: 'name'
 			},
 			{
-				title: '视频链接',
-				dataIndex: 'url'
+				title: '网站域名',
+				dataIndex: 'domain_name'
 			},
 			{
-				title: '描述',
-				dataIndex: 'desc'
+				title: '网站目录',
+				dataIndex: 'directory_name'
+			},
+			{
+				title: '状态',
+				dataIndex: 'status',
+				render: (text, record) => {
+					let color = 'green'
+					let statusStr = '开启'
+					if(text != 1) {
+						color = 'red'
+						statusStr = '关闭'	
+					}
+					return (
+						 <span >
+							 {
+								 <Badge color={color} text={statusStr} />
+							 }
+						 </span>
+				 )
+				}
 			},
 			{
 				title: '操作',
@@ -86,7 +97,7 @@ class Index extends React.Component {
 		const sendData = {
 			page: pageNum
 		}
-		videoPage(sendData).then((rep) => {
+		sitePage(sendData).then((rep) => {
 			if(rep.error_code === 0) {
 				if(rep.data && rep.data.list && rep.data.list.length) {
 					// allGroupList
@@ -126,7 +137,7 @@ class Index extends React.Component {
 				const sendData = {
 					id: row.id
 				}
-        delVideo(sendData).then((rep) => {
+        delSite(sendData).then((rep) => {
 					if(rep.error_code === 0) {
 						message.success('操作成功');
 						this.getPageList(this.state.pagination.current)
@@ -177,7 +188,7 @@ class Index extends React.Component {
 					<FormItem>
 						<div style={{textAlign: 'right'}}>
 							<Button type="primary" className={'btn'} onClick={() => this.handleEditModal()}>
-								新增视频
+								新建站点
 							</Button>
 						</div>
 					</FormItem>
@@ -194,6 +205,7 @@ class Index extends React.Component {
 						></EditModal>
 					)
 				}
+				{/* <Visualization /> */}
 			</div>
 		)
 	}

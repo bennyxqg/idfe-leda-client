@@ -127,6 +127,7 @@ class Index extends React.Component {
 						
 					})
 					this.setState({'tableData': rep.data.list})
+					this.setState({'pagination': Object.assign({}, this.state.pagination, {total: 10 * rep.data.total_page})})
 				} else {
 					this.setState({'tableData': []})
 				}
@@ -140,7 +141,7 @@ class Index extends React.Component {
 	}
 
 	successCB = () => {
-		this.getPageList()
+		this.getPageList(this.state.pagination.current)
 		this.modalChange(false)
 	}
 

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Table, Button, Form, Select, Input, message, Modal } from 'antd';
-import { videoPage, delVideo } from '@/http/hvideo'
+import { Table, Button, Form, Select, Badge, message, Modal } from 'antd';
+import { userPage, delUser } from '@/http/huser'
 import { formatTime } from '@/utils/helper'
 import EditModal from './EditModal'
+import { siteAll } from '@/http/hsite'
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -20,32 +21,39 @@ class Index extends React.Component {
 		editForm: null,
 		searchId: '',
 		tableData: [],
+		siteList: [],
 		allGroupList: [],
 		columns: [
 			{
-				title: 'ID',
+				title: '用户ID',
 				dataIndex: 'id'
 			},
 			{
-				title: '视频截图',
-				dataIndex: 'cover',
-				render: (text, record) => (
-					<div>
-							<img style={{maxWidth: '100px'}} src={text} alt={record.name} />
-					</div>
-				)
-			},
-			{
-				title: '视频标题',
+				title: '用户名称',
 				dataIndex: 'name'
 			},
 			{
-				title: '视频链接',
-				dataIndex: 'url'
+				title: '管理站点',
+				dataIndex: 'siteName'
 			},
 			{
-				title: '描述',
-				dataIndex: 'desc'
+				title: '状态',
+				dataIndex: 'status',
+				render: (text, record) => {
+					let color = 'green'
+					let statusStr = '启用'
+					if(text != 1) {
+						color = 'red'
+						statusStr = '停用'	
+					}
+					return (
+						 <span >
+							 {
+								 <Badge color={color} text={statusStr} />
+							 }
+						 </span>
+				 )
+				}
 			},
 			{
 				title: '操作',
@@ -62,6 +70,7 @@ class Index extends React.Component {
 		]
 	};
 	async componentWillMount() {
+		await this.getAllSite()
 		this.getTableList(this.state.pagination.current)
 	}
 
@@ -71,6 +80,16 @@ class Index extends React.Component {
 			return;
 		};
 	}
+
+	getAllSite() {
+    return siteAll({}).then((rep) => {
+      if(rep.error_code === 0) {
+			 if(rep.data && rep.data.list) {
+				this.setState({siteList: rep.data.list})
+			 }
+      }
+    })
+  }
 
 	handleEdit(type, row) {
 		this.handleEditModal(row)
@@ -86,18 +105,30 @@ class Index extends React.Component {
 		const sendData = {
 			page: pageNum
 		}
-		videoPage(sendData).then((rep) => {
+		userPage(sendData).then((rep) => {
 			if(rep.error_code === 0) {
 				if(rep.data && rep.data.list && rep.data.list.length) {
 					// allGroupList
 					rep.data.list.forEach((item) => {
-						this.state.allGroupList.some((group) => {
-							if(group.id === item.group_id) {
-								item.groupName = group.name
-								return true
+						if(item.site_id === 'all') {
+							item.siteName = '所有站点'
+						} else {
+							let userSites = [] 
+							let userSitesStr = []
+							if(item.site_id) {
+								userSites = item.site_id.split(',')
+								userSites.forEach((userSite) => {
+									this.state.siteList.some((site) => {
+										if(site.id == userSite) {
+											userSitesStr.push(site.name)
+											return true
+										}
+										return false
+									})
+								})
+								item.siteName = userSitesStr.join('，')
 							}
-							return false
-						})
+						}
 					})
 					this.setState({'tableData': rep.data.list})
 					this.setState({'pagination': Object.assign({}, this.state.pagination, {total: 10 * rep.data.total_page})})
@@ -126,7 +157,7 @@ class Index extends React.Component {
 				const sendData = {
 					id: row.id
 				}
-        delVideo(sendData).then((rep) => {
+        delUser(sendData).then((rep) => {
 					if(rep.error_code === 0) {
 						message.success('操作成功');
 						this.getPageList(this.state.pagination.current)
@@ -167,7 +198,7 @@ class Index extends React.Component {
 			showSizeChanger: false,
 			showQuickJumper: true
 		};
-		const { loading, columns, tableData, editForm, allGroupList } = this.state
+		const { loading, columns, tableData, editForm, siteList } = this.state
 		return (
 			<div className="shadow-radius">
 				<Form
@@ -177,7 +208,7 @@ class Index extends React.Component {
 					<FormItem>
 						<div style={{textAlign: 'right'}}>
 							<Button type="primary" className={'btn'} onClick={() => this.handleEditModal()}>
-								新增视频
+								新增用户
 							</Button>
 						</div>
 					</FormItem>
@@ -190,7 +221,7 @@ class Index extends React.Component {
 							modalChange={this.modalChange}
 							successCB={this.successCB}
 							editForm={editForm}
-							allGroupList={allGroupList}
+							allSiteList={siteList}
 						></EditModal>
 					)
 				}

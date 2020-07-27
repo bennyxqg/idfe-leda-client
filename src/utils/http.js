@@ -13,12 +13,14 @@ const $axios = axios.create({
 $axios.interceptors.request.use(config => {
   // 没有token时返回登录页面
   const token = localStorage.token
-
+  // siteId
+  const siteId = localStorage.currentSiteId
   if(config.data) {
     config.data += ('&token=' + (token || ''))
   } else {
     config.data = 'token=' + (token || '')
   }
+  config.data += ('&siteId=' + (siteId || ''))
   // if (config.url.indexOf('login6') === -1) {
   //   config.headers['token'] = localStorage.token
   // }

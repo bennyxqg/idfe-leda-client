@@ -1,0 +1,36 @@
+.visualization-wrap {
+  position: relative;
+  .vis-wrap-leftMenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    ul {
+        margin: 0;
+        padding: 0;
+        li {
+          list-style: none;
+          cursor: pointer;
+        }
+    }
+    .vis-wrap-leftMenu-operation {
+      li {
+        
+      }
+    }
+    .vis-wrap-leftMenu-module {
+      position: absolute;
+      top: 0;
+      left: 20px;
+      width: 60px;
+    }
+  }
+  .vis-wrap-siteContent {
+    min-height: 600px;
+    background-color: #e8e8e8;
+  }
+  .vis-wrap-rightMenu {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
