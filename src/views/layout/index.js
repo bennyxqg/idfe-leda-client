@@ -14,9 +14,7 @@ class index extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      userInfo: {
-        name: localStorage.name
-      },
+      userInfo: null,
       siteList: [],
       currentSite: {}
     }
