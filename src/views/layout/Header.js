@@ -64,12 +64,13 @@ class TopHeader extends Component {
   }
 
   render() {
-    const userName = this.context.userInfo.name
-    // const globalData = React.useContext(GlobalContext);
-    console.log('-----this.context.userInfo------', this.context.userInfo.site_ids)
+    let userName = ''
     let siteLists = []
-    if(this.context.userInfo.site_ids) {
-      siteLists = this.context.userInfo.site_ids
+    if(this.context.userInfo) {
+      userName = this.context.userInfo.name
+      if(this.context.userInfo.site_ids) {
+        siteLists = this.context.userInfo.site_ids
+      }
     }
     
     const menu = (
