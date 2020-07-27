@@ -5,7 +5,7 @@ import { formatTime } from '@/utils/helper'
 const Index = (props) => {
 	const [menuList, setMenuList] = useState([
 		{value: 'a', label: 'a', 
-			modules: [{value: 'whiteSection', label: '空白版块'}, {value: 'imgNews', label: '图文信息'}]},
+			modules: [{value: 'WhiteSection', label: '空白版块'}, {value: 'ImgNews', label: '图文信息'}]},
 		{value: 'b', label: 'b'},
 		{value: 'c', label: 'c'},
 		{value: 'd', label: 'd'},
