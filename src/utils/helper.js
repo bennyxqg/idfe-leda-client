@@ -32,3 +32,23 @@ export function getQueryVariable(variable, url = '')
        }
        return '';
 }
+
+// 获取随机字符串
+export const randomCode = (length) => {
+  var UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  var LOWER = UPPER.toLocaleLowerCase()
+  var DIGITS = '0123456789'
+  var ALPHA_NUMBER = UPPER + LOWER + DIGITS
+  // 字符串转成数组
+  var symbols = []
+  for (let i = 0; i < ALPHA_NUMBER.length; i++) {
+    // symbols[i] = ALPHA_NUMBER.charAt(i)
+    symbols.push(ALPHA_NUMBER.charAt(i))
+  }
+  // 随机拼接字符串
+  var stateCode = ''
+  for (let i = 0; i < length; i++) {
+    stateCode += symbols[Math.floor((Math.random() * symbols.length))]
+  }
+  return stateCode
+}
