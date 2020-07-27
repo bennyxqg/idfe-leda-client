@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Layout, Menu } from "antd";
-import { menus } from "@/router/menus";
+import { menus, adminMenus } from "@/router/menus";
+import GlobalContext from "./GlobalContext";
 const { Sider } = Layout;
 
 class SideMenu extends Component {
+    static contextType = GlobalContext;
     renderSubMenu = (subMenu, children) => {
         return (
             <Menu.SubMenu
@@ -32,6 +34,13 @@ class SideMenu extends Component {
     };
 
     render() {
+        // 高级管理员权限
+        const menusTemp = JSON.parse(JSON.stringify(menus))
+        if(this.context.userInfo && this.context.userInfo.name === 'admin') {
+            const adminMenusTemp = JSON.parse(JSON.stringify(adminMenus))
+            menusTemp.push(...adminMenusTemp)
+        }
+
         const menuSelected = this.props.history.location.pathname;
         const defaultOpenKeys = []
 
@@ -46,7 +55,7 @@ class SideMenu extends Component {
         return (
             <Sider className="main-sider" width={260}>
                 <Menu selectedKeys={[menuSelected]} defaultOpenKeys={defaultOpenKeys} mode="inline" theme="dark">
-                    {menus.map((item) =>
+                    {menusTemp.map((item) =>
                         item.children
                             ? this.renderSubMenu(
                                   item,

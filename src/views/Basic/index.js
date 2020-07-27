@@ -17,8 +17,10 @@ const GlobalConfig = (props) => {
   const getInfo = () => {
     siteInfo().then((rep) => {
       if(rep.error_code === 0) {
-        setFormParams(rep.data)
-        form.setFieldsValue(rep.data)
+        if(rep.data) {
+          setFormParams(rep.data)
+          form.setFieldsValue(rep.data)
+        }
       } else {
         message.error(rep.msg);
       }
