@@ -110,13 +110,14 @@ class Index extends React.Component {
 				if(rep.data && rep.data.list && rep.data.list.length) {
 					// allGroupList
 					rep.data.list.forEach((item) => {
-						if(item.site_id === 'all') {
+						item.website_id = item.site_id
+						if(item.website_id === 'all') {
 							item.siteName = '所有站点'
 						} else {
 							let userSites = [] 
 							let userSitesStr = []
-							if(item.site_id) {
-								userSites = item.site_id.split(',')
+							if(item.website_id) {
+								userSites = item.website_id.split(',')
 								userSites.forEach((userSite) => {
 									this.state.siteList.some((site) => {
 										if(site.id == userSite) {

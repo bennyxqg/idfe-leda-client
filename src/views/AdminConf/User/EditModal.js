@@ -53,8 +53,8 @@ const EditModal = (props) => {
   }
 
   const getTargetKeys = () => {
-    if(props.editForm.site_id) {
-      const siteIdList = props.editForm.site_id.split(',')
+    if(props.editForm.website_id) {
+      const siteIdList = props.editForm.website_id.split(',')
       setTargetKeys(siteIdList)
     }
   }
@@ -75,7 +75,7 @@ const EditModal = (props) => {
     const sendData = values
     let reqFunc = addUser
     if(targetKeys && targetKeys.length) {
-      sendData.site_id = targetKeys.join(',')
+      sendData.website_id = targetKeys.join(',')
     } else {
       message.error('请选择站点');
       return
