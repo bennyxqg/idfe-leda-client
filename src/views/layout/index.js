@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Layout, message } from 'antd';
 import SideMenu from './SideMenu'
 import MainContent from './MainContent';
@@ -16,7 +17,8 @@ class index extends React.Component {
     this.state = {
       userInfo: null,
       siteList: [],
-      currentSite: {}
+      currentSite: {},
+      withLayout: true
     }
   }
 
@@ -113,13 +115,33 @@ class index extends React.Component {
     } else {
       this.getUserInfo()
     }
+    // this.
+    
+  }
+
+  componentDidMount(){
+    this.setWithLayout()
+    this.props.history.listen(()=>{
+      this.setWithLayout()
+    })
+  }
+
+  setWithLayout = () => {
+    console.log('---------componentDidMount---1----', this.props.history.location)
+    let flag = true
+    if(this.props.history.location.pathname === '/visualization') {
+      flag = false
+    }
+    this.setState({
+      withLayout: flag
+    })
   }
   
   render() {
     // const userInfo = {
     //   name: localStorage.name
     // }
-    const { userInfo, currentSite } = this.state 
+    const { userInfo, currentSite, withLayout } = this.state 
     return (
       <div className="layout">
         <GlobalContext.Provider
@@ -129,24 +151,30 @@ class index extends React.Component {
             currentSite: this.state.currentSite
           }}
         >
-          <Layout style={{ minHeight: '100vh' }}>
-            <TopHead/>
-            <Layout>
-              <SideMenu/>
-              {
-                userInfo && currentSite && <Content>
-                  <div className="main-content">
-                    <BreadCrumb />
-                    <MainContent />
-                  </div>
-                </Content>
-              }
-            </Layout>
-          </Layout>
+          {
+            withLayout?(
+              <Layout style={{ minHeight: '100vh' }}>
+                <TopHead/>
+                <Layout>
+                  <SideMenu/>
+                  {
+                    userInfo && currentSite && <Content>
+                      <div className="main-content">
+                        <BreadCrumb />
+                        <MainContent />
+                      </div>
+                    </Content>
+                  }
+                </Layout>
+              </Layout>
+            ): (
+              <MainContent />
+            )
+          }
         </GlobalContext.Provider>
       </div>
     );
   }
 }
 
-export default index;
+export default withRouter(index);

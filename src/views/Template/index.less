@@ -1,0 +1,42 @@
+.template-item {
+  &>div {
+    width: 150px;
+    height: 200px;
+    border: 1px solid #ccc;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    position: relative;
+  }
+  .template-item-title {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 10px;
+  }
+  .template-item-icon {
+    font-size: 100px;
+    text-align: center;
+    position: relative;
+    top: -20px;
+  }
+  .template-item-btns {
+    display: flex;
+    position: absolute;
+    width: 150px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background-color: #ddd;
+    cursor: pointer;
+    color: white;
+    border: 1px solid #666;
+    &>div {
+      flex: 1;
+      text-align: center;
+    }
+    a {
+      color: white;
+      display: block;
+    }
+  }
+}

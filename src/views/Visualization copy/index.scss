@@ -1,0 +1,169 @@
+.visualization-wrap {
+  position: relative;
+  .vis-wrap-header {
+    height: 40px;
+    background-color: white;
+  }
+  .vis-wrap-leftMenu {
+    position: absolute;
+    top: 60px;
+    left: 10px;
+    z-index: 10;
+    ul {
+        margin: 0;
+        padding: 0;
+        li.left-bar-item {
+          font-size: 16px;
+          background: -webkit-linear-gradient(top,rgba(255,255,255,.96) 0,rgba(238,238,238,.96) 100%);
+          background: linear-gradient(to bottom,rgba(255,255,255,.96) 0,rgba(238,238,238,.96) 100%);
+          box-shadow: 0 2px 5px 0 rgba(22,45,61,.58);
+          border-radius: 24px;
+          line-height: 2;
+          height: 48px;
+          position: relative;
+          cursor: pointer;
+          margin-bottom: 12px;
+          width: 48px;
+          padding-right: 0;
+          text-align: center;
+        }
+    }
+    .vis-wrap-leftMenu-operation {
+      li {
+        
+      }
+    }
+    .vis-wrap-leftMenu-module {
+      position: absolute;
+      top: 0;
+      left: 60px;
+      
+      ul {
+        background: #001529;
+        display: inline-block;
+        height: 100%;
+        overflow-y: auto;
+        padding: 18px 0;
+        vertical-align: top;
+        border-radius: 6px;
+        li {
+          width: 120px;
+          color: #e8e8e8;
+          cursor: pointer;
+          font-size: 14px;
+          margin-bottom: 8px;
+          height: 24px;
+          position: relative;
+          padding-left: 10px;
+        }
+      }
+      
+    }
+  }
+  .vis-wrap-siteContent {
+    min-height: 600px;
+    background-color: #e8e8e8;
+    padding-top: 30px;
+    .vis-section-item-wrap {
+      position: relative;
+      border: 1px dotted #e8e8e8;
+      &:hover {
+        border: 1px dotted #007ed3;
+      }
+      &.drop-over-downward {
+        border-bottom: 2px dashed #1890ff;
+      }
+      &.drop-over-upward {
+        border-top: 2px dashed #1890ff;
+      }
+      .vis-section-item-mask {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 5;
+        &:hover {
+          border: 1px dotted #007ed3;
+        }
+      }
+      .vis-section-item-btns {
+        position: absolute;
+        top: -28px;
+        background-color: #1890ff;
+        color: white;
+        right: 0;
+        font-size: 18px;
+        cursor: pointer;
+        z-index: 6;
+        span {
+          padding: 4px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  .vis-wrap-rightMenu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    .vis-rightMenu-inner {
+      width: 200px;
+      height: 600px;
+      border: 1px solid #e8e8e8;
+      background-color: white;
+    }
+  }
+}
+
+// 部件弹窗
+.widgets-modal {
+  .widgets-modal-inner {
+    &.imgnews-style-modal {
+      .form-title {
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+
+// 自由区域
+.free-content-wrap {
+  width: 1200px;
+  margin: auto;
+  position: relative;
+  .drag-element-item {
+    position: absolute;
+  }
+}
+
+.vis-wrap-leftMenu-module-item {
+  cursor: pointer;
+}
+
+tr.common-drop-row.drop-over-downward td {
+  border-bottom: 2px dashed #1890ff;
+}
+
+tr.common-drop-row.drop-over-upward td {
+  border-top: 2px dashed #1890ff;
+}
+
+// 轮播图指示器
+.imgNews-wrap-inner-carousel {
+  .slick-dots {
+    li {
+      &.slick-active {
+        .circle-dot {
+          opacity:1;
+        }
+      }
+      .circle-dot {
+        opacity: 0.5;
+      }
+    }
+  }
+}

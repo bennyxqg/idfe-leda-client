@@ -205,7 +205,7 @@ class Index extends React.Component {
 						></EditModal>
 					)
 				}
-				{/* <Visualization /> */}
+				<Visualization />
 			</div>
 		)
 	}

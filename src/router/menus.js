@@ -57,6 +57,11 @@ export const menus = [{
                 icon: "",
             },
         ]
+    },
+    {
+        name: "模板管理",
+        path: "/template",
+        icon: ""
     }
 ];
 

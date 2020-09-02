@@ -22,7 +22,8 @@ class ImgUpload extends React.Component {
   state = {
     loading: false,
     extraParams: { // 额外参数
-      token: localStorage.token || ''
+      token: localStorage.token || '',
+      site_id: localStorage.currentSiteId
     }
   };
 

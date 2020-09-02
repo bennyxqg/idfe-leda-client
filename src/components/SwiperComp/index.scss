@@ -1,0 +1,29 @@
+.swiper-comp-wrap {
+  .swiper-container {
+    &.swiper-container-card {
+      overflow: hidden;
+      width: 1007px;
+      height: 405px;
+      position: relative;
+      margin: 0 auto;
+      .swiper-slide {
+        width: 657px;
+        height: 370px;
+        background: #A3A3A3;
+        img{
+          width: 657px;
+          height: 370px;
+          object-fit: fill;
+        }
+      }
+    }
+    &.swiper-container-common {
+      .swiper-slide {
+        width: 100%;
+        img{
+          
+        }
+      }
+    }
+  }
+}
