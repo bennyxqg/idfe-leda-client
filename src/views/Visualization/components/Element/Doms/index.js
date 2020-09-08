@@ -6,7 +6,7 @@ import lodash from 'lodash'
 import { getItemIndexByKey } from '@/utils/helper'
 import VisContext from "@/views/Visualization/VisContext";
 import ElementBtns from './ElementBtns'
-import EditForm from '@/views/Visualization/components/Element/FormList/EditForm'
+import EditForm from '@/views/Visualization/components/Element/ListModal/index'
 import {eventLink} from '@/views/Visualization/utils/index'
 
 const Index = (props) => {
@@ -157,6 +157,7 @@ const Index = (props) => {
         {
           showEditModal && currentElement &&
           <EditForm 
+            type='edit'
             data={currentElement}
             onFinish={editFinish}
             modalChange={editFormModalChange}

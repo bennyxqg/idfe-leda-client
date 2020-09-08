@@ -35,9 +35,14 @@ const Index = (props) => {
 
   useEffect(() => {
     if(props.data) {
-      form.setFieldsValue({
-        text: props.data.data.text
-      })
+      if(props.type === 'edit') { // 编辑
+        setElementItem(props.data)
+        setElementType(props.data.type)
+      } else { // 新增
+        form.setFieldsValue({
+          text: props.data.data.text
+        })
+      }
     }
   }, []);
 
@@ -57,21 +62,13 @@ const Index = (props) => {
   }
 
   const handleOk = (value) => {
-    console.log('--------', formRef.current.ref)
-    formPromise(form).then(async () => {
-      const valueData = {}
-      const commonVal = await formPromise(formRef.current.ref)
-      valueData.common = commonVal
-      if(fontFormRef.current && fontFormRef.current.ref) {
-        const fontVal = await formPromise(fontFormRef.current.ref)
-        valueData.font = fontVal
-      }
-      if(eventFormRef.current && eventFormRef.current.ref) {
-        const eventVal = await formPromise(eventFormRef.current.ref)
-        valueData.event = eventVal
-      }
-      updateSection(valueData)
-    })
+    if(props.type === 'edit') {
+      validForm()
+    } else {
+      formPromise(form).then(() => {
+        validForm()
+      })
+    }
 
     // form.validateFields().then((value) => {
     //   formRef.current.ref.validateFields().then((positionVal) => {
@@ -89,30 +86,56 @@ const Index = (props) => {
     // form.submit()
   }
 
+  const validForm = async () => {
+    const valueData = {}
+    const commonVal = await formPromise(formRef.current.ref)
+    valueData.common = commonVal
+    if(fontFormRef.current && fontFormRef.current.ref) {
+      const fontVal = await formPromise(fontFormRef.current.ref)
+      valueData.font = fontVal
+    }
+    if(eventFormRef.current && eventFormRef.current.ref) {
+      const eventVal = await formPromise(eventFormRef.current.ref)
+      valueData.event = eventVal
+    }
+    updateSection(valueData)
+  }
+
   const updateSection = (valueData) => {
+    console.log('-----valueData-----', valueData)
     message.success('操作成功');
-    lodash.assign(elementItem.data, valueData.common)
-    if(valueData.font) {
-      lodash.assign(elementItem.data.style, {
+    if(props.type === 'edit') { // 编辑
+      let sendData = {}
+      lodash.assign(sendData, valueData.common)
+      lodash.assign(sendData.style, {
         font: valueData.font
       })
+      props.onFinish(sendData)
+    } else { // 新增
+      lodash.assign(elementItem.data, valueData.common)
+      if(valueData.font) {
+        lodash.assign(elementItem.data.style, {
+          font: valueData.font
+        })
+      }
+      if(valueData.event) {
+        lodash.assign(elementItem.data, {
+          event: valueData.event
+        })
+      }
+      // setChooseSection(update(chooseSection, {$merge: {
+      //   data: childVal
+      // }}))
+      // const chooseSectionTemp = lodash.cloneDeep(chooseSection)
+      elementItem.elementId = `element_${randomCode(8)}`
+      if(chooseSection.data.elements && chooseSection.data.elements.length) {
+        chooseSection.data.elements.push(elementItem)
+      } else {
+        chooseSection.data.elements = [elementItem]
+      }
+      props.modalChange(false)
     }
-    if(valueData.event) {
-      lodash.assign(elementItem.data, {
-        event: valueData.event
-      })
-    }
-    // setChooseSection(update(chooseSection, {$merge: {
-    //   data: childVal
-    // }}))
-    // const chooseSectionTemp = lodash.cloneDeep(chooseSection)
-    elementItem.elementId = `element_${randomCode(8)}`
-    if(chooseSection.data.elements && chooseSection.data.elements.length) {
-      chooseSection.data.elements.push(elementItem)
-    } else {
-      chooseSection.data.elements = [elementItem]
-    }
-    props.modalChange(false)
+    
   }
 
   const handleCancel = (value) => {
@@ -129,7 +152,7 @@ const Index = (props) => {
   }
 
   return <Modal
-    title={'添加元素'}
+    title={props.type !== 'edit'?'添加元素':'编辑元素'}
     visible={modalVisible}
     cancelText='取消'
     okText='确定'
@@ -138,24 +161,29 @@ const Index = (props) => {
     width='600px'
   >
     <div className="vis-add-modal-element-list"> 
-      <Form
-        {...layout}
-        requiredMark={false}
-        initialValues={{}}
-        form={form}
-      >
-        <Form.Item
-          rules={[{ required: true, message: '请选择元素' }]}
-          name='elementType' label="选择元素:">
-          <Select onChange={changeType}>
-            {
-              elementList.map((item, index) => {
-                return <Option key={item.type} value={item.type}>{item.label}</Option>
-              })
-            }
-          </Select>
-        </Form.Item>
-      </Form>
+      {
+        props.type !== 'edit' && (
+          <Form
+            {...layout}
+            requiredMark={false}
+            initialValues={{}}
+            form={form}
+          >
+            <Form.Item
+              rules={[{ required: true, message: '请选择元素' }]}
+              name='elementType' label="选择元素:">
+              <Select onChange={changeType}>
+                {
+                  elementList.map((item, index) => {
+                    return <Option key={item.type} value={item.type}>{item.label}</Option>
+                  })
+                }
+              </Select>
+            </Form.Item>
+          </Form>
+        )
+      }
+      
       {
         elementItem && (
           <div>
