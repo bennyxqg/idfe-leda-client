@@ -1,7 +1,10 @@
 import React, {useState, useEffect, useRef} from "react";
-import { Modal, Button, Form, Input, message, InputNumber, Select, Radio } from 'antd';
+import { Modal, Button, Checkbox, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
 import lodash from 'lodash'
+import BgStyleForm from '@/views/Visualization/components/Common/BgStyleForm/index'
+
+const { Panel } = Collapse;
 
 const layout = {
   labelCol: { span: 4 },
@@ -16,7 +19,7 @@ const EditModal = (props) => {
 
   useEffect(() => {
     if(props.data) {
-
+      console.log('---props.data.data.style-------', props.data.data.style)
       form.setFieldsValue({
         ...props.data.data.style
       })
@@ -37,6 +40,7 @@ const EditModal = (props) => {
   const onFinish = values => {
     message.success('操作成功');
     const sendData = values
+    console.log('--sendData----666---', sendData)
     const dataObj = lodash.cloneDeep(props.data.data)
     dataObj.style = sendData
     props.onFinish(dataObj);
@@ -60,35 +64,71 @@ const EditModal = (props) => {
       onFinish={onFinish}
       form={form}
     >
-      <Form.Item
-        label="背景类型"
-        name="linkType"
-        rules={[{ required: true, message: '请选择背景类型' }]}
-      >
-        <Radio.Group>
-          <Radio value={1}>
-            <span className='mar-r-8'>颜色</span>
-          </Radio>
-          <Radio value={2}>
-            <span className='mar-r-8'>图片</span>
-          </Radio>
-          <Radio value={3}>
-            <span className='mar-r-8'>视频</span>
-          </Radio>
-        </Radio.Group>
-      </Form.Item>
-      <Form.Item
-        label="背景颜色"
-        name="bgColor"
-      >
-        <Input type='color' />
-      </Form.Item>
-      <Form.Item
-          label="背景图片"
-          name="bgImg"
-        >
-          <ImgUpload></ImgUpload>
-      </Form.Item>
+      <Collapse defaultActiveKey={['1', '2']}>
+        <Panel header="背景设置" key="1">
+          <BgStyleForm 
+            defaultType={props.data.data.style.bg.bgType}
+          />
+          <Row className='pad-l-4'>
+            {/* <Col span={8}>
+              <Form.Item
+                labelCol={{span: 8}}
+                wrapperCol={{span: 10}}
+                name='width' label="宽度:">
+                <InputNumber />
+              </Form.Item>
+            </Col> */}
+            <Col span={8}>
+              <Form.Item
+                labelCol={{span: 8}}
+                wrapperCol={{span: 10}}
+                name='height' label="高度:">
+                <InputNumber />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Panel>
+        <Panel header="导航样式" key="2">
+          <Form.Item
+            name={['screenType']} label="显示模式:">
+            <Radio.Group>
+              <Radio value={1}>普通</Radio>
+              <Radio value={2}>宽屏</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Row className='pad-l-4'>
+            <Col span={12}>
+              <Form.Item
+                labelCol={{span: 8}}
+                wrapperCol={{span: 10}}
+                name='fontColor' label="字体颜色:">
+                <Input type='color' />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                labelCol={{span: 8}}
+                wrapperCol={{span: 10}}
+                name='fontSize' label="字体大小:">
+                <InputNumber />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item
+            valuePropName="checked"
+            name={['isBold' ]} label="是否加粗:">
+            <Checkbox></Checkbox>
+          </Form.Item>
+          <Form.Item
+            name={['align' ]} label="导航位置:">
+            <Radio.Group>
+              <Radio value={'left'}>居左</Radio>
+              <Radio value={'center'}>居中</Radio>
+              <Radio value={'right'}>居右</Radio>
+            </Radio.Group>
+          </Form.Item>
+        </Panel>
+      </Collapse>
     </Form>
     </div>
   </Modal>

@@ -6,11 +6,12 @@ import SectionBtns from './SectionBtns'
 import VisContext from "../VisContext";
 
 import {
-	WhiteSection,
+	BlankSection,
   ImgNews,
   SingleImg,
   CarouselSection,
-  NavSection
+  NavSection,
+  MainSection
 } from "../widgets";
 
 // const contexts = require.context('../widgets', true, /\.js$/);
@@ -22,24 +23,26 @@ import {
 const type = 'DragableBodyRow';
 
 const DragableSection = ({ section, index, moveRow, className, style, ...restProps }) => {
-  const { chooseSection, setChooseSection, sectionList, setSectionList } = useContext(VisContext)
+  const { chooseSection, setChooseSection, sectionList, setSectionList, setShowAddModal } = useContext(VisContext)
   const [isHover, setIsHover] = useState(false)
   
   const ref = React.useRef();
   
 	const setComponent = (section) =>{
     const type = section.type
-			if(type === 'WhiteSection') {
-				return <WhiteSection data={section}/>;
-			} else if(type === 'ImgNews') {
+			if(type === 'blankSection') {
+				return <BlankSection data={section}/>;
+			} else if(type === 'imgNews') {
 				return <ImgNews data={section}/>;
-			} else if(type === 'SingleImg') {
+			} else if(type === 'singleImg') {
 				return <SingleImg data={section}/>;
-			} else if(type === 'CarouselSection') {
+			} else if(type === 'carouselSection') {
 				return <CarouselSection data={section}/>;
-			} else if(type === 'NavSection') {
+			} else if(type === 'navSection') {
 				return <NavSection data={section}/>;
-			}
+      } else if(type === 'mainSection') {
+				return <MainSection data={section}/>;
+      }
 	}
 
   // 选中模块
@@ -87,9 +90,17 @@ const DragableSection = ({ section, index, moveRow, className, style, ...restPro
     } else if(type === 'add') { // 增加模块
       const direction = opts.direction
       console.log('-----direction-----', direction)
-      if(direction === 'up') {
-
+      let index = getItemIndexByKey(sectionList, 'sectionId', section.sectionId)
+      if(direction === 'down') {
+        index++
       }
+      setShowAddModal({
+        show: true,
+        index
+      })
+    } else if(type === 'element') { // 添加元素到模块中
+      setChooseSection(section)
+      restProps.showModal(type, section)
     }
   }
 	
@@ -121,17 +132,18 @@ const DragableSection = ({ section, index, moveRow, className, style, ...restPro
 	return (
     <>{
       section? (
-        <div ref={ref} 
+        <div 
+          // ref={ref} 
           className={`vis-section-item-wrap ${isOver ? dropClassName : ''}`}
-          style={{ cursor: 'move', ...style }}
-          onMouseOver={(e) => {handleMouseUserOver(e, section, index)}}
-          onMouseLeave={(e) => {handleMouseOut(e, section, index)}}
+          style={{ ...style }}
+          // onMouseOver={(e) => {handleMouseUserOver(e, section, index)}}
+          // onMouseLeave={(e) => {handleMouseOut(e, section, index)}}
           onClick={() => {activeSection(section, index)}} key={section.sectionId}>
           {/* <div className="vis-section-item-mask" key={section.sectionId}></div> */}
           <div className="vis-section-item-inner" id={`section_${section.sectionId}`}>
             {setComponent(section)}
           </div>
-          {
+          {/* {
             isHover && 
             <SectionBtns 
               handleStyle={() => {handleBtns('style', section)}}
@@ -139,10 +151,26 @@ const DragableSection = ({ section, index, moveRow, className, style, ...restPro
               handleDel={() => {handleBtns('del', section)}}
               handleUp={() => {handleBtns('up', section)}}
               handleDown={() => {handleBtns('down', section)}}
+              handleElement={() => {handleBtns('element', section)}}
               handleAdd={(direction) => {handleBtns('add', section, {
                 direction
               })}}
             />
+          } */}
+          {
+            <div className='section-btns-wrap'>
+              <SectionBtns 
+                handleStyle={() => {handleBtns('style', section)}}
+                handleData={() => {handleBtns('data', section)}}
+                handleDel={() => {handleBtns('del', section)}}
+                handleUp={() => {handleBtns('up', section)}}
+                handleDown={() => {handleBtns('down', section)}}
+                handleElement={() => {handleBtns('element', section)}}
+                handleAdd={(direction) => {handleBtns('add', section, {
+                  direction
+                })}}
+              />
+            </div>
           }
         </div>
       ): null

@@ -1,13 +1,15 @@
-import React, {useState, useEffect, useRef} from "react";
-import { Table, Button, Form, Select, Input, message, Popover, List } from 'antd';
-import { formatTime } from '@/utils/helper'
+import React, {useState, useEffect, useRef, useContext} from "react";
+import { Modal, List } from 'antd';
 import {
-	AppstoreAddOutlined,
-	EnvironmentOutlined
+	AppstoreAddOutlined
 } from '@ant-design/icons';
 import {sectionData} from '@/views/Visualization/sectionData'
+import VisContext from "@/views/Visualization/VisContext";
 
 const Index = (props) => {
+	const { showAddModal, setShowAddModal } = useContext(VisContext)
+	const [modalVisible] = useState(true)
+
 	const [menuList, setMenuList] = useState([
 		{value: 'a', label: '模块', icon: <AppstoreAddOutlined />,
 			modules: Object.keys(sectionData()).map(key => {
@@ -24,18 +26,55 @@ const Index = (props) => {
 		// },
 	])
 
+	const handleOk = (value) => {
+    // props.modalChange(false);
+  }
+
+  const handleCancel = () => {
+		const data = {
+			show: false
+		}
+		if(typeof showAddModal.index !== 'undefined') {
+			data.index = showAddModal.index
+		}
+    setShowAddModal(data)
+	}
+	
+	// 
+	const addSection = (item) => {
+		if(props.addSection) {
+			props.addSection(item.value)
+		}
+		handleCancel()
+	}
 
 	return (
-		<div className="vis-wrap-section-list"> 
-			<List
-				size="small"
-				header={<div>Header</div>}
-				footer={<div>Footer</div>}
-				bordered
-				dataSource={menuList[0].modules}
-				renderItem={item => <List.Item>{item.label}</List.Item>}
-			/>
-		</div>
+			<Modal
+				title={'新增模块'}
+				visible={modalVisible}
+				onCancel={handleCancel}
+				footer={null}
+				width='400px'
+			>
+			<div className="vis-add-modal-section-list"> 
+				<List
+					style={{cursor: 'pointer'}}
+					size="small"
+					bordered
+					dataSource={menuList[0].modules}
+					renderItem={item => {
+						return (
+							<List.Item onClick={()=> {addSection(item)}}>
+								<div>
+									{item.label}
+								</div>
+							</List.Item>
+						)
+					}}
+				/>
+			</div>
+		</Modal>
+		
 	)
 }
 

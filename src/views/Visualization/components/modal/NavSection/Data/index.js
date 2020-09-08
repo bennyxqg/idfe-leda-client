@@ -89,22 +89,23 @@ const Index = (props) => {
       render: (text, record, index) => <DragHandle index={index}/>
     },
     {
-      title: '名称',
+      title: '导航名称',
       dataIndex: 'label',
       width: 120
     },
     {
-      title: '打开方式',
-      dataIndex: 'label',
+      title: '导航类型',
       width: 120,
       render: (text, record, index) => {
         let str = ''
-        if(record.linkType == 1) {
+        if(record.event.type == 1) {
+          str = '外链'
+        } else if(record.event.type == 2){
+          str = '内页'
+        } else if(record.event.type == 3){
           str = '锚点'
-        } else if(record.linkType == 2){
-          str = '当前窗口打开'
-        } else if(record.linkType == 3){
-          str = '新窗口打开'
+        } else if(record.event.type == 4){
+          str = '弹窗'
         }
         return (
           <div>
@@ -114,24 +115,40 @@ const Index = (props) => {
       }
     },
     {
-      title: '跳转地址',
-      dataIndex: 'url',
+      title: '导航地址',
       width: 250,
       textWrap: 'word-break',
       ellipsis: true,
+      render: (text, record, index) => {
+        let str = ''
+        if(record.event.type == 1) {
+          str = record.event.linkUrl
+        } else if(record.event.type == 2){
+          str = record.event.sitePageId
+        } else if(record.event.type == 3){
+          str = record.event.sectionId + `（${getSectionItem(record.sectionId).label}）`
+        } else if(record.event.type == 4){
+          str = record.event.popupId
+        }
+        return (
+          <div>
+            {str}
+          </div>
+        )
+      }
     },
-    {
-      title: '锚点模块',
-      dataIndex: 'url',
-      width: 120,
-      render: (text, record, index) => (
-        <div>
-          {
-            getSectionItem(record.sectionId).label
-          }
-        </div>
-      )
-    },
+    // {
+    //   title: '锚点模块',
+    //   dataIndex: 'url',
+    //   width: 120,
+    //   render: (text, record, index) => (
+    //     <div>
+    //       {
+    //         getSectionItem(record.sectionId).label
+    //       }
+    //     </div>
+    //   )
+    // },
     {
       title: '操作',
       dataIndex: 'action',
@@ -151,6 +168,7 @@ const Index = (props) => {
       const navList = lodash.cloneDeep(props.data.data.navList)
       navList.forEach(item => {
         item.Uid = randomCode(10)
+        item = Object.assign(item, item.event)
       });
       setTableData(navList)
       // navImg
@@ -174,6 +192,7 @@ const Index = (props) => {
    	// 编辑弹窗
 	const handleEditModal = (editForm = null) => {
     if(editForm) {
+      console.log('-----editForm---555---', editForm)
       setEditForm(editForm)
     } else {
       setEditForm(null)
@@ -289,7 +308,7 @@ const Index = (props) => {
       form={form}
     >
       <Form.Item
-          label="上传图片"
+          label="网站标识"
           name="navImg"
         >
           <ImgUpload></ImgUpload>
@@ -298,11 +317,7 @@ const Index = (props) => {
         label="导航菜单"
       >
         <div>
-          <div className='mar-b-8'>
-            <Button type="primary" onClick={addMenu}>
-              添加
-            </Button>
-          </div>
+          
           <DndProvider manager={manager.current.dragDropManager}>
             <Table
               columns={columns} dataSource={tableData} rowKey="Uid" 
@@ -314,7 +329,16 @@ const Index = (props) => {
                 moveRow,
               })}
               />
-            </DndProvider>
+          </DndProvider>
+          <div className='mar-t-8' style={{
+            width: '80%',
+            marginLeft: 'auto',
+            marginRight: 'auto'
+          }}>
+            <Button type="dashed" block onClick={addMenu}>
+              + 添加导航
+            </Button>
+          </div>    
         </div>
       </Form.Item>
       

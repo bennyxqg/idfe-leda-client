@@ -2,61 +2,103 @@ import { randomCode, addOrEditForListItem } from '@/utils/helper'
 
 export const sectionData = () => {
   return {
-    'WhiteSection': {type: 'WhiteSection', label: '空白版块', data: {
-      text: '空白版块'
-    }}, 
-    'MainSection': {type: 'MainSection', label: '首屏模块', data: {
-      text: '首屏模块',
-      btn: [
-        {
-          text: '测试',
-          style: {
-            width: 100,
-            height: 50,
-            top: 0,
-            left: 0,
-            bg: {
-              bgType: 1,
-              bgColor: '#17181a',
-              bgImg: '',
-              bgVideo: ''
-            }
-          }
-        }
-      ],
+    'blankSection': {type: 'blankSection', label: '空白模块', data: {
+      text: '空白模块',
       style: {
-        width: '100%',
+        width: '',
         height: 500,
-        bgImg: ''
+        bg: {
+          bgType: 1,
+          bgColor: '#ffffff',
+          bgImg: '',
+          bgVideo: ''
+        }
       }
     }}, 
-    'NavSection': {type: 'NavSection', label: '导航版块', data: {
+    'mainSection': {type: 'mainSection', label: '首屏模块', data: {
+      text: '首屏模块',
+      btn: { // 操作按钮
+        show: true,
+        text: '',
+        imgUrl: '//dl.gamdream.com//website/image/202009/5f4f8069c244b.png',
+        style: {
+          width: '',
+          height: '',
+          top: 0,
+          left: 0
+        },
+        event: { // 交互事件
+          type: 1, // 交互类型 1: 外链，2：内页 3：锚点 4：弹窗
+          linkUrl: '', // 外链
+          sitePageId: '', // 内页
+          sectionId: '', // 锚点
+          popupId: '', // 弹窗
+          linkUrlType: 1 // 1：本窗口打开， 2：新窗口打开
+        }
+      },
+      style: {
+        width: '',
+        height: 500,
+        bg: {
+          bgType: 2,
+          bgColor: '#ffffff',
+          bgImg: '//dl.gamdream.com//website/image/202009/5f4f7f8168692.png',
+          bgVideo: ''
+        }
+      }
+    }}, 
+    'navSection': {type: 'navSection', label: '导航版块', data: {
       text: '导航版块',
       navList: [
         {
           Uid: randomCode(),
           label: '导航1',
-          linkType: '1', // 1：锚点，2：当前窗口打开，3：新窗口打开
-          url: 'https://www.jianshu.com/p/256b28d7b816',
-          sectionId: null
+          // linkType: '1', // 1：锚点，2：当前窗口打开，3：新窗口打开
+          // url: 'https://www.jianshu.com/p/256b28d7b816',
+          // sectionId: null
+          event: { // 交互事件
+            type: 1, // 交互类型 1: 外链，2：内页 3：锚点 4：弹窗
+            linkUrl: '', // 外链
+            sitePageId: '', // 内页
+            sectionId: '', // 锚点
+            popupId: '', // 弹窗
+            linkUrlType: 1 // 1：本窗口打开， 2：新窗口打开
+          }
         },
         {
           Uid: randomCode(),
           label: '导航2',
-          linkType: '2', // 1：锚点，2：当前窗口打开，3：新窗口打开
-          sectionId: null,
-          url: ''
+          // linkType: '2', // 1：锚点，2：当前窗口打开，3：新窗口打开
+          // sectionId: null,
+          // url: ''
+          event: { // 交互事件
+            type: 1, // 交互类型 1: 外链，2：内页 3：锚点 4：弹窗
+            linkUrl: '', // 外链
+            sitePageId: '', // 内页
+            sectionId: '', // 锚点
+            popupId: '', // 弹窗
+            linkUrlType: 1 // 1：本窗口打开， 2：新窗口打开
+          }
         }
       ],
       navImg: 'https://dl.gamdream.com/ids_cloud_platform/image/logo_t.png',
       style: {
-        bgColor: '#17181a',
-        navLabel: {
-          color: '#ffffff'
-        }
+        screenType: 1, // 1：普通， 2：宽屏
+        width: '',
+        height: 60,
+        bg: {
+          bgType: 1,
+          bgColor: '#ffffff',
+          bgImg: '//dl.gamdream.com//website/image/202009/5f4f7f8168692.png',
+          bgVideo: ''
+        },
+        fontColor: '#000000', 
+        fontSize: 18,
+        isBold: false,
+        align: 'right' // left, center, right
       }
     }}, 
-    'SingleImg': {type: 'SingleImg', label: '图片版块', data: {
+    'singleImg': {type: 'singleImg', label: '图片版块', data: {
       text: 'test',
       url: 'http://oaa.uu.cc/manage/upload/image/oaa.uu.cc/2019-12-27/20191227_161637_544804.png',
       style: {
@@ -69,7 +111,7 @@ export const sectionData = () => {
         left: '0'
       }
     }}, 
-    'CarouselSection': {type: 'CarouselSection', label: '轮播图', data: {
+    'carouselSection': {type: 'carouselSection', label: '轮播图', data: {
       type: 2, // 1： 普通，2：卡片
       imgs: {
         groupId: null,
@@ -106,8 +148,8 @@ export const sectionData = () => {
         }
       }
     }}, 
-    'ImgNews': {
-      type: 'ImgNews', label: '图文信息', data: {
+    'imgNews': {
+      type: 'imgNews', label: '图文信息', data: {
       imgs: {
         groupId: null,
         list: [

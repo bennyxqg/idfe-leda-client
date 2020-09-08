@@ -29,6 +29,11 @@ const SectionBtns = (props) => {
     props.handleDown()
   }
 
+  // 添加元素
+  const handleElement = () => {
+    props.handleElement()
+  }
+
   const handleAdd = (type) => {
     props.handleAdd(type)
   }
@@ -48,10 +53,14 @@ const SectionBtns = (props) => {
         <span
           onClick={() => {handleData()}}
         ><FormOutlined /></span>
-        <span><SettingOutlined /></span>
-        <span><DeleteOutlined 
+        <span
+          onClick={() => {handleElement()}}
+        >
+          <SettingOutlined />
+        </span>
+        <span
           onClick={() => {handleDel()}}
-        /></span>
+        ><DeleteOutlined /></span>
       </div>
       <div className="vis-add-section-btns">
         <div className="vis-add-section-btns-up"

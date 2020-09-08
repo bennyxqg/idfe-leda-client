@@ -30,8 +30,10 @@ const Index = (props) => {
 
 	useEffect(() => {
 		// 选中模块配置发生变化，更新模块数据
+		console.log('------chooseSection---change----')
 		if(chooseSection) {
 			const index = sectionIndex(chooseSection)
+			console.log('------chooseSection---change-index---', index)
 			setSectionList(update(sectionList, {
 				$splice: [[index, 1], [index, 0, chooseSection]]
 			}))
@@ -84,29 +86,31 @@ const Index = (props) => {
 
 	const manager = useRef(RNDContext);
 
-	const dropWrapper = React.useRef();
-	const [{ isOver }, drop] = useDrop({
-    accept: 'DragableElement',
-    collect: monitor => {
-      const { index: dragIndex } = monitor.getItem() || {};
-      console.log('--DragableElement--dragIndex----', dragIndex)
-      return {
-        isOver: monitor.isOver(),
-      };
-    },
-    drop: (item, monitor) => {
-			const delta = monitor.getDifferenceFromInitialOffset()
-      const left = Math.round(item.left + delta.x)
-      const top = Math.round(item.top + delta.y)
-			console.log('---drop---item----', item, item.index, left, top, delta)
-			item.dropCB(item.index, left, top)
-    },
-	});
-	drop(dropWrapper);
+	// const dropWrapper = React.useRef();
+	// const [{ isOver }, drop] = useDrop({
+  //   accept: 'DragableElement',
+  //   collect: monitor => {
+  //     const { index: dragIndex } = monitor.getItem() || {};
+  //     console.log('--DragableElement--dragIndex----', dragIndex)
+  //     return {
+  //       isOver: monitor.isOver(),
+  //     };
+  //   },
+  //   drop: (item, monitor) => {
+	// 		const delta = monitor.getDifferenceFromInitialOffset()
+  //     const left = Math.round(item.left + delta.x)
+  //     const top = Math.round(item.top + delta.y)
+	// 		console.log('---drop---item----', item, item.index, left, top, delta)
+	// 		item.dropCB(item.index, left, top)
+  //   },
+	// });
+	// drop(dropWrapper);
 
 	return (
 		<div>
-			<div ref={dropWrapper} className="vis-wrap-siteContent">
+			<div 
+				// ref={dropWrapper} 
+				className="vis-wrap-siteContent">
 				<div >
 					{
 						sectionList.map((section, index) => {
@@ -123,9 +127,9 @@ const Index = (props) => {
 						})
 					}
 				</div>
-				<div>
+				{/* <div>
 					<ElementComp />
-				</div>
+				</div> */}
 					{isShowModal &&
 						<CurrentModal 
 							type={modalType}

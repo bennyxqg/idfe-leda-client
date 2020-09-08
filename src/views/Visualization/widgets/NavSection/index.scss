@@ -3,20 +3,27 @@
     width: 1200px;
     margin: auto;
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
+    &.navSection-full-screen {
+      width: 100%;
+      padding: 0 38px;
+    }
     .navSection-navbar-left {
+      display: flex;
+      align-items: center;
       img {
         max-width: 172px;
         max-height: 60px;
       }
     }
     .navSection-navbar-right {
+      flex: 1;
       ul {
-        display: flex;
-        justify-content: flex-start;
+        display: inline-block;
         li {
           line-height: 58px;
-          margin-left: 8px;
+          margin-left: 56px;
+          float: left;
           span {
             cursor: pointer;
           }

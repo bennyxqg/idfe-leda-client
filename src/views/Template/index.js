@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, Button, Form, Select, Badge, message, Modal } from 'antd';
 import { BankOutlined, FormOutlined, FolderOpenOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import {Rnd} from 'react-rnd'
 import './index.less'
 
 class Index extends React.Component {
@@ -56,9 +57,39 @@ class Index extends React.Component {
 								</div>
 							</li>
 						</ul>
+						
+						
 					</div>
 					
 				</div>
+				{/* <div className='rnd-wrap' style={{height: '300px', border: '1px solid #e8e8e8'}}>
+					<Rnd 
+						default={{
+							x: 100,
+							y: 50,
+						}}
+						bounds=".rnd-wrap"
+						enableResizing={false}
+						onDragStop={(e,d) => {console.log('----onDragStop-------', d)}}
+					>
+						<div style={{
+							position: 'relative',
+							display: 'inline-block'
+						}}>
+							<img src='//dl.gamdream.com//website/image/202009/5f4f8069c244b.png' alt='' />
+							<div style={{
+								position: 'absolute',
+								top: 0,
+								left: 0,
+								width: '100%',
+								height: '100%',
+								'zIndex': 2
+							}}>
+
+							</div>
+						</div>
+					</Rnd>
+				</div> */}
 			</div>
 		)
 	}

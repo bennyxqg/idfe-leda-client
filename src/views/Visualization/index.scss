@@ -1,5 +1,19 @@
 .visualization-wrap {
   position: relative;
+  padding-bottom: 20px;
+  .hover-highlight {
+    &:hover {
+      border: 1px dotted #007ed3;
+    } 
+  }
+  // 中心点
+  .center-dot {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 1px;
+    height: 1px;
+  }
   .vis-wrap-header {
     height: 40px;
     background-color: white;
@@ -66,9 +80,25 @@
     padding-top: 30px;
     .vis-section-item-wrap {
       position: relative;
-      border: 1px dotted #e8e8e8;
+      border: 2px dotted #e8e8e8;
+      .vis-element-drag-item {
+        .element-btns-wrap {
+          display: none;
+        }
+        &:hover {
+          .element-btns-wrap {
+            display: block;
+          }
+        }
+      }
+      .section-btns-wrap {
+        display: none;
+      }
       &:hover {
-        border: 1px dotted #007ed3;
+        border: 2px dotted #007ed3;
+        .section-btns-wrap {
+          display: block;
+        }
       }
       &.drop-over-downward {
         border-bottom: 2px dashed #1890ff;

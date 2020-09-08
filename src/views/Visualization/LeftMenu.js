@@ -6,10 +6,10 @@ import {
 	EnvironmentOutlined
 } from '@ant-design/icons';
 import {sectionData} from '@/views/Visualization/sectionData'
-import VisContext from "@views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/VisContext";
 
 const Index = (props) => {
-	const { chooseSection, setChooseSection, sectionList, setSectionList, setShowAddModal } = useContext(VisContext)
+	const { setShowAddModal } = useContext(VisContext)
 
 	const [menuList, setMenuList] = useState([
 		{value: 'a', label: '模块', icon: <AppstoreAddOutlined />,
@@ -31,23 +31,25 @@ const Index = (props) => {
 	const [showModule, setShowModule] = useState(false)
 
 	const chooseModule = (item) => {
-		let flag = true
-		if(item.value === currentMenu) {
-			flag = !showModule
-		}
-		setShowModule(flag)
-		setCurrentMenu(item.value)
-		if(flag) {
-			setModuleList(item.modules || [])
-		} else {
-			// setModuleList([])
-		}
+		// let flag = true
+		// if(item.value === currentMenu) {
+		// 	flag = !showModule
+		// }
+		// setShowModule(flag)
+		// setCurrentMenu(item.value)
+		// if(flag) {
+		// 	setModuleList(item.modules || [])
+		// } else {
+		// 	// setModuleList([])
+		// }
+		setShowAddModal({
+			show: true
+		})
 	}
 
-	const addSection = (item) => {
-		props.addSection(item.value)
-	}
-
+	// const addSection = (item) => {
+	// 	props.addSection(item.value)
+	// }
 
 	return (
 		<div className="vis-wrap-leftMenu">

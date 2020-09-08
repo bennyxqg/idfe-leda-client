@@ -1,23 +1,27 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
 import { Modal, Button, Form, Input, message, Select, Radio } from 'antd';
 import VisContext from "@/views/Visualization/VisContext";
-
-const { TextArea } = Input;
-const { Option } = Select;
+import EventForm from '@/views/Visualization/components/Common/EventForm/index'
+import lodash from 'lodash'
 
 const layout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 16 },
 };
-const radioStyle = {
-  display: 'block',
-  height: '30px',
-  lineHeight: '30px',
-}
+
 const EditModal = (props) => {
   const { sectionList, setSectionList } = useContext(VisContext)
   const [modalVisible, setModalVisible] = useState(true)
   const [sections, setSections] = useState([])
+
+  const [eventFormData, setEventFormData] = useState({
+    type: 1, // 交互类型 1: 外链，2：内页 3：锚点 4：弹窗
+    linkUrl: '', // 外链
+    sitePageId: '', // 内页
+    sectionId: '', // 锚点
+    popupId: '', // 弹窗
+    linkUrlType: 1 // 1：本窗口打开， 2：新窗口打开
+  });
 
   const formRef = useRef();
   const [form] = Form.useForm();
@@ -26,6 +30,7 @@ const EditModal = (props) => {
     handleSections()
     if(props.editForm && props.editForm.Uid) {
       form.setFieldsValue(props.editForm)
+      setEventFormData(props.editForm.event)
     }
   }, []);
 
@@ -52,8 +57,11 @@ const EditModal = (props) => {
   }
 
   const onFinish = values => {
-    const sendData = values
-    console.log('------onFinish-----', sendData)
+    let sendData = values
+
+    sendData = lodash.assign(sendData, {
+      event: eventFormData
+    })
     if(props.editForm && props.editForm.Uid) {
       sendData.Uid = props.editForm.Uid
     }
@@ -64,10 +72,10 @@ const EditModal = (props) => {
     console.log('Failed:', errorInfo);
   };
 
-  const onChangeType = (e) => {
-    console.log('-----onChangeType----', e)
+  const eventFormChange = (allvalues) => {
+    console.log('-----allvalues-------', allvalues)
+    setEventFormData(allvalues)
   }
-
 
   return <Modal
     title={(props.editForm? '编辑': '新建') + '菜单'}
@@ -79,53 +87,28 @@ const EditModal = (props) => {
     width='600px'
   >
     <div >
-    <Form
-      {...layout}
-      initialValues={{}}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      ref={formRef}
-      form={form}
-    >
-      <Form.Item
-        label="名称"
-        name="label"
-        rules={[{ required: true, message: '请输入名称' }]}
+      <Form
+        {...layout}
+        initialValues={{}}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        ref={formRef}
+        form={form}
       >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="打开方式"
-        name="linkType"
-        rules={[{ required: true, message: '请选择打开方式' }]}
-      >
-        <Select>
-          <Select.Option value={'1'}>锚点</Select.Option>
-          <Select.Option value={'2'}>当前窗口打开</Select.Option>
-          <Select.Option value={'3'}>新窗口打开</Select.Option>
-        </Select>
-      </Form.Item>
-      <Form.Item
-        label="页面地址"
-        name="url"
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="跳转模块"
-        name="sectionId"
-      >
-        <Select>
-          {
-            sections.map((item) => {
-              return (
-                <Select.Option value={item.value} key={item.value}>{item.label}</Select.Option>
-              )
-            })
-          }
-        </Select>
-      </Form.Item>
-    </Form>
+        <Form.Item
+          label="名称"
+          name="label"
+          rules={[{ required: true, message: '请输入名称' }]}
+        >
+          <Input />
+        </Form.Item>
+      </Form>
+      <EventForm 
+        data={eventFormData}
+        onChange={(allvalues, isValid) => {
+          eventFormChange(allvalues, isValid)
+        }}
+      />
     </div>
   </Modal>
 

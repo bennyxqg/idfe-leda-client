@@ -43,7 +43,7 @@ const Index = (props) => {
 	const toReq = (type, showSuccess = true) => {
 		const sectionListTemp = lodash.cloneDeep(sectionList)
 		sectionListTemp.forEach(item => {
-			if(item.type === 'ImgNews') { // 处理图文信息的提交数据
+			if(item.type === 'imgNews') { // 处理图文信息的提交数据
 				item.data.imgs = {
 					groupId: item.data.imgs.groupId
 				}

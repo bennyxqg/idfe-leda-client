@@ -41,7 +41,9 @@ const Index = () => {
 	// 所有图片数据
 	const [allPic, setAllPic] = useState([])
 	// 所有图片数据
-	const [showAddModal, setShowAddModal] = useState(false)
+	const [showAddModal, setShowAddModal] = useState({
+		show: false
+	})
 
 	useEffect(() => {
 		console.log('-------chooseSection-------', chooseSection)
@@ -75,7 +77,7 @@ const Index = () => {
 	// 构造数据
 	const buildModuleData = (imgList, list) => {
 		list.forEach((item) => {
-			if(item.type === 'ImgNews' || item.type === 'CarouselSection') {
+			if(item.type === 'imgNews' || item.type === 'carouselSection') {
 				const groupId = item.data.imgs.groupId
 				if(groupId) {
 					imgList.some((img) => {
@@ -91,18 +93,24 @@ const Index = () => {
 		})
 	}
 	
-
+	// 新增模块
 	const addSection = (type) => {
-		setNewSectionType(Object.assign((sectionData())[type], {
+		// setNewSectionType(Object.assign((sectionData())[type], {
+		// 	sectionId: randomCode(10)
+		// }))
+		const newItem = Object.assign((sectionData())[type], {
 			sectionId: randomCode(10)
-		}))
+		})
+		const sectionListTemp = lodash.cloneDeep(sectionList)
+		if(typeof showAddModal.index !== 'undefined') {
+			sectionListTemp.splice(showAddModal.index, 0, newItem);
+		} else {
+			sectionListTemp.push(newItem)
+		}
+		setSectionList(sectionListTemp)
 	}
 
 	const rightFormFinish = (data) => {
-		console.log('-------rightFormFinish------', data)
-		// setChooseSection(Object.assign(chooseSection, {
-		// 	imgs: [data.cover]
-		// }))
 		setChooseSection(update(chooseSection, {$merge:{
 			imgs: [data.cover]
 		}}))
@@ -129,6 +137,7 @@ const Index = () => {
 				setAllNews,
 				allPic,
 				setAllPic,
+				showAddModal,
 				setShowAddModal
 			}}
 		>
@@ -139,12 +148,14 @@ const Index = () => {
 					<SiteContent newSection={newSectionType}  />
 				</DndProvider>
 				<LeftMenu addSection={addSection} />
-				{/* <SectionList /> */}
 				{/* <RightMenu onFinish={rightFormFinish} /> */}
 				{
 						// 显示添加模块的弹窗
-					showAddModal &&
-					<SectionListModal />
+					showAddModal && showAddModal.show &&
+					<SectionListModal 
+						addSection={addSection}
+						index={showAddModal.index}
+					/>
 				}
 			</div>
 		</VisContext.Provider>
