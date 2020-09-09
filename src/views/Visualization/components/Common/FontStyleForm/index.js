@@ -52,6 +52,24 @@ const Index = React.forwardRef((props, ref) => {
         <Row className='pad-l-20'>
           <Col span={8}>
             <Form.Item
+              labelCol={{span: 10}}
+              wrapperCol={{span: 10}}
+              name='letterSpacing' label="字体间距:">
+              <InputNumber />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item
+              labelCol={{span: 10}}
+              wrapperCol={{span: 10}}
+              name='lineHeight' label="行高:">
+              <InputNumber />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row className='pad-l-20'>
+          <Col span={8}>
+            <Form.Item
               valuePropName="checked"
               labelCol={{span: 10}}
               wrapperCol={{span: 10}}

@@ -26,6 +26,19 @@
           float: left;
           span {
             cursor: pointer;
+            position: relative;
+            &.active {
+              &:before {
+                width: 80%;
+                height: 2px;
+                position: absolute;
+                left: 10%;
+                bottom: -10px;
+                content: "";
+                background: #2469f2;
+                transition: .2s;
+              }
+            }
           }
         }
       }

@@ -20,8 +20,8 @@ const EditModal = (props) => {
   }, []);
 
   const handleOk = (value) => {
-    // props.modalChange(false);
-    form.submit()
+    props.modalChange(false);
+    // form.submit()
   }
 
   const handleCancel = (value) => {
@@ -46,7 +46,10 @@ const EditModal = (props) => {
     width='600px'
   >
     <div >
-    <Form
+      <div className='text-c'>
+        暂无配置项
+      </div>
+    {/* <Form
       {...layout}
       name="basic"
       initialValues={{}}
@@ -61,7 +64,7 @@ const EditModal = (props) => {
       >
         <Input />
       </Form.Item>
-    </Form>
+    </Form> */}
     </div>
   </Modal>
 

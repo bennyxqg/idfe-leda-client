@@ -6,7 +6,7 @@ import lodash from 'lodash'
 import { getWebsiteAddress } from '@/http/hvisualization'
 
 const Index = (props) => {
-	const { sectionList } = useContext(VisContext)
+	const { sectionList, setShowPagesModal } = useContext(VisContext)
 	const [address, setAddress] = useState({})
 
 	useEffect(() => {
@@ -23,6 +23,13 @@ const Index = (props) => {
 		await toReq('save', false)
 		toReq('publish')
 	}	
+
+	const showPageModal = () => {
+		console.log('-----showPageModal------')
+		setShowPagesModal({
+			show: true
+		})
+	}
 
 	const save = () => {
 		toReq('save')
@@ -78,15 +85,26 @@ const Index = (props) => {
 
 	return (
 		<div className="vis-wrap-header">
-			<Button type="primary" 
-				onClick={save}
-				className='mar-r-10 mar-t-4' style={{'float': 'right'}}>保存</Button>
-			<Button type="primary" 
-				onClick={publish}
-				className='mar-r-10 mar-t-4' style={{'float': 'right'}}>发布</Button>
-			<Button type="primary" 
-				onClick={preview}
-				className='mar-r-10 mar-t-4' style={{'float': 'right'}}>预览</Button>
+			<div className="vis-wrap-header-left">
+				<span 
+					onClick={showPageModal}
+					className='mar-l-8'>当前页面：
+					<span style={{
+						cursor: 'pointer'
+					}}>首页</span>
+					</span>
+			</div>
+			<div className="vis-wrap-header-right">
+				<Button type="primary" 
+					onClick={save}
+					className='mar-r-10 mar-t-4' style={{'float': 'right'}}>保存</Button>
+				<Button type="primary" 
+					onClick={publish}
+					className='mar-r-10 mar-t-4' style={{'float': 'right'}}>发布</Button>
+				<Button type="primary" 
+					onClick={preview}
+					className='mar-r-10 mar-t-4' style={{'float': 'right'}}>预览</Button>
+			</div>
 		</div>
 	)
 }

@@ -2,8 +2,11 @@ import React, {useState, useEffect, useRef} from "react";
 import { Button } from 'antd';
 import classNames from 'classnames' 
 import {eventLink} from '@/views/Visualization/utils/index'
+import ElementDoms from '@/views/Visualization/components/Element/Doms/index'
 
 import './index.scss'
+
+const sectionName = 'navSection'
 
 const Index = (props) => {
 	const [data, setData] = useState(null)
@@ -40,28 +43,27 @@ const Index = (props) => {
 				result.backgroundImage = `url(${tempData.bg.bgVideo})` 
 			}
 		}
-		console.log('----initStyleData-------', result)
 		setStyleData(result)
 	}
 
 	return (
-		<div className="navSection-wrap">
+		<div className={`${sectionName}-wrap`}>
 			<div>
 				{
 					data && (
-						<div className="navSection-wrap-inner" 
+						<div className={`${sectionName}-wrap-inner ${sectionName}-wrap-inner-${props.data.sectionId}`}
 							style={styleData}
 						>
 							<div
 								className={classNames({
-									'navSection-wrap-item': true,
-									'navSection-full-screen': props.data.data.style.screenType == 2,
+									[`${sectionName}-wrap-item`]: true,
+									[`${sectionName}-full-screen`]: props.data.data.style.screenType == 2,
 								})}
 							>
-								<div className="navSection-navbar-left">
+								<div className={`${sectionName}-navbar-left`}>
 									<img src={data.navImg} alt='' />
 								</div>
-								<div className="navSection-navbar-right"
+								<div className={`${sectionName}-navbar-right`}
 									style={{
 										'textAlign': props.data.data.style.align
 									}}
@@ -72,6 +74,9 @@ const Index = (props) => {
 												return (
 													<li key={index}>
 														<span 
+															className={classNames({
+																'active': index === 0
+															})}
 															onClick={() => {eventLink(nav)}}
 															style={{color: (data.style.navLabel && data.style.navLabel.color)
 														}}>
@@ -82,6 +87,18 @@ const Index = (props) => {
 											})
 										}
 									</ul>
+								</div>
+								<div 
+									// 以中心点为参照
+									className='center-dot'
+								>
+									{
+										// 元素组件
+										data.elements && <ElementDoms 
+											list={data.elements}
+											section={props.data}
+										/>
+									}
 								</div>
 							</div>
 						</div>

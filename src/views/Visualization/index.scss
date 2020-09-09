@@ -17,6 +17,11 @@
   .vis-wrap-header {
     height: 40px;
     background-color: white;
+    display: flex;
+    justify-content: space-between;
+    .vis-wrap-header-left {
+      line-height: 40px;
+    }
   }
   .vis-wrap-leftMenu {
     position: fixed;
@@ -127,8 +132,17 @@
         cursor: pointer;
         z-index: 6;
         span {
-          padding: 4px;
+          padding: 4px 4px;
           font-weight: bold;
+        }
+        &.vis-element-item-btns {
+          min-width: 66px;
+          font-size: 14px;
+          top: -22px;
+          span {
+            padding: 0 2px;
+            font-weight: normal;
+          }
         }
       }
       .vis-add-section-btns {

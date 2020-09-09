@@ -133,7 +133,8 @@ const Index = (props) => {
           }}
         >
         </div>
-        <div className={'element-btns-wrap'}>
+        <div className={'element-btns-wrap'}
+        >
           <ElementBtns 
             handleDel={() => {handleBtns('del', data)}}
             handleEdit={() => {handleBtns('edit', data)}}

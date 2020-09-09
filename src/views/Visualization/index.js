@@ -6,6 +6,7 @@ import SiteContent from './SiteContent'
 import LeftMenu from './LeftMenu'
 import RightMenu from './RightMenu'
 import SectionListModal from '@/views/Visualization/components/SectionListModal'
+import PagesModal from '@/views/Visualization/components/Common/PagesModal/index'
 import HeaderComp from './HeaderComp'
 import VisContext from "./VisContext";
 import './index.scss'
@@ -40,10 +41,15 @@ const Index = () => {
 	const [lastestNews, setLastestNews] = useState([])
 	// 所有图片数据
 	const [allPic, setAllPic] = useState([])
-	// 所有图片数据
+	// 添加模块弹窗
 	const [showAddModal, setShowAddModal] = useState({
 		show: false
 	})
+	// 切换页面弹窗
+	const [showPagesModal, setShowPagesModal] = useState({
+		show: false
+	})
+
 
 	useEffect(() => {
 		console.log('-------chooseSection-------', chooseSection)
@@ -138,7 +144,8 @@ const Index = () => {
 				allPic,
 				setAllPic,
 				showAddModal,
-				setShowAddModal
+				setShowAddModal,
+				setShowPagesModal
 			}}
 		>
 			<div className="visualization-wrap">
@@ -155,6 +162,12 @@ const Index = () => {
 					<SectionListModal 
 						addSection={addSection}
 						index={showAddModal.index}
+					/>
+				}
+				{
+						// 显示添加模块的弹窗
+					showPagesModal && showPagesModal.show &&
+					<PagesModal 
 					/>
 				}
 			</div>

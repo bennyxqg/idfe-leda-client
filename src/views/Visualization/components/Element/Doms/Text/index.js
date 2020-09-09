@@ -1,17 +1,22 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
+import lodash from 'lodash'
 
 const Index = (props) => {
   const [data, setData] = useState(null)
   const [fontStyle, setFontStyle] = useState(null)
 
   useEffect(() => {
-    setData(props.data.data)
+    const dataTemp = lodash.cloneDeep(props.data.data)
+    dataTemp.text = dataTemp.text.replace(/\n/g, '<br/>')
+    setData(dataTemp)
     if(props.data.data.style.font) {
       const fontObj = props.data.data.style.font
       setFontStyle({
         fontSize: fontObj.fontSize + 'px',
         color: fontObj.fontColor,
-        fontWeight: fontObj.isBlod? 'bold': 'normal'
+        fontWeight: fontObj.isBlod? 'bold': 'normal',
+        lineHeight: fontObj.lineHeight? fontObj.lineHeight+ 'px': 'normal',
+        letterSpacing: fontObj.letterSpacing? fontObj.letterSpacing+ 'px': 'normal',
       })
     }
   }, [props]);
@@ -23,13 +28,16 @@ const Index = (props) => {
       {
         data && 
           <div style={Object.assign({
+            textAlign: 'left',
             position: 'relative',
             display: 'inline-block',
             width: `${data.style.width}px`,
-            height: `${data.style.height || 40}px`,
+            height: data.style.height? data.style.height+ 'px': 'auto',
           }, fontStyle?fontStyle: {})}
           >
-            <div>{data.text}</div>
+            <div dangerouslySetInnerHTML={{
+              __html: data.text
+            }}></div>
           </div>
       }
     </>

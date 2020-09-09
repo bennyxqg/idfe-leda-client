@@ -14,7 +14,7 @@ const SectionBtns = (props) => {
 
 	return (
     <div>
-      <div className="vis-section-item-btns">
+      <div className="vis-section-item-btns vis-element-item-btns">
         <span
           className={'rnd-handler'}
         >

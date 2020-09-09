@@ -50,34 +50,34 @@ const Index = (props) => {
 		setStyleData(result)
 	}
 
-	const moveItem = (e,d) => {
-		console.log('----111----')
-		const dataTemp = lodash.cloneDeep(data)
-		dataTemp.btn.style.top = d.y
-		dataTemp.btn.style.left = d.x
+	// const moveItem = (e,d) => {
+	// 	console.log('----111----')
+	// 	const dataTemp = lodash.cloneDeep(data)
+	// 	dataTemp.btn.style.top = d.y
+	// 	dataTemp.btn.style.left = d.x
 		
-		// 更新模块数据
-		const sectionId = props.data.sectionId
-		const sectionIndex = getItemIndexByKey(sectionList, 'sectionId', sectionId)
-		const sectionListTemp = lodash.cloneDeep(sectionList)
-		sectionListTemp[sectionIndex].data = dataTemp
-		setSectionList(sectionListTemp)
+	// 	// 更新模块数据
+	// 	const sectionId = props.data.sectionId
+	// 	const sectionIndex = getItemIndexByKey(sectionList, 'sectionId', sectionId)
+	// 	const sectionListTemp = lodash.cloneDeep(sectionList)
+	// 	sectionListTemp[sectionIndex].data = dataTemp
+	// 	setSectionList(sectionListTemp)
 
-	}
+	// }
 
 	// 触发按钮事件
-	const triggerBtnEvent = () => {
-		const eventData = data.btn.event
-		if(eventData.type == 1) {
-			if(eventData.linkUrlType == 1) {
-				window.location.href = eventData.linkUrl
-			} else {
-				window.open(eventData.linkUrl)
-			}
-		} else {
+	// const triggerBtnEvent = () => {
+	// 	const eventData = data.btn.event
+	// 	if(eventData.type == 1) {
+	// 		if(eventData.linkUrlType == 1) {
+	// 			window.location.href = eventData.linkUrl
+	// 		} else {
+	// 			window.open(eventData.linkUrl)
+	// 		}
+	// 	} else {
 
-		}
-	}
+	// 	}
+	// }
 
 	// 地址跳转
 
@@ -93,33 +93,22 @@ const Index = (props) => {
 									// 以中心点为参照
 									className='center-dot'
 								>
-									{
+									{/* {
 										data.btn.show && data.btn.imgUrl && (
 											<Rnd 
 												default={{
 													x: data.btn.style.left,
 													y: data.btn.style.top,
 												}}
-												// style={{
-												// 	position: 'absolute',
-												// 	top: '50%', left: '50%'
-												// }}
 												bounds={`.${sectionName}-wrap-inner-${props.data.sectionId}`}
 												enableResizing={false}
-												// position={{
-												// 	x: data.btn.style.left,
-												// 	y: data.btn.style.top,
-												// }}
 												onDragStop={(e,direction,ref,delta,position) => moveItem(e,direction,ref,delta,position)}
-												// dragHandleClassName="rnd-handler"
-												
 											>
 												<div style={{
 													position: 'relative',
 													display: 'inline-block',
 													transform: 'translate(-50%,-50%)'
 												}}
-													// onClick={() => {triggerBtnEvent()}}
 												>
 													<img 
 														src={data.btn.imgUrl} alt='' />
@@ -131,12 +120,11 @@ const Index = (props) => {
 														height: '100%',
 														'zIndex': 2
 													}}>
-														{/* <span className='rnd-handler'>123</span> */}
 													</div>
 												</div>
 											</Rnd>
 										)
-									}
+									} */}
 									{
 										// 元素组件
 										data.elements && <ElementDoms 

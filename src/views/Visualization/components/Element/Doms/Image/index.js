@@ -19,6 +19,10 @@ const Index = (props) => {
             // onClick={() => {triggerBtnEvent()}}
           >
             <img 
+              style={{
+                width: data.style.width?data.style.width + 'px': 'auto',
+                height: data.style.height?data.style.height + 'px': 'auto',
+              }}
               src={data.imgUrl} alt='' />
           </div>
       }
