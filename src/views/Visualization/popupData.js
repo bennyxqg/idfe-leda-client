@@ -10,7 +10,7 @@ export const popupData = () => {
         height: '',
       },
       successPopup: {
-        imgUrl: 'http://oaa.uu.cc/manage/upload/image/oaa.uu.cc/2019-12-26/20191226_141845_539620.png',
+        imgUrl: 'http://oaa.uu.cc/manage/upload/image/oaa.uu.cc/2019-12-26/20191226_141900_325042.png',
       },
       style: {
         width: 614,
