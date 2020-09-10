@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef, useCallback, useContext} from "react";
 import { Table, Button, Form, Select, Input, message, Modal } from 'antd';
-import { formatTime } from '@/utils/helper'
+import { formatTime, randomCode } from '@/utils/helper'
 import lodash from 'lodash'
 import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import update from 'immutability-helper';
@@ -9,14 +9,16 @@ import DragableSection from './components/DragableSection'
 import ElementComp from './components/Element'
 import CurrentModal from './components/CurrentModal'
 import RNDContext from '@/views/Visualization/RNDContext'
+import {popupData} from '@/views/Visualization/popupData'
 
 const Index = (props) => {
-	const { chooseSection, setChooseSection, sectionList, setSectionList } = useContext(VisContext)
+	const { pageItem, chooseSection, setChooseSection, sectionList, setSectionList } = useContext(VisContext)
 	const [isShowModal, setIsShowModal] = useState(false)
 	const [modalType, setModalType] = useState('')
 	const [modalSection, setModalSection] = useState(null)
 
 	useEffect(() => {
+		getPopupData()
     console.log('-----content------', )
 	}, []);
 	
@@ -40,6 +42,22 @@ const Index = (props) => {
 		}
 		
 	}, [chooseSection]);
+
+	// 获取弹窗初始数据
+	const getPopupData = () => {
+		if(pageItem.type === 'popup') {
+			const popupList = popupData()
+			Object.keys(popupList).some((key) => {
+				if(popupList[key].identifer === pageItem.identifer) {
+					const popupItem = lodash.cloneDeep(popupList[key])
+					popupItem.sectionId = 'section_' + randomCode(10)
+					setSectionList([popupItem])
+					return true
+				}
+				return false
+			})
+		}
+	}
 
 	const sectionIndex = (section) => {
 		let index = -1

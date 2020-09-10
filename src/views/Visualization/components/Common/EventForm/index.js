@@ -21,14 +21,13 @@ const Index = React.forwardRef((props, ref) => {
 
   useEffect(() => {
     handleSections()
+    let eventTemp = {}
     if(props.data) {
-      const eventTemp = lodash.cloneDeep(props.data)
-      setEventData(eventTemp)
-      form.setFieldsValue(eventTemp)
-      // setTimeout(() => {
-      //   validateForm(null, {}, eventTemp)
-      // }, 1000);
+      eventTemp = lodash.cloneDeep(props.data)
+      console.log('----eventTemp-----', eventTemp)
     }
+    setEventData(eventTemp || {})
+    form.setFieldsValue(eventTemp)
   }, []);
 
   const handleSections = () => {

@@ -15,9 +15,7 @@ const Index = (props) => {
             position: 'relative',
             display: 'inline-block',
             // transform: 'translate(-50%,-50%)'
-          }}
-            // onClick={() => {triggerBtnEvent()}}
-          >
+          }}>
             <img 
               style={{
                 width: data.style.width?data.style.width + 'px': 'auto',

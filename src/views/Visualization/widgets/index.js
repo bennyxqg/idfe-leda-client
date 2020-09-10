@@ -6,12 +6,15 @@ import CarouselSection from "./CarouselSection";
 import NavSection from "./NavSection";
 import MainSection from "./MainSection";
 
+import SubscribePopup from "./popup/SubscribePopup/index";
+
 export {
   BlankSection,
   ImgNews,
   SingleImg,
   CarouselSection,
   NavSection,
-  MainSection
+  MainSection,
+  SubscribePopup
 }
 

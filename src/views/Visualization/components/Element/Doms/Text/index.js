@@ -14,15 +14,13 @@ const Index = (props) => {
       setFontStyle({
         fontSize: fontObj.fontSize + 'px',
         color: fontObj.fontColor,
-        fontWeight: fontObj.isBlod? 'bold': 'normal',
+        fontWeight: fontObj.isBold? 'bold': 'normal',
         lineHeight: fontObj.lineHeight? fontObj.lineHeight+ 'px': 'normal',
         letterSpacing: fontObj.letterSpacing? fontObj.letterSpacing+ 'px': 'normal',
       })
     }
   }, [props]);
 
-
-  
   return (
     <>
       {

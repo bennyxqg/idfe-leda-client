@@ -34,3 +34,22 @@ export const getWebsiteAddress = (params = {}) => {
     data: qs.stringify(params)
   });
 }
+
+
+// 获取页面列表
+export const getPageList = (params = {}) => {
+  return $axios({
+    method: 'post',
+    url: adminApi + '/Admin/website_page_list',
+    data: qs.stringify(params)
+  });
+}
+
+// 获取弹窗列表
+export const getPopupList = (params = {}) => {
+  return $axios({
+    method: 'post',
+    url: adminApi + '/Admin/website_popup_list',
+    data: qs.stringify(params)
+  });
+}

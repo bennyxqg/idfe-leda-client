@@ -10,15 +10,22 @@ import PagesModal from '@/views/Visualization/components/Common/PagesModal/index
 import HeaderComp from './HeaderComp'
 import VisContext from "./VisContext";
 import './index.scss'
-import { randomCode } from '@/utils/helper'
+import { randomCode, getQueryVariable } from '@/utils/helper'
 import update from 'immutability-helper';
 import { sectionData } from './sectionData';
 import RNDContext from '@/views/Visualization/RNDContext'
-import { configGet } from '@/http/hvisualization'
+import { configGet, getPageList, getPopupList } from '@/http/hvisualization'
 import { getAllNewsByGroup, getAllCarouselByGroup, getAllNews } from '@/utils/data'
 import lodash from 'lodash'
+import { useHistory } from "react-router-dom";
 
 const Index = () => {
+	let history = useHistory();
+
+	const [pageData, setPageData] = useState([])
+
+	const [pageItem, setPageItem] = useState(null)
+
 	const [newSectionType, setNewSectionType] = useState(null)
 	// 所有模块数据
 	const [sectionList, setSectionList] = useState([])
@@ -50,13 +57,19 @@ const Index = () => {
 		show: false
 	})
 
+	// 切换页面弹窗
+	const [init, setInit] = useState(false)
+
 
 	useEffect(() => {
 		console.log('-------chooseSection-------', chooseSection)
 	}, [chooseSection]);
 
 	useEffect(() => {
-		const init = async () => {
+		history.listen(route => {
+			window.location.reload()
+		})
+		const initStart = async () => {
 			const newsList = await getAllNews()
 			setLastestNews(newsList)
 			const cateList = await getAllNewsByGroup(newsList)
@@ -65,16 +78,58 @@ const Index = () => {
 			setAllPic(imgList)
 			getJSONData(imgList)
 		}
-		init()
+		initStart()
 	}, []);
 
 	// 获取数据库数据
-	const getJSONData = (imgList) => {
-		configGet().then((rep) => {
+	const getJSONData = async (imgList) => {
+		const popupRep = await getPopupList()
+		const pageRep = await getPageList()
+		let indexId = getQueryVariable('id', history.location.search)
+		const pageDataTemp = []
+		if(pageRep.error_code === 0) {
+			pageDataTemp.push(...(pageRep.data.map(item=> {
+				return {
+					id: item.id,
+					name: item.name,
+					identifer: item.identifer,
+					type: 'page'
+				}
+			})))
+		}
+		if(popupRep.error_code === 0) {
+			pageDataTemp.push(...(popupRep.data.map(item=> {
+				return {
+					id: item.id,
+					name: item.name,
+					identifer: item.identifer,
+					type: 'popup'
+				}
+			})))
+		}
+		pageDataTemp.forEach((page) => {
+			if(indexId) {
+				if(page.id == indexId) {
+					// setPageType(page.type == 1?'page':'popup')
+					setPageItem(page)
+				}
+			} else {
+				if(page.identifer === 'index') {
+					indexId = page.id
+					setPageItem(page)
+				}
+			}
+		})
+		setPageData(pageDataTemp)
+		configGet({
+			id: indexId
+		}).then((rep) => {
+			setInit(true)
 			if(rep.error_code === 0) {
-				if(rep.data && rep.data.moduleList) {
-					const list = buildModuleData(imgList, rep.data.moduleList)
-					setSectionList(rep.data.moduleList)
+				if(rep.data && rep.data.config_json_pre) {
+					const configobj = JSON.parse(rep.data.config_json_pre) 
+					buildModuleData(imgList, configobj.moduleList)
+					setSectionList(configobj.moduleList)
 				}
 			}
 		})
@@ -132,6 +187,9 @@ const Index = () => {
 	return (
 		<VisContext.Provider
 			value={{
+				pageItem,
+				pageData,
+				setPageData,
 				sectionList,
 				setSectionList,
 				chooseSection,
@@ -148,29 +206,37 @@ const Index = () => {
 				setShowPagesModal
 			}}
 		>
-			<div className="visualization-wrap">
-				{/* <DndDemo /> */}
-				<HeaderComp />
-				<DndProvider manager={manager.current.dragDropManager}>
-					<SiteContent newSection={newSectionType}  />
-				</DndProvider>
-				<LeftMenu addSection={addSection} />
-				{/* <RightMenu onFinish={rightFormFinish} /> */}
-				{
-						// 显示添加模块的弹窗
-					showAddModal && showAddModal.show &&
-					<SectionListModal 
-						addSection={addSection}
-						index={showAddModal.index}
-					/>
-				}
-				{
-						// 显示添加模块的弹窗
-					showPagesModal && showPagesModal.show &&
-					<PagesModal 
-					/>
-				}
-			</div>
+			{
+				init && (
+					<div className="visualization-wrap">
+						{/* <DndDemo /> */}
+						<HeaderComp />
+						<DndProvider manager={manager.current.dragDropManager}>
+							<SiteContent newSection={newSectionType}  />
+						</DndProvider>
+						{
+							pageItem.type === 'page' && (
+								<LeftMenu addSection={addSection} />
+							)
+						}
+						{/* <RightMenu onFinish={rightFormFinish} /> */}
+						{
+								// 显示添加模块的弹窗
+							showAddModal && showAddModal.show &&
+							<SectionListModal 
+								addSection={addSection}
+								index={showAddModal.index}
+							/>
+						}
+						{
+								// 显示添加模块的弹窗
+							showPagesModal && showPagesModal.show &&
+							<PagesModal 
+							/>
+						}
+					</div>
+				)
+			}
 		</VisContext.Provider>
 	)
 }

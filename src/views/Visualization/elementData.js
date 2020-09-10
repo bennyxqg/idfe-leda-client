@@ -29,7 +29,7 @@ export const elementData = () => {
         font: {
           fontSize: 14,
           fontColor: '#000000',
-          isBlod: false,
+          isBold: false,
           lineHeight: '',
           letterSpacing: '' // normal / length
         }

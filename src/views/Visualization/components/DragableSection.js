@@ -11,7 +11,8 @@ import {
   SingleImg,
   CarouselSection,
   NavSection,
-  MainSection
+  MainSection,
+  SubscribePopup
 } from "../widgets";
 
 // const contexts = require.context('../widgets', true, /\.js$/);
@@ -42,7 +43,10 @@ const DragableSection = ({ section, index, moveRow, className, style, ...restPro
 				return <NavSection data={section}/>;
       } else if(type === 'mainSection') {
 				return <MainSection data={section}/>;
+      } else if(type === 'subscribePopup') {
+				return <SubscribePopup data={section}/>;
       }
+ 
 	}
 
   // 选中模块

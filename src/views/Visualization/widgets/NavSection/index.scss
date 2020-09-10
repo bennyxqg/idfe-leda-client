@@ -1,4 +1,7 @@
 .navSection-wrap {
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 2px 8px #f0f1f2;
   .navSection-wrap-item {
     width: 1200px;
     margin: auto;

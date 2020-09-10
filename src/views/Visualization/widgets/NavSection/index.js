@@ -25,7 +25,7 @@ const Index = (props) => {
 		result.backgroundPosition = 'center';
 		result.color = tempData.fontColor;
 		result.fontSize = tempData.fontSize + 'px';
-		result.fontWeight = tempData.isBold?'blod':'common';
+		result.fontWeight = tempData.isBold?'bold':'common';
 
 		result.height = tempData.height
 		// result.width = tempData.width?`${tempData.width}px`:'100%'

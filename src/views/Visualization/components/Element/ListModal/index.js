@@ -107,9 +107,17 @@ const Index = (props) => {
     if(props.type === 'edit') { // 编辑
       let sendData = {}
       lodash.assign(sendData, valueData.common)
-      lodash.assign(sendData.style, {
-        font: valueData.font
-      })
+      if(sendData.style) {
+        lodash.assign(sendData.style, {
+          font: valueData.font
+        })
+      }
+      if(valueData.event) {
+        lodash.assign(sendData, {
+          event: valueData.event
+        })
+      }
+      console.log('-----sendData--22---', sendData)
       props.onFinish(sendData)
     } else { // 新增
       lodash.assign(elementItem.data, valueData.common)

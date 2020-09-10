@@ -73,7 +73,7 @@ const Index = React.forwardRef((props, ref) => {
               valuePropName="checked"
               labelCol={{span: 10}}
               wrapperCol={{span: 10}}
-              name='isBlod' label="是否加粗:">
+              name='isBold' label="是否加粗:">
               <Switch />
             </Form.Item>
           </Col>

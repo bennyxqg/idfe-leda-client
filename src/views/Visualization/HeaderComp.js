@@ -6,7 +6,7 @@ import lodash from 'lodash'
 import { getWebsiteAddress } from '@/http/hvisualization'
 
 const Index = (props) => {
-	const { sectionList, setShowPagesModal } = useContext(VisContext)
+	const { pageItem, pageData, sectionList, setShowPagesModal } = useContext(VisContext)
 	const [address, setAddress] = useState({})
 
 	useEffect(() => {
@@ -59,7 +59,9 @@ const Index = (props) => {
 				}
 			}
 		});
-		const sendData = {}
+		const sendData = {
+			id: pageItem.id
+		}
 
 		let reqFunc = configSave
 		if(type === 'publish') {
@@ -83,15 +85,22 @@ const Index = (props) => {
 		})
 	}
 
+	const getPageData = () => {
+		return {
+			type: pageItem.type === 'popup'?'弹窗':'页面',
+			name: pageItem.name
+		}
+	}
+
 	return (
 		<div className="vis-wrap-header">
 			<div className="vis-wrap-header-left">
 				<span 
 					onClick={showPageModal}
-					className='mar-l-8'>当前页面：
+					className='mar-l-8'>当前{getPageData().type}：
 					<span style={{
 						cursor: 'pointer'
-					}}>首页</span>
+					}}>{getPageData().name}</span>
 					</span>
 			</div>
 			<div className="vis-wrap-header-right">

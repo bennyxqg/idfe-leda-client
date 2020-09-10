@@ -1,45 +1,40 @@
-import React, {useState, useEffect, useRef, useContext} from "react";
-import { Modal, Button, Form, Tabs, message,List } from 'antd';
+import React, {useState, useEffect, useContext} from "react";
+import { useHistory } from "react-router-dom";
+import { Modal, Form, Tabs, message,List } from 'antd';
 import VisContext from "@/views/Visualization/VisContext";
+import { getPageList, getPopupList } from '@/http/hvisualization'
+import lodash from 'lodash'
 
 const { TabPane } = Tabs;
 
-const layout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 16 },
-};
 const Index = (props) => {
-  const { sectionList, setShowPagesModal } = useContext(VisContext)
+  let history = useHistory();
+  const { pageItem, pageData, setShowPagesModal } = useContext(VisContext)
 
   const [modalVisible] = useState(true)
   const [pageList, setPageList] = useState([])
   const [popupList, setPopupList] = useState([])
 
-  const formRef = useRef();
   const [form] = Form.useForm();
 
   useEffect(() => {
-    setPageList([
-      {
-        title: '文章列表页',
-        desc: '文章列表页面'
-      },
-      {
-        title: '文章详情页',
-        desc: '弹框描述弹框描述弹框描述弹框描述弹框描述'
-      }
-    ])
-    setPopupList([
-      {
-        title: '文章列表页2',
-        desc: '文章列表页面'
-      },
-      {
-        title: '文章详情页2',
-        desc: '弹框描述弹框描述弹框描述弹框描述弹框描述'
-      }
-    ])
+    getList('page')
   }, []);
+
+  // 获取列表
+  const getList = (type = 'page') => {
+    if(type === 'page') { // 页面
+      if(pageList.length) {
+        return
+      }
+      setPageList(pageData.filter(item => item.type === 'page'))
+    } else if(type === 'popup') { // 弹窗
+      if(popupList.length) {
+        return
+      }
+      setPopupList(pageData.filter(item => item.type === 'popup'))
+    }
+  }
 
   const handleOk = (value) => {
     // props.modalChange(false);
@@ -58,6 +53,22 @@ const Index = (props) => {
     props.onFinish(sendData);
   };
 
+  const changeTab = (value) => {
+    getList(value)
+  }
+
+  const toPage = (item) => {
+    if(pageItem.id == item.id) {
+      return
+    }
+    
+    // 跳转至该页面
+    history.push({
+      pathname: `/visualization`,
+      search: `?id=${item.id}`
+    })
+  }
+
   return <Modal
     title={'选择页面/弹框'}
     visible={modalVisible}
@@ -68,31 +79,35 @@ const Index = (props) => {
     width='600px'
   >
     <div >
-      <Tabs type="card">
-        <TabPane tab="系统页面" key="1">
+      <Tabs onChange={changeTab} type="card">
+        <TabPane tab="系统页面" key="page">
           <List
             itemLayout="horizontal"
             dataSource={pageList}
             renderItem={item => (
-              <List.Item>
-                <List.Item.Meta
-                  title={<a href="https://ant.design">{item.title}</a>}
-                  description={<div>{item.desc}</div>}
-                />
+              <List.Item style={{'borderBottom': '1px solid #f0f0f0'}}>
+                <div style={{'display': 'block', width: '100%', cursor: 'pointer'}}
+                  onClick={() => {toPage(item)}}
+                  >
+                  <div>{item.name}</div>
+                  <div style={{'color': '#aaa'}}>{item.desc}</div>
+                </div>
               </List.Item>
             )}
           />
         </TabPane>
-        <TabPane tab="弹框模块" key="2">
+        <TabPane tab="弹框模块" key="popup">
           <List
             itemLayout="horizontal"
             dataSource={popupList}
             renderItem={item => (
-              <List.Item>
-                <List.Item.Meta
-                  title={<a href="https://ant.design">{item.title}</a>}
-                  description={<div>{item.desc}</div>}
-                />
+              <List.Item style={{'borderBottom': '1px solid #f0f0f0'}}>
+                <div style={{'display': 'block', width: '100%', cursor: 'pointer'}}
+                  onClick={() => {toPage(item)}}
+                  >
+                  <div>{item.name}</div>
+                  <div style={{'color': '#aaa'}}>{item.desc}</div>
+                </div>
               </List.Item>
             )}
           />

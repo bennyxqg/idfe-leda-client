@@ -16,13 +16,11 @@ const SectionBtns = (props) => {
     <div>
       <div className="vis-section-item-btns vis-element-item-btns">
         <span
-          className={'rnd-handler'}
-        >
+          className={'rnd-handler'}>
           <DragOutlined />
         </span>
         <span
-          onClick={() => {handleEdit()}}
-        >
+          onClick={() => {handleEdit()}}>
           <SettingOutlined />
         </span>
         <span

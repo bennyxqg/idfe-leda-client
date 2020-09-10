@@ -1,11 +1,15 @@
-import React, {useState, useEffect, useRef, useCallback} from "react";
+import React, {useState, useEffect, useRef, useCallback, useContext} from "react";
 import { Table, Button, Form, Select, Input, message, Modal } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined, 
   StarOutlined, FormOutlined, 
   SettingOutlined,DeleteOutlined,
-  PlusOutlined } from '@ant-design/icons';
+  PlusOutlined, AppstoreOutlined } from '@ant-design/icons';
+import {MagicIcon} from '@/utils/icons'
+import VisContext from "@/views/Visualization/VisContext";
 
 const SectionBtns = (props) => {
+
+  const { pageItem } = useContext(VisContext)
 
   const handleStyle = () => {
     props.handleStyle()
@@ -41,39 +45,56 @@ const SectionBtns = (props) => {
 	return (
     <div>
       <div className="vis-section-item-btns">
-        <span
-          onClick={() => {handleUp()}}
-        ><ArrowUpOutlined /></span>
-        <span
-          onClick={() => {handleDown()}}
-        ><ArrowDownOutlined /></span>
+        {
+          pageItem.type === 'page' && (
+            <>
+              <span
+                onClick={() => {handleUp()}}
+              ><ArrowUpOutlined /></span>
+              <span
+                onClick={() => {handleDown()}}
+              ><ArrowDownOutlined /></span>
+            </>
+          )
+        }
         <span
           onClick={() => {handleStyle()}}
-        ><StarOutlined /></span>
+        ><MagicIcon /></span>
         <span
           onClick={() => {handleData()}}
-        ><FormOutlined /></span>
-        <span
-          onClick={() => {handleElement()}}
         >
           <SettingOutlined />
         </span>
         <span
-          onClick={() => {handleDel()}}
-        ><DeleteOutlined /></span>
-      </div>
-      <div className="vis-add-section-btns">
-        <div className="vis-add-section-btns-up"
-          onClick={() => {handleAdd('up')}}
+          onClick={() => {handleElement()}}
         >
-          <PlusOutlined />
-        </div>
-        <div className="vis-add-section-btns-down"
-          onClick={() => {handleAdd('down')}}
-        >
-          <PlusOutlined />
-        </div>
+          <AppstoreOutlined />
+        </span>
+        {
+           pageItem.type === 'page' && (
+            <span
+              onClick={() => {handleDel()}}
+            ><DeleteOutlined /></span>
+           )
+        }
       </div>
+      {
+        pageItem.type === 'page' && (
+          <div className="vis-add-section-btns">
+            <div className="vis-add-section-btns-up"
+              onClick={() => {handleAdd('up')}}
+            >
+              <PlusOutlined />
+            </div>
+            <div className="vis-add-section-btns-down"
+              onClick={() => {handleAdd('down')}}
+            >
+              <PlusOutlined />
+            </div>
+          </div>
+        )
+      }
+      
     </div>
 	)
 };
