@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef, useContext} from "react";
 import { Modal, Button, Form, Input, message, Select } from 'antd';
 import { addPic, editPic } from '@/http/hcarousel'
 import ImgUpload from '@/components/ImgUpload'
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 import lodash from 'lodash'
 const { TextArea } = Input;
 const { Option } = Select;

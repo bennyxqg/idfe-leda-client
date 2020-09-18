@@ -3,7 +3,7 @@ import { Table, Button, Form, Select, Input, message, Carousel } from 'antd';
 import { formatTime } from '@/utils/helper'
 import { newsAll } from '@/http/hnews'
 import lodash from 'lodash'
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 import './index.scss'
 
 const Index = (props) => {

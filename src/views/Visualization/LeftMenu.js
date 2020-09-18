@@ -1,14 +1,14 @@
-import React, {useState, useEffect, useRef, useContext} from "react";
+import React, {useState, useEffect, useRef, useContext, memo} from "react";
 import { Table, Button, Form, Select, Input, message, Popover } from 'antd';
 import { formatTime } from '@/utils/helper'
 import {
 	AppstoreAddOutlined,
 	EnvironmentOutlined
 } from '@ant-design/icons';
-import {sectionData} from '@/views/Visualization/sectionData'
-import VisContext from "@/views/Visualization/VisContext";
+import { sectionData } from '@/views/Visualization/data/sectionData';
+import VisContext from "@/views/Visualization/context/VisContext";
 
-const Index = (props) => {
+const Index = memo((props) => {
 	const { setShowAddModal } = useContext(VisContext)
 
 	const [menuList, setMenuList] = useState([
@@ -86,6 +86,6 @@ const Index = (props) => {
 			</ul>
 		</div>
 	)
-}
+})
 
 export default Index

@@ -8,12 +8,12 @@ import RightMenu from './RightMenu'
 import SectionListModal from '@/views/Visualization/components/SectionListModal'
 import PagesModal from '@/views/Visualization/components/Common/PagesModal/index'
 import HeaderComp from './HeaderComp'
-import VisContext from "./VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 import './index.scss'
 import { randomCode, getQueryVariable } from '@/utils/helper'
 import update from 'immutability-helper';
-import { sectionData } from './sectionData';
-import RNDContext from '@/views/Visualization/RNDContext'
+import { sectionData } from '@/views/Visualization/data/sectionData';
+import RNDContext from '@/views/Visualization/context/RNDContext'
 import { configGet, getPageList, getPopupList } from '@/http/hvisualization'
 import { getAllNewsByGroup, getAllCarouselByGroup, getAllNews } from '@/utils/data'
 import lodash from 'lodash'
@@ -124,12 +124,12 @@ const Index = () => {
 		configGet({
 			id: indexId
 		}).then((rep) => {
-			setInit(true)
 			if(rep.error_code === 0) {
 				if(rep.data && rep.data.config_json_pre) {
 					const configobj = JSON.parse(rep.data.config_json_pre) 
 					buildModuleData(imgList, configobj.moduleList)
 					setSectionList(configobj.moduleList)
+					setInit(true)
 				}
 			}
 		})

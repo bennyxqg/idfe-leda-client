@@ -16,7 +16,6 @@ const Index = (props) => {
   }, [props]);
   
   const initStyleData = () => {
-    console.log('-----props.data.data.style-------', props.data.data)
 		const tempData = props.data.data.style
 		const result = {
 		}

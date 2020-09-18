@@ -6,8 +6,8 @@ import ImgUpload from '@/components/ImgUpload'
 import update from 'immutability-helper';
 import { randomCode, addOrEditForListItem, getItemByKey } from '@/utils/helper'
 import lodash from 'lodash'
-import VisContext from "@/views/Visualization/VisContext";
-import RNDContext from '@/views/Visualization/RNDContext'
+import VisContext from "@/views/Visualization/context/VisContext";
+import RNDContext from '@/views/Visualization/context/RNDContext'
 import { UnorderedListOutlined } from '@ant-design/icons';
 import EditModal from './EditModal'
 
@@ -72,7 +72,7 @@ const layout = {
   wrapperCol: { span: 22 },
 };
 const Index = (props) => {
-  const { sectionList, setSectionList } = useContext(VisContext)
+  const { pageData, sectionList, setSectionList } = useContext(VisContext)
 
   const [modalVisible, setModalVisible] = useState(true)
   const [editModalVisible, setEditModalVisible] = useState(false)
@@ -124,11 +124,14 @@ const Index = (props) => {
         if(record.event.type == 1) {
           str = record.event.linkUrl
         } else if(record.event.type == 2){
-          str = record.event.sitePageId
+          str = record.event.sitePage?record.event.sitePage.name: ''
         } else if(record.event.type == 3){
           str = record.event.sectionId + `（${getSectionItem(record.sectionId).label}）`
-        } else if(record.event.type == 4){
-          str = record.event.popupId
+        } else if(record.event.type == 4){ // 弹窗
+          const pageItem = getItemByKey(pageData, 'id', record.event.popupId)
+          if(pageItem) {
+            str = pageItem.name
+          }
         }
         return (
           <div>
@@ -173,7 +176,8 @@ const Index = (props) => {
       setTableData(navList)
       // navImg
       form.setFieldsValue({
-        navImg: props.data.data.navImg
+        navImg: props.data.data.navImg,
+        name: props.data.data.name,
       })
     }
   }, []);
@@ -182,9 +186,18 @@ const Index = (props) => {
     let item = {}
     if(id) {
       item = getItemByKey(sectionList, 'sectionId', id)
-      if(!item) item = {
-        label: '模块不存在'
+      if(!item) {
+        item = {
+          label: '模块不存在'
+        }
+      } else {
+        if(item.data.name) {
+          item = {
+            label: item.data.name
+          }
+        }
       }
+
     }
     return item
   }
@@ -199,12 +212,6 @@ const Index = (props) => {
     }
     setEditModalVisible(true)
 	}
-
-  // 绑定
-  const handleBind = (row, index) => {
-    setEditForm(row)
-    setBindModalVisible(true)
-  }
 
   const handleEdit = (type, row) => {
     handleEditModal(row)
@@ -239,7 +246,6 @@ const Index = (props) => {
     let itemTemp = lodash.cloneDeep(item)
     
     tableDataTemp = addOrEditForListItem(tableDataTemp, itemTemp, 'Uid')
-    console.log('----successCB-----', tableDataTemp)
     setTableData(tableDataTemp)
     setEditModalVisible(false)
   }
@@ -247,10 +253,9 @@ const Index = (props) => {
   const onFinish = values => {
     message.success('操作成功');
     const sendData = values
-    console.log('-----onFinish----', sendData)
-
     const dataObj = lodash.cloneDeep(props.data.data)
     dataObj.navImg = sendData.navImg
+    dataObj.name = sendData.name || ''
     dataObj.navList = tableData
     // dataObj.style = sendData
     props.onFinish(dataObj);
@@ -298,6 +303,7 @@ const Index = (props) => {
     onOk={handleOk}
     onCancel={handleCancel}
     width='1000px'
+    maskClosable={false}
   >
     <div >
     <Form
@@ -307,6 +313,12 @@ const Index = (props) => {
       onFinish={onFinish}
       form={form}
     >
+      <Form.Item
+          label="模块名称"
+          name="name"
+        >
+          <Input style={{width: '200px'}} />
+      </Form.Item>
       <Form.Item
           label="网站标识"
           name="navImg"

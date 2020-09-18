@@ -4,7 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import ImgUpload from '@/components/ImgUpload'
 import { randomCode, addOrEditForListItem, getItemByKey } from '@/utils/helper'
 import lodash from 'lodash'
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 
 const layout = {
   labelCol: { span: 4 },
@@ -65,6 +65,7 @@ const Index = (props) => {
     onOk={handleOk}
     onCancel={handleCancel}
     width='600px'
+    maskClosable={false}
   >
     {
       eventData && <div>

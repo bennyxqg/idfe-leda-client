@@ -1,0 +1,81 @@
+.popup-box-header {
+  height: 64px;
+  line-height: 64px;
+  border-bottom: 1px solid #E8EAEC;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+  padding-left: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 32px;
+}
+
+.popup-box-header .icon-close {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+}
+
+.applyPopup-wrap-inner {
+  padding: 32px;
+}
+
+.applyPopup-wrap-inner .form-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  color: #666666;
+}
+
+.applyPopup-wrap-inner .form-item input[type='text'] {
+  width: 360px;
+  height: 32px;
+  padding-left: 8px;
+  border-radius: 4px;
+  border: 1px solid #D0D0D0;
+  outline: none;
+}
+
+
+.applyPopup-wrap-inner .form-item .radio-group {
+  width: 360px;
+  text-align: left;
+  display: flex;
+}
+
+.applyPopup-wrap-inner .form-item .radio-group .radio-group-item {
+  margin-right: 20px;
+}
+
+.applyPopup-wrap-inner .form-item .radio-group input[type='radio'] {
+  margin-right: 10px;
+}
+
+.applyPopup-wrap-inner .form-item .label {
+  padding-top: 5px;
+}
+
+.applyPopup-wrap-inner .form-item .must {
+  color: #FF0606;
+  margin-right: 4px;
+}
+
+.applyPopup-wrap-inner .wrong-input input {
+  border: 1px solid #FF0606 !important;
+}
+
+.applyPopup-wrap-inner .form-item .err-tips {
+  visibility: hidden;
+  color: #FF0606;
+  font-size: 12px;
+  height: 14px;
+}
+
+.applyPopup-wrap-inner .form-item .err-tips.show {
+  visibility: visible;
+  color: #FF0606;
+  font-size: 12px;
+  height: 14px;
+}

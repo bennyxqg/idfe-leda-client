@@ -4,12 +4,11 @@ import { formatTime, randomCode } from '@/utils/helper'
 import lodash from 'lodash'
 import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import update from 'immutability-helper';
-import VisContext from "./VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 import DragableSection from './components/DragableSection'
-import ElementComp from './components/Element'
 import CurrentModal from './components/CurrentModal'
-import RNDContext from '@/views/Visualization/RNDContext'
-import {popupData} from '@/views/Visualization/popupData'
+import RNDContext from '@/views/Visualization/context/RNDContext'
+import {popupData} from '@/views/Visualization/data/popupData'
 
 const Index = (props) => {
 	const { pageItem, chooseSection, setChooseSection, sectionList, setSectionList } = useContext(VisContext)
@@ -45,6 +44,9 @@ const Index = (props) => {
 
 	// 获取弹窗初始数据
 	const getPopupData = () => {
+		if(sectionList.length) {
+			return
+		}
 		if(pageItem.type === 'popup') {
 			const popupList = popupData()
 			Object.keys(popupList).some((key) => {

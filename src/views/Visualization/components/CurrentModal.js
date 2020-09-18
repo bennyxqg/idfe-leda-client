@@ -14,8 +14,7 @@ import MainSectionData from './modal/MainSection/Data/index'
 import MainSectionStyle from './modal/MainSection/Style/index'
 import SubscribePopupData from './modal/popup/SubscribePopup/Data/index'
 import SubscribePopupStyle from './modal/popup/SubscribePopup/Style/index'
-
-import VisContext from "../VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 import update from 'immutability-helper';
 
 const Index = (props) => {

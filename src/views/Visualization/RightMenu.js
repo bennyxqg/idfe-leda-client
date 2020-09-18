@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import { Button, Form, Input, message } from 'antd';
-import VisContext from "./VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 import ImgUpload from '@/components/ImgUpload'
 const { TextArea } = Input;
 

@@ -17,6 +17,7 @@
     "moment": "^2.24.0",
     "qs": "^6.9.3",
     "react": "^16.13.0",
+    "react-bmap": "^1.0.119",
     "react-dnd": "^11.1.3",
     "react-dnd-html5-backend": "^11.1.3",
     "react-dom": "^16.13.0",

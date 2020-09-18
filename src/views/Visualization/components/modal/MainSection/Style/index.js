@@ -68,6 +68,7 @@ const EditModal = (props) => {
     onOk={handleOk}
     onCancel={handleCancel}
     width='600px'
+    maskClosable={false}
   >
     <div >
     <Form

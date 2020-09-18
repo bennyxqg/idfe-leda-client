@@ -3,7 +3,7 @@ import { Modal, Switch, Row, Col, Space, Button, Form, Input, message, Select, C
 import { addPic, editPic } from '@/http/hcarousel'
 import ImgUpload from '@/components/ImgUpload'
 import lodash from 'lodash'
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 import update from 'immutability-helper';
 
 const { TextArea } = Input;

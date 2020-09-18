@@ -7,6 +7,7 @@ import NavSection from "./NavSection";
 import MainSection from "./MainSection";
 
 import SubscribePopup from "./popup/SubscribePopup/index";
+import ApplyPopup from "./popup/ApplyPopup/index";
 
 export {
   BlankSection,
@@ -15,6 +16,7 @@ export {
   CarouselSection,
   NavSection,
   MainSection,
-  SubscribePopup
+  SubscribePopup,
+  ApplyPopup
 }
 

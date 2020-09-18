@@ -3,7 +3,7 @@ import { randomCode, addOrEditForListItem } from '@/utils/helper'
 export const sectionData = () => {
   return {
     'blankSection': {type: 'blankSection', label: '空白模块', data: {
-      text: '空白模块',
+      name: '', 
       style: {
         width: '',
         height: 500,
@@ -15,40 +15,21 @@ export const sectionData = () => {
         }
       }
     }}, 
-    'mainSection': {type: 'mainSection', label: '首屏模块', data: {
-      text: '首屏模块',
-      // btn: { // 操作按钮
-      //   show: true,
-      //   text: '',
-      //   imgUrl: '//dl.gamdream.com//website/image/202009/5f4f8069c244b.png',
-      //   style: {
-      //     width: '',
-      //     height: '',
-      //     top: 0,
-      //     left: 0
-      //   },
-      //   event: { // 交互事件
-      //     type: 1, // 交互类型 1: 外链，2：内页 3：锚点 4：弹窗
-      //     linkUrl: '', // 外链
-      //     sitePageId: '', // 内页
-      //     sectionId: '', // 锚点
-      //     popupId: '', // 弹窗
-      //     linkUrlType: 1 // 1：本窗口打开， 2：新窗口打开
-      //   }
-      // },
-      style: {
-        width: '',
-        height: 500,
-        bg: {
-          bgType: 2,
-          bgColor: '#ffffff',
-          bgImg: '//dl.gamdream.com//website/image/202009/5f4f7f8168692.png',
-          bgVideo: ''
-        }
-      }
-    }}, 
-    'navSection': {type: 'navSection', label: '导航版块', data: {
-      text: '导航版块',
+    // 'mainSection': {type: 'mainSection', label: '首屏模块', data: {
+    //   text: '首屏模块',
+    //   style: {
+    //     width: '',
+    //     height: 500,
+    //     bg: {
+    //       bgType: 2,
+    //       bgColor: '#ffffff',
+    //       bgImg: '//dl.gamdream.com//website/image/202009/5f4f7f8168692.png',
+    //       bgVideo: ''
+    //     }
+    //   }
+    // }}, 
+    'navSection': {type: 'navSection', label: '导航版块', name: '', data: {
+      name: '', 
       navList: [
         {
           Uid: randomCode(),
@@ -59,7 +40,7 @@ export const sectionData = () => {
           event: { // 交互事件
             type: 1, // 交互类型 1: 外链，2：内页 3：锚点 4：弹窗
             linkUrl: '', // 外链
-            sitePageId: '', // 内页
+            sitePage: null, // 内页
             sectionId: '', // 锚点
             popupId: '', // 弹窗
             linkUrlType: 1 // 1：本窗口打开， 2：新窗口打开
@@ -74,18 +55,31 @@ export const sectionData = () => {
           event: { // 交互事件
             type: 1, // 交互类型 1: 外链，2：内页 3：锚点 4：弹窗
             linkUrl: '', // 外链
-            sitePageId: '', // 内页
+            sitePage: null, // 内页
             sectionId: '', // 锚点
             popupId: '', // 弹窗
             linkUrlType: 1 // 1：本窗口打开， 2：新窗口打开
           }
         }
       ],
-      navImg: 'https://dl.gamdream.com/ids_cloud_platform/image/logo_t.png',
+      navImg: 'http://dl.gamdream.com//website/image/202009/5f61a50a0e834.png',
       style: {
         screenType: 1, // 1：普通， 2：宽屏
+        navType: 'default', // default：固定 fixed：滚动时固定
         width: '',
         height: 60,
+        selectLine: { // 选中横线
+          show: true,
+          color: '#2469f2',
+          height: 2
+        },
+        selectFont: { // 选中的文字颜色
+          color: '#000000'
+        },
+        menuMargin: { // 菜单边距
+          left: 0,
+          right: 0
+        },
         bg: {
           bgType: 1,
           bgColor: '#ffffff',
@@ -98,8 +92,8 @@ export const sectionData = () => {
         align: 'right' // left, center, right
       }
     }}, 
-    'singleImg': {type: 'singleImg', label: '图片版块', data: {
-      text: 'test',
+    'singleImg': {type: 'singleImg', label: '图片版块', name: '', data: {
+      name: '', 
       url: 'http://oaa.uu.cc/manage/upload/image/oaa.uu.cc/2019-12-27/20191227_161637_544804.png',
       style: {
         widthType: 1, // 1:默认，2：固定
@@ -111,8 +105,9 @@ export const sectionData = () => {
         left: '0'
       }
     }}, 
-    'carouselSection': {type: 'carouselSection', label: '轮播图', data: {
-      type: 2, // 1： 普通，2：卡片
+    'carouselSection': {type: 'carouselSection', label: '轮播图', name: '', data: {
+      name: '', 
+      
       imgs: {
         groupId: null,
         list: [
@@ -137,19 +132,22 @@ export const sectionData = () => {
         ]
       },
       style: {
+        type: 1, // 1： 普通，2：卡片
+        width: '',
+        height: '',
         align: 'center',
-        paddingTop: '200',
+        paddingTop: '0',
         paddingBottom: '0',
         bg: {
-          bgType: 2, // 1：颜色，2：图片 3：视频
-          bgColor: '#17181a',
+          bgType: 1, // 1：颜色，2：图片 3：视频
+          bgColor: '#ffffff',
           bgImg: 'http://oaa.uu.cc/manage/upload/image/oaa.uu.cc/2019-12-26/20191226_152739_778898.jpeg',
           bgVideo: ''
         }
       }
     }}, 
-    'imgNews': {
-      type: 'imgNews', label: '图文信息', data: {
+    'imgNews': {type: 'imgNews', label: '图文信息', data: {
+      name: '', 
       imgs: {
         groupId: null,
         list: [

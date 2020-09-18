@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
 import { Modal, Table, Button, Form, Input, message, Popconfirm } from 'antd';
 import { groupPage, delGroup, addGroup, editGroup } from '@/http/hcarousel'
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 import lodash from 'lodash'
 import { getAllCarouselByGroup } from '@/utils/data'
 

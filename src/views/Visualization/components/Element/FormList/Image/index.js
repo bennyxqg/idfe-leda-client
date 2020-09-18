@@ -31,6 +31,11 @@ const Index = React.forwardRef((props, ref) => {
       form={form}
     >
       <Form.Item
+        rules={[{ required: true, message: '请输入层级' }]}
+        name='zIndex' label="层级:">
+        <InputNumber />
+      </Form.Item>
+      <Form.Item
         rules={[{ required: true, message: '请上传图片' }]}
         name='imgUrl' label="上传图片:">
         <ImgUpload />

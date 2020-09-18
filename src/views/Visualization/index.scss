@@ -4,6 +4,7 @@
   .hover-highlight {
     &:hover {
       border: 1px dotted #007ed3;
+      background-color: rgba(150,198,239,.3)
     } 
   }
   // 中心点
@@ -139,6 +140,7 @@
           min-width: 66px;
           font-size: 14px;
           top: -22px;
+          z-index: auto;
           span {
             padding: 0 2px;
             font-weight: normal;

@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef, useContext} from "react";
 import { Modal, Button, Form, Input, message } from 'antd';
 import ImgGroupSelector from '@/components/ImgGroupSelector/index'
 import lodash from 'lodash'
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 
 const EditModal = (props) => {
   const { chooseSection, setChooseSection } = useContext(VisContext)
@@ -42,6 +42,7 @@ const EditModal = (props) => {
   }
 
   return <Modal
+    maskClosable={false}
     title={'编辑轮播图数据'}
     visible={modalVisible}
     cancelText='取消'

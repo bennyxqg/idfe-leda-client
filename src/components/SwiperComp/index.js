@@ -2,20 +2,26 @@ import React, {useState, useEffect, useRef} from "react";
 import { Button } from 'antd';
 import Swiper from "swiper"
 import classNames from 'classnames' 
+import {randomCode} from '@/utils/helper'
 import './index.scss'
+
+
 
 const Index = (props) => {
 	const [data, setData] = useState([])
 
+	const swiperId = randomCode(8)
 	useEffect(() => {
 		setData(props.imgList)
 	}, [props]);
 
 	useEffect(() => {
+		console.log('-----opts------', props)
 		init()
 	}, []);
 
 	const init = () => {
+		const type = props.style.type
 		const opts = {
       pagination: {
         el: '.swiper-pagination',
@@ -23,12 +29,12 @@ const Index = (props) => {
 			observer:true,//修改swiper自己或子元素时，自动初始化swiper 
 			observeParents:false,//修改swiper的父元素时，自动初始化swiper 
 			onSlideChangeEnd: function(swiper){ 
-　　　     swiper.update();  
-　　　     swiper.startAutoplay();
-　　      swiper.reLoop();  
+				swiper.update();  
+				swiper.startAutoplay();
+				swiper.reLoop();  
 			}
 		}
-		if(props.type == 2) {
+		if(type == 2) {
 			opts.initialSlide = 1
 			opts.effect = 'coverflow'
 			opts.grabCursor = true
@@ -42,8 +48,8 @@ const Index = (props) => {
 				slideShadows:true
       }
 		}
-
-		const swiper = new Swiper('.swiper-container', opts);
+		
+		const swiper = new Swiper('.swiper-container-' + swiperId, opts);
 	}
 
 	return (
@@ -51,8 +57,9 @@ const Index = (props) => {
 			<div 
 				className = {classNames({
 					'swiper-container': true,
-					'swiper-container-card': props.type == 2,
-					'swiper-container-common': props.type != 2
+					['swiper-container-' + swiperId]: true,
+					'swiper-container-card': props.style.type == 2,
+					'swiper-container-common': props.style.type != 2
 				})}
 			>
 				<div className="swiper-wrapper">

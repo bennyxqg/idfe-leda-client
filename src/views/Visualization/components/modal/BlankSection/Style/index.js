@@ -3,7 +3,7 @@ import { Modal, Button, Checkbox, Form, Input, message, InputNumber, Select, Rad
 import ImgUpload from '@/components/ImgUpload'
 import lodash from 'lodash'
 import BgStyleForm from '@/views/Visualization/components/Common/BgStyleForm/index_whole'
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 
 const { Panel } = Collapse;
 
@@ -23,7 +23,6 @@ const Index = (props) => {
 
   useEffect(() => {
     if(props.data) {
-      console.log('---props.data.data.style-------', props.data.data.style)
       form.setFieldsValue({
         ...props.data.data.style
       })
@@ -35,14 +34,11 @@ const Index = (props) => {
     form.validateFields().then((value) => {
       formRef.current.ref.validateFields().then((childVal) => {
         message.success('操作成功');
-        console.log('----validateFields------', value, childVal)
         // props.modalChange(false)
         const dataObj = lodash.cloneDeep(props.data.data)
         
         Object.assign(dataObj.style, value)
         Object.assign(dataObj.style.bg, childVal)
-        console.log('-----dataObj-----', dataObj)
-
         props.onFinish(dataObj);
       })
     })
@@ -57,13 +53,13 @@ const Index = (props) => {
   const onFinish = values => {
     message.success('操作成功');
     const sendData = values
-    console.log('--sendData----666---', sendData)
     const dataObj = lodash.cloneDeep(props.data.data)
     dataObj.style = sendData
     props.onFinish(dataObj);
   };
 
   return <Modal
+    maskClosable={false}
     getContainer={false}
     title={'编辑样式'}
     visible={modalVisible}

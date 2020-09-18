@@ -1,14 +1,14 @@
-import React, {useState, useEffect, useRef, useCallback, useContext, useImperativeHandle} from "react";
-import { Modal, Button, Form, Input, Select, message, InputNumber, Radio, Table } from 'antd';
+import React, {useState, useEffect, useContext, useImperativeHandle} from "react";
+import { Modal, Switch, Form, Input, Select, message, InputNumber, Radio } from 'antd';
 import lodash from 'lodash'
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 
 const layout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 16 },
 };
 const Index = React.forwardRef((props, ref) => {
-  const { sectionList, setSectionList } = useContext(VisContext)
+  const { pageData, sectionList, setSectionList } = useContext(VisContext)
   
   const [sections, setSections] = useState([])
   const [eventData, setEventData] = useState(null)
@@ -24,8 +24,9 @@ const Index = React.forwardRef((props, ref) => {
     let eventTemp = {}
     if(props.data) {
       eventTemp = lodash.cloneDeep(props.data)
-      console.log('----eventTemp-----', eventTemp)
+      eventTemp.sitePageId = eventTemp.sitePage?eventTemp.sitePage.id: ''
     }
+
     setEventData(eventTemp || {})
     form.setFieldsValue(eventTemp)
   }, []);
@@ -36,7 +37,8 @@ const Index = React.forwardRef((props, ref) => {
       return {
         label: item.label,
         value: item.sectionId,
-        type: item.type
+        type: item.type,
+        name: item.data.name
       }
     })
     console.log('-----handleSections------', list)
@@ -96,6 +98,11 @@ const Index = React.forwardRef((props, ref) => {
           }}
         >
           <Form.Item
+            valuePropName="checked"
+            name="disable" label="关闭交互:">
+            <Switch />
+          </Form.Item>
+          <Form.Item
             name="type" label="交互类型:">
             <Radio.Group onChange={(e) => {changeType(e)}}>
               <Radio value={4}>弹窗</Radio>
@@ -132,7 +139,18 @@ const Index = React.forwardRef((props, ref) => {
               label="选择内页"
               name="sitePageId"
             >
-              <Input />
+              <Select>
+                {
+                  pageData.map((item) => {
+                    if(item.type === 'page') {
+                      return (
+                        <Select.Option value={item.id} key={item.id}>{item.name}</Select.Option>
+                      )
+                    }
+                    return null
+                  })
+                }
+              </Select>
             </Form.Item>
           )}
           {
@@ -145,7 +163,7 @@ const Index = React.forwardRef((props, ref) => {
                 {
                   sections.map((item) => {
                     return (
-                      <Select.Option value={item.value} key={item.value}>{item.label}</Select.Option>
+                      <Select.Option value={item.value} key={item.value}>{item.name || item.label}</Select.Option>
                     )
                   })
                 }
@@ -158,7 +176,18 @@ const Index = React.forwardRef((props, ref) => {
               label="选择弹窗"
               name="popupId"
             >
-              <Input />
+              <Select>
+                {
+                  pageData.map((item) => {
+                    if(item.type === 'popup') {
+                      return (
+                        <Select.Option value={item.id} key={item.id}>{item.name}</Select.Option>
+                      )
+                    }
+                    return null
+                  })
+                }
+              </Select>
             </Form.Item>
           )}
         </Form>

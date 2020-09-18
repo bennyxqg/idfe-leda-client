@@ -11,6 +11,7 @@ const sectionName = 'navSection'
 const Index = (props) => {
 	const [data, setData] = useState(null)
 	const [styleData, setStyleData] = useState({})
+	const [activeIndex, setActiveIndex] = useState(0)
 
 	useEffect(() => {
 		setData(props.data.data)
@@ -65,7 +66,9 @@ const Index = (props) => {
 								</div>
 								<div className={`${sectionName}-navbar-right`}
 									style={{
-										'textAlign': props.data.data.style.align
+										'textAlign': props.data.data.style.align,
+										'marginLeft': props.data.data.style.menuMargin.left + 'px',
+										'marginRight': props.data.data.style.menuMargin.right + 'px',
 									}}
 								>
 									<ul>
@@ -75,12 +78,24 @@ const Index = (props) => {
 													<li key={index}>
 														<span 
 															className={classNames({
-																'active': index === 0
+																'nav-menu-item': true,
+																'active': index === activeIndex
 															})}
 															onClick={() => {eventLink(nav)}}
-															style={{color: (data.style.navLabel && data.style.navLabel.color)
-														}}>
+															style={{color: index === activeIndex? data.style.selectFont.color: (data.style.navLabel && data.style.navLabel.color),
+																lineHeight: data.style.height + 'px'
+															}}>
 															{nav.label}
+															{
+																data.style.selectLine.show && (
+																	<span className='active-line'
+																		style={{
+																			background: data.style.selectLine.color,
+																			height: data.style.selectLine.height + 'px',
+																		}}
+																	></span>
+																)
+															}
 														</span>
 													</li>
 												)

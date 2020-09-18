@@ -1,10 +1,11 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
 import { Modal, Button, Form, Input, message, List, Select } from 'antd';
-import {elementData} from '@/views/Visualization/elementData'
+import {elementData} from '@/views/Visualization/data/elementData'
 import ImageForm from '@/views/Visualization/components/Element/FormList/Image/index'
 import TextForm from '@/views/Visualization/components/Element/FormList/Text/index'
-import VisContext from "@/views/Visualization/VisContext";
-import {getItemByKey} from '@/utils/helper'
+import BMapForm from '@/views/Visualization/components/Element/FormList/BMap/index'
+import VisContext from "@/views/Visualization/context/VisContext";
+import {getItemByKey, formPromise} from '@/utils/helper'
 import lodash from 'lodash'
 import {randomCode} from '@/utils/helper';
 import FontStyleForm from '@/views/Visualization/components/Common/FontStyleForm/index'
@@ -18,7 +19,7 @@ const layout = {
 };
 
 const Index = (props) => {
-  const { chooseSection, setChooseSection } = useContext(VisContext)
+  const { pageData, chooseSection, setChooseSection } = useContext(VisContext)
 
   const [modalVisible] = useState(true)
   const [elementList, setElementList] = useState(Object.keys(elementData()).map(key => {
@@ -45,21 +46,6 @@ const Index = (props) => {
       }
     }
   }, []);
-
-  // promise函数
-  const formPromise = (targetRef) => {
-    return new Promise((resolve, reject) => {
-      if(!targetRef.validateFields) {
-        reject()
-        return
-      }
-      targetRef.validateFields().then((value) => {
-        resolve(value)
-      }).catch(() => {
-        reject()
-      })
-    })
-  }
 
   const handleOk = (value) => {
     if(props.type === 'edit') {
@@ -88,26 +74,40 @@ const Index = (props) => {
 
   const validForm = async () => {
     const valueData = {}
-    const commonVal = await formPromise(formRef.current.ref)
-    valueData.common = commonVal
-    if(fontFormRef.current && fontFormRef.current.ref) {
+    if(formRef && formRef.current && formRef.current.ref) {
+      const commonVal = await formPromise(formRef.current.ref)
+      valueData.common = commonVal
+    }
+    if(fontFormRef && fontFormRef.current && fontFormRef.current.ref) {
       const fontVal = await formPromise(fontFormRef.current.ref)
       valueData.font = fontVal
     }
-    if(eventFormRef.current && eventFormRef.current.ref) {
+    if(eventFormRef && eventFormRef.current && eventFormRef.current.ref) {
       const eventVal = await formPromise(eventFormRef.current.ref)
+      if(eventVal.type == 2) { // 内页
+        if(eventVal.sitePageId) {
+          const eventItem = getItemByKey(pageData, 'id', eventVal.sitePageId)
+          if(eventItem) {
+            eventVal.sitePage = eventItem
+            delete eventVal.sitePageId
+          }
+        }
+      }
       valueData.event = eventVal
+
     }
     updateSection(valueData)
   }
 
   const updateSection = (valueData) => {
-    console.log('-----valueData-----', valueData)
     message.success('操作成功');
     if(props.type === 'edit') { // 编辑
       let sendData = {}
-      lodash.assign(sendData, valueData.common)
-      if(sendData.style) {
+      if(valueData.common) {
+        lodash.assign(sendData, valueData.common)
+      }
+      
+      if(sendData.style && valueData.font) {
         lodash.assign(sendData.style, {
           font: valueData.font
         })
@@ -167,6 +167,7 @@ const Index = (props) => {
     onOk={handleOk}
     onCancel={handleCancel}
     width='600px'
+    maskClosable={false}
   >
     <div className="vis-add-modal-element-list"> 
       {
@@ -223,6 +224,16 @@ const Index = (props) => {
                       ref={fontFormRef}
                     />
                   }
+                </>
+              )
+            }
+            {
+              elementType && elementType==='bMapElement' &&
+              (
+                <>
+                  <BMapForm 
+                    data={elementItem.data}
+                    ref={formRef} />
                 </>
               )
             }

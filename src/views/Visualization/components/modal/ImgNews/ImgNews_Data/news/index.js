@@ -8,8 +8,8 @@ import EditModal from './EditModal'
 import BindModal from './bindModal'
 import { randomCode, getItemIndexByKey } from '@/utils/helper'
 import lodash from 'lodash'
-import VisContext from "@/views/Visualization/VisContext";
-import RNDContext from '@/views/Visualization/RNDContext'
+import VisContext from "@/views/Visualization/context/VisContext";
+import RNDContext from '@/views/Visualization/context/RNDContext'
 import { UnorderedListOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;

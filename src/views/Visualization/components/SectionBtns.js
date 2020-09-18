@@ -5,7 +5,7 @@ import { ArrowUpOutlined, ArrowDownOutlined,
   SettingOutlined,DeleteOutlined,
   PlusOutlined, AppstoreOutlined } from '@ant-design/icons';
 import {MagicIcon} from '@/utils/icons'
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 
 const SectionBtns = (props) => {
 

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
 import { Button, message } from 'antd';
-import VisContext from "./VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 import { configSave, configPublish } from '@/http/hvisualization'
 import lodash from 'lodash'
 import { getWebsiteAddress } from '@/http/hvisualization'

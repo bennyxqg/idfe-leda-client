@@ -33,7 +33,7 @@ const Index = (props) => {
 								>
 								<SwiperComp 
 									imgList={data.imgs}
-									type={data.type}
+									style={data.style}
 								/>
 							</div>
 						</div>

@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef, useContext} from "react";
 import { Button } from 'antd';
 import {Rnd} from 'react-rnd'
 import lodash from 'lodash'
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 import update from 'immutability-helper';
 import { getItemIndexByKey } from '@/utils/helper'
 import ElementDoms from '@/views/Visualization/components/Element/Doms/index'

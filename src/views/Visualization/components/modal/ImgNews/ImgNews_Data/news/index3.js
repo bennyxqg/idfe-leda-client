@@ -6,7 +6,7 @@ import EditModal from './EditModal'
 import BindModal from './bindModal'
 import { randomCode, getItemIndexByKey } from '@/utils/helper'
 import lodash from 'lodash'
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 
 const { TextArea } = Input;
 const { Option } = Select;

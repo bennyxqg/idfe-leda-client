@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
 import { Modal, Button, Form, Input, message, Select, Table } from 'antd';
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 import lodash from 'lodash'
 const { Option } = Select;
 

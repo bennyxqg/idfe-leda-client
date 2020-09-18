@@ -18,7 +18,6 @@ const EditModal = (props) => {
 
   useEffect(() => {
     if(props.data) {
-      console.log('---props.data.data.style-------', props.data.data.style)
       form.setFieldsValue({
         platForm: props.data.data.platForm
       })
@@ -54,6 +53,7 @@ const EditModal = (props) => {
     onOk={handleOk}
     onCancel={handleCancel}
     width='600px'
+    maskClosable={false}
   >
     <div >
     <Form

@@ -124,3 +124,18 @@ export const handleBgStyle = (bgData) => {
   console.log('-----handleBgStyle-----', style)
   return style
 }
+
+  // form promise函数
+  export const formPromise = (targetRef) => {
+    return new Promise((resolve, reject) => {
+      if(!targetRef.validateFields) {
+        reject()
+        return
+      }
+      targetRef.validateFields().then((value) => {
+        resolve(value)
+      }).catch(() => {
+        reject()
+      })
+    })
+  }

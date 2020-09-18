@@ -3,8 +3,8 @@ import { Modal, List } from 'antd';
 import {
 	AppstoreAddOutlined
 } from '@ant-design/icons';
-import {sectionData} from '@/views/Visualization/sectionData'
-import VisContext from "@/views/Visualization/VisContext";
+import { sectionData } from '@/views/Visualization/data/sectionData';
+import VisContext from "@/views/Visualization/context/VisContext";
 
 const Index = (props) => {
 	const { showAddModal, setShowAddModal } = useContext(VisContext)

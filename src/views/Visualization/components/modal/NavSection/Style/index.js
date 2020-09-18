@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import { Modal, Button, Checkbox, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
+import { Modal, Button, Switch, Checkbox, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
 import lodash from 'lodash'
 import BgStyleForm from '@/views/Visualization/components/Common/BgStyleForm/index'
@@ -55,6 +55,7 @@ const EditModal = (props) => {
     onOk={handleOk}
     onCancel={handleCancel}
     width='600px'
+    maskClosable={false}
   >
     <div >
     <Form
@@ -127,6 +128,68 @@ const EditModal = (props) => {
               <Radio value={'right'}>居右</Radio>
             </Radio.Group>
           </Form.Item>
+          <Form.Item
+            name={['navType' ]} label="导航类型:">
+            <Radio.Group>
+              <Radio value={'default'}>默认</Radio>
+              <Radio value={'fixed'}>滚动时固定</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Row className='pad-l-6'>
+            <Col span={12}>
+              <Form.Item
+                labelCol={{span: 9}}
+                wrapperCol={{span: 12}}
+                name={['menuMargin', 'left']} label="菜单左边距:">
+                <InputNumber />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                labelCol={{span: 9}}
+                wrapperCol={{span: 12}}
+                name={['menuMargin',  'right']} label="菜单右边距:">
+                <InputNumber />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row className='pad-l-18'>
+            <Col span={12}>
+              <Form.Item
+                labelCol={{span: 9}}
+                wrapperCol={{span: 12}}
+                name={['selectFont', 'color' ]} label="选中字体颜色:">
+                <Input type='color' />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                labelCol={{span: 9}}
+                wrapperCol={{span: 12}}
+                valuePropName="checked"
+                name={['selectLine',  'show']} label="显示选中横线:">
+                <Switch />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row className='pad-l-18'>
+            <Col span={12}>
+              <Form.Item
+                labelCol={{span: 9}}
+                wrapperCol={{span: 10}}
+                name={['selectLine',  'color']} label="选中横线颜色:">
+                <Input type='color' />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                labelCol={{span: 9}}
+                wrapperCol={{span: 10}}
+                name={['selectLine',  'height']} label="选中横线高度:">
+                <InputNumber />
+              </Form.Item>
+            </Col>
+          </Row>
         </Panel>
       </Collapse>
     </Form>

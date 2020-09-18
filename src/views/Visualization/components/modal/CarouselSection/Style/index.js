@@ -2,6 +2,8 @@ import React, {useState, useEffect, useRef} from "react";
 import { Modal, Button, Form, Input, message, InputNumber } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
 import lodash from 'lodash'
+import BgStyleForm from '@/views/Visualization/components/Common/BgStyleForm/index_whole'
+
 
 const layout = {
   labelCol: { span: 4 },
@@ -10,6 +12,7 @@ const layout = {
 const EditModal = (props) => {
   const [modalVisible] = useState(true)
 
+  const bgFormRef = useRef();
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -41,8 +44,9 @@ const EditModal = (props) => {
   };
 
   return <Modal
+    maskClosable={false}
     getContainer={false}
-    title={'编辑轮播图样式'}
+    title={'编辑样式'}
     visible={modalVisible}
     cancelText='取消'
     okText='确定'
@@ -90,6 +94,9 @@ const EditModal = (props) => {
           <ImgUpload></ImgUpload>
       </Form.Item>
     </Form>
+    <BgStyleForm 
+      ref={bgFormRef}
+    />
     </div>
   </Modal>
 

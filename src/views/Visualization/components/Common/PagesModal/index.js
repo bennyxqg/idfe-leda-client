@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from "react";
 import { useHistory } from "react-router-dom";
 import { Modal, Form, Tabs, message,List } from 'antd';
-import VisContext from "@/views/Visualization/VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 import { getPageList, getPopupList } from '@/http/hvisualization'
 import lodash from 'lodash'
 
@@ -32,7 +32,14 @@ const Index = (props) => {
       if(popupList.length) {
         return
       }
-      setPopupList(pageData.filter(item => item.type === 'popup'))
+      const list = pageData.filter(item => item.type === 'popup')
+      list.push({
+        id: "2",
+        identifer: "apply",
+        name: "申请弹窗",
+        type: "popup"
+      })
+      setPopupList(list)
     }
   }
 

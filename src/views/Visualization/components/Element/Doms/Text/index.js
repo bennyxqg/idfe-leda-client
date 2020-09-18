@@ -26,7 +26,7 @@ const Index = (props) => {
       {
         data && 
           <div style={Object.assign({
-            textAlign: 'left',
+            textAlign: data.style.align || 'left',
             position: 'relative',
             display: 'inline-block',
             width: `${data.style.width}px`,

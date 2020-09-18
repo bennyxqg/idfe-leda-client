@@ -1,8 +1,7 @@
 import React, {useState, useEffect, useRef, useImperativeHandle} from "react";
-import { Modal, Button, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
+import { Switch, Button, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
 import lodash from 'lodash'
-import FontStyleForm from '@/views/Visualization/components/Common/FontStyleForm/index'
 
 const { TextArea } = Input;
 
@@ -20,12 +19,9 @@ const Index = React.forwardRef((props, ref) => {
   }));
 
   useEffect(() => {
+    console.log('--------props.data--------', props.data)
     if(props.data) {
-      const dataTemp = lodash.cloneDeep(props.data)
-      if(!props.data.style.align) {
-        dataTemp.style.align = 'left'
-      }
-      form.setFieldsValue(dataTemp)
+      form.setFieldsValue(props.data)
     }
   }, []);
 
@@ -42,12 +38,6 @@ const Index = React.forwardRef((props, ref) => {
         name='zIndex' label="层级:">
         <InputNumber />
       </Form.Item>
-      <Form.Item
-        rules={[{ required: true, message: '请输入文字' }]}
-        name='text' label="文字:">
-        <TextArea rows={4} />
-      </Form.Item>
-
       <Row className='pad-l-20'>
         <Col span={8}>
           <Form.Item
@@ -84,20 +74,57 @@ const Index = React.forwardRef((props, ref) => {
           </Form.Item>
         </Col>
       </Row>
-      <Row className='pad-l-4'>
-        <Col span={24}>
+      <Form.Item
+        name='markerIconUrl' label="标注图片:">
+        <ImgUpload />
+      </Form.Item>
+      <div className='pad-l-90'>
+          <span style={{
+            color: '#999'
+          }}>
+            图标尺寸为21*31，不传则为默认图标
+          </span>
+        </div>
+      <Row className='pad-l-20'>
+        <Col span={8}>
           <Form.Item
-            labelCol={{span: 4}}
-            wrapperCol={{span: 16}}
-            name={['style', 'align']} label="位置:">
-            <Radio.Group>
-              <Radio value="left">居左</Radio>
-              <Radio value="center">居中</Radio>
-              <Radio value="right">居右</Radio>
-            </Radio.Group>
+            labelCol={{span: 10}}
+            wrapperCol={{span: 14}}
+            name={['position', 'lng']} label="经度:">
+            <InputNumber />
           </Form.Item>
         </Col>
+        <Col span={8}>
+          <Form.Item
+            labelCol={{span: 10}}
+            wrapperCol={{span: 14}}
+            name={['position', 'lat']} label="纬度:">
+            <InputNumber />
+          </Form.Item>
+        </Col>
+        <div className='pad-l-72'>
+          <span style={{
+            color: '#999'
+          }}>
+            请通过
+            <a 
+              target='_blank'
+              rel="noopener noreferrer"
+              href='http://api.map.baidu.com/lbsapi/getpoint/index.html'>百度地图拾取坐标系统</a>
+              获取经纬度
+          </span>
+        </div>
       </Row>
+      <Form.Item
+        valuePropName="checked"
+        name='disableDragging' label="禁止拖拽:">
+        <Switch />
+      </Form.Item>
+      <Form.Item
+        valuePropName="checked"
+        name='disableZoom' label="禁止缩放:">
+        <Switch />
+      </Form.Item>
     </Form>
     
     </div>

@@ -3,7 +3,7 @@ import lodash from 'lodash'
 import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import { getItemIndexByKey, swapArray } from '@/utils/helper'
 import SectionBtns from './SectionBtns'
-import VisContext from "../VisContext";
+import VisContext from "@/views/Visualization/context/VisContext";
 
 import {
 	BlankSection,
@@ -12,7 +12,8 @@ import {
   CarouselSection,
   NavSection,
   MainSection,
-  SubscribePopup
+  SubscribePopup,
+  ApplyPopup
 } from "../widgets";
 
 // const contexts = require.context('../widgets', true, /\.js$/);
@@ -44,7 +45,9 @@ const DragableSection = ({ section, index, moveRow, className, style, ...restPro
       } else if(type === 'mainSection') {
 				return <MainSection data={section}/>;
       } else if(type === 'subscribePopup') {
-				return <SubscribePopup data={section}/>;
+        return <SubscribePopup data={section}/>;
+      } else if(type === 'applyPopup') {
+				return <ApplyPopup data={section}/>;
       }
  
 	}
