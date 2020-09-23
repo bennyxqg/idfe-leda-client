@@ -4,6 +4,7 @@ import lodash from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 import ImgComp from './img/index'
 import NewsComp from './news/index'
+import BaseComp from './base/index'
 
 const { TabPane } = Tabs;
 
@@ -15,24 +16,51 @@ const Index = (props) => {
 
   const Img = useRef();
   const News = useRef();
+  const Base = useRef();
 
   const handleOk = (value) => {
     let targetRef = null
     let target = ''
     if(tabIndex == 1) {
-      targetRef = News.current.ref
-      target = 'News'
+      targetRef = Base.current.ref
+      const bgFormRef = Base.current.bgFormRef.current.ref
+      targetRef.validateFields().then((val) => {
+        bgFormRef.validateFields().then((bgVal) => {
+          const totalVal = Object.assign({}, val, {
+            bg: bgVal
+          })
+          changeSection({
+            base: totalVal
+          })
+        })
+      })
     } else if(tabIndex == 2) {
-      targetRef = Img.current.ref
+      targetRef = News.current.ref
+      const bgFormRef = News.current.bgFormRef.current.ref
+      target = 'News'
+      targetRef.validateFields().then((val) => {
+        bgFormRef.validateFields().then((bgVal) => {
+          const totalVal = Object.assign({}, val.news, {
+            bg: bgVal
+          })
+          changeSection({
+            news: totalVal
+          })
+        })
+      })
+    } else if(tabIndex == 3) {
+      targetRef = Img.current.ref.ref
       target = 'Img'
+      targetRef.validateFields().then((val) => {
+        changeSection(val)
+      })
     }
-    targetRef.validateFields().then((val) => {
-      changeSection(target, val)
-    })
+
+    
   }
 
   // 把数据更新至全局数据中
-  const changeSection = (type, value) => {
+  const changeSection = (value) => {
     const chooseSectionTemp = lodash.cloneDeep(chooseSection)
     let style = chooseSectionTemp.data.style
     style = Object.assign(style, value)
@@ -68,13 +96,19 @@ const Index = (props) => {
       <Tabs type="card"
         onChange={changeTabs}
       >
-        <TabPane tab="新闻管理" key="1">
+        <TabPane tab="基础设置" key="1">
+          <BaseComp 
+            ref={Base}
+            data={props.data}
+          />
+        </TabPane>
+        <TabPane tab="新闻管理" key="2">
           <NewsComp 
             ref={News}
             data={props.data}
           />
         </TabPane>
-        <TabPane tab="轮播图管理" key="2">
+        <TabPane tab="轮播图管理" key="3">
           <ImgComp 
             ref={Img}
             data={props.data}

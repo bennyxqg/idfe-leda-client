@@ -185,6 +185,65 @@
   }
 }
 
+.vis-add-section-modal {
+  .ant-modal-header {
+    display: none;
+  }
+  .ant-modal-body {
+    padding: 0;
+    
+  }
+  .vis-add-modal-section-list {
+    
+    .vis-add-modal-section-list-inner {
+      display: flex;
+      .section-list {
+        min-height: 500px;
+        flex: 0 0 200px;
+        background-color: #001529;
+        color: white;
+        padding-top: 20px;
+        li {
+          padding: 8px 30px;
+          cursor: pointer;
+          color: #ccc;
+          &.active {
+            color: white;
+            background-color: #1890FF;
+          }
+        }
+      }
+      .section-preview {
+        flex: 1;
+        width: 600px;
+        background-color: white;
+        .section-preview-header {
+          padding: 12px 16px;
+          font-size: 18px;
+          color: black;
+          border-bottom: 1px solid #e8e8e8;
+        }
+        .section-preview-example {
+          padding: 12px;
+          li {
+            cursor: pointer;
+            padding: 4px;
+            border: 1px solid #e8e8e8;
+            img {
+              width: 100%;
+            }
+            &:hover {
+              border: 1px solid #40a9ff;
+            }
+          }
+          
+        }
+      }
+    }
+  }
+}
+
+
 .popup-wrap-item {
   width: 400px;
   height: 300px;

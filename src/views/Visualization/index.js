@@ -60,14 +60,15 @@ const Index = () => {
 	// 切换页面弹窗
 	const [init, setInit] = useState(false)
 
-
 	useEffect(() => {
 		console.log('-------chooseSection-------', chooseSection)
 	}, [chooseSection]);
 
 	useEffect(() => {
 		history.listen(route => {
-			window.location.reload()
+			if(route.pathname === '/visualization') {
+				window.location.reload()
+			}
 		})
 		const initStart = async () => {
 			const newsList = await getAllNews()
@@ -125,11 +126,13 @@ const Index = () => {
 			id: indexId
 		}).then((rep) => {
 			if(rep.error_code === 0) {
-				if(rep.data && rep.data.config_json_pre) {
-					const configobj = JSON.parse(rep.data.config_json_pre) 
-					buildModuleData(imgList, configobj.moduleList)
-					setSectionList(configobj.moduleList)
+				if(rep.data) {
 					setInit(true)
+					if(rep.data.config_json_pre) {
+						const configobj = JSON.parse(rep.data.config_json_pre) 
+						buildModuleData(imgList, configobj.moduleList)
+						setSectionList(configobj.moduleList)
+					}
 				}
 			}
 		})

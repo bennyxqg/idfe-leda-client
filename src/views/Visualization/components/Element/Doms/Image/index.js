@@ -1,4 +1,6 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
+import errorImg from '@/assets/images/error-img.jpg'
+
 
 const Index = (props) => {
   const [data, setData] = useState(null)
@@ -6,6 +8,10 @@ const Index = (props) => {
   useEffect(() => {
 		setData(props.data.data)
   }, [props]);
+
+  const handleErrorImg = (e) => {
+    console.log('-----e-----', e.target.src = errorImg)
+  }
 
   return (
     <>
@@ -21,7 +27,7 @@ const Index = (props) => {
                 width: data.style.width?data.style.width + 'px': 'auto',
                 height: data.style.height?data.style.height + 'px': 'auto',
               }}
-              src={data.imgUrl} alt='' />
+              src={data.imgUrl} alt='' onError={handleErrorImg}/>
           </div>
       }
     </>

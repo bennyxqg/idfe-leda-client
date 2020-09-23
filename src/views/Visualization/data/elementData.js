@@ -1,8 +1,9 @@
 import { randomCode, addOrEditForListItem } from '@/utils/helper'
+import { eventData } from './utils'
 
 export const elementData = () => {
   return {
-    'imageElement': {type: 'imageElement', label: '图片元素', data: {
+    'imageElement': {type: 'imageElement', label: '图片', data: {
       zIndex: 1,
       imgUrl: 'http://dl.gamdream.com//website/image/202009/5f61c714103a4.png',
       style: {
@@ -12,17 +13,9 @@ export const elementData = () => {
         left: 0,
         align: 'left'
       },
-      event: { // 交互事件
-        disable: false,
-        type: 1, // 交互类型 1: 外链，2：内页 3：锚点 4：弹窗
-        linkUrl: '', // 外链
-        sitePage: null, // 内页
-        sectionId: '', // 锚点
-        popupId: '', // 弹窗
-        linkUrlType: 1 // 1：本窗口打开， 2：新窗口打开
-      }
+      ...eventData()
     }}, 
-    'textElement': {type: 'textElement', label: '文字元素', data: {
+    'textElement': {type: 'textElement', label: '文字', data: {
       text: '请修改文字',
       zIndex: 1,
       style: {
@@ -40,7 +33,7 @@ export const elementData = () => {
         }
       }
     }}, 
-    'bMapElement': {type: 'bMapElement', label: '百度地图元素', data: {
+    'bMapElement': {type: 'bMapElement', label: '百度地图', data: {
       zIndex: 1,
       markerIconUrl: '', // 定位标识图片
       position: {

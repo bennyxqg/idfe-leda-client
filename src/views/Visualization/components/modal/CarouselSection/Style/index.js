@@ -1,18 +1,28 @@
 import React, {useState, useEffect, useRef} from "react";
-import { Modal, Button, Form, Input, message, InputNumber } from 'antd';
+import { Modal, Collapse, Form, Select, message, InputNumber, Row, Col } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
 import lodash from 'lodash'
 import BgStyleForm from '@/views/Visualization/components/Common/BgStyleForm/index_whole'
+import SwiperStyleForm from '@/views/Visualization/components/Common/SwiperStyleForm/index'
+import {formPromise} from '@/utils/helper'
 
+const { Option } = Select;
+const { Panel } = Collapse;
 
 const layout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 16 },
 };
+const subLayout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 12 },
+};
+
 const EditModal = (props) => {
   const [modalVisible] = useState(true)
 
   const bgFormRef = useRef();
+  const swiperFormRef = useRef();
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -24,9 +34,19 @@ const EditModal = (props) => {
     }
   }, []);
 
-  const handleOk = (value) => {
-    // props.modalChange(false);
-    form.submit()
+  const handleOk = async (value) => {
+    const commonVal = await formPromise(form)
+    const bgVal = await formPromise(bgFormRef.current.ref)
+    const swiperVal = await formPromise(swiperFormRef.current.ref)
+    if(commonVal && bgVal && swiperVal) {
+      message.success('操作成功');
+      const dataObj = lodash.cloneDeep(props.data.data)
+      Object.assign(dataObj.style, commonVal)
+      Object.assign(dataObj.style.bg, bgVal)
+      Object.assign(dataObj.style.swiper, swiperVal.swiper)
+      console.log('-----swiperVal--dataObj---', dataObj)
+      props.onFinish(dataObj);
+    }
   }
 
   const handleCancel = (value) => {
@@ -35,13 +55,13 @@ const EditModal = (props) => {
     }
   }
 
-  const onFinish = values => {
-    message.success('操作成功');
-    const sendData = values
-    const dataObj = lodash.cloneDeep(props.data.data)
-    dataObj.style = sendData
-    props.onFinish(dataObj);
-  };
+  // const onFinish = values => {
+  //   message.success('操作成功');
+  //   const sendData = values
+  //   const dataObj = lodash.cloneDeep(props.data.data)
+  //   dataObj.style = sendData
+  //   props.onFinish(dataObj);
+  // };
 
   return <Modal
     maskClosable={false}
@@ -55,13 +75,23 @@ const EditModal = (props) => {
     width='600px'
   >
     <div >
+    <Collapse defaultActiveKey={['1', '2', '3']} >
+    <Panel header="基础配置" key="1">
     <Form
       {...layout}
       requiredMark={false}
-      initialValues={{}}
-      onFinish={onFinish}
       form={form}
     >
+      <Form.Item
+        label="类型"
+        name="type"
+        rules={[{ required: true, message: '请输入轮播类型' }]}
+      >
+        <Select>
+          <Option value={1}>普通</Option>
+          <Option value={2}>卡片</Option>
+        </Select>
+      </Form.Item>
       <Form.Item
         label="上内边距"
       >
@@ -72,7 +102,7 @@ const EditModal = (props) => {
         >
           <InputNumber />
         </Form.Item>
-        <span className='mar-l-4'>px</span>
+        {/* <span className='mar-l-4'>px</span> */}
       </Form.Item>
       <Form.Item
         label="下内边距"
@@ -84,22 +114,65 @@ const EditModal = (props) => {
         >
           <InputNumber />
         </Form.Item>
-        <span className='mar-l-4'>px</span>
+        {/* <span className='mar-l-4'>px</span> */}
       </Form.Item>
-      <Form.Item
-          label="上传图片"
-          name="bgImg"
-          rules={[{ required: true, message: '请上传背景图片' }]}
-        >
-          <ImgUpload></ImgUpload>
-      </Form.Item>
+      {/* <Row className='pad-l-4'>
+        <Col span={12}>
+          <Form.Item
+            {...subLayout}
+            label="容器宽度"
+            name="width"
+          >
+            <InputNumber />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            {...subLayout}
+            label="容器高度"
+            name="height"
+          >
+            <InputNumber />
+          </Form.Item>
+        </Col>
+      </Row> */}
+      <Row className='pad-l-4'>
+        <Col span={12}>
+          <Form.Item
+            {...subLayout}
+            label="图片宽度"
+            name={["img", "width"]}
+          >
+            <InputNumber />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            {...subLayout}
+            label="图片高度"
+            name={["img", "height"]}
+          >
+            <InputNumber />
+          </Form.Item>
+        </Col>
+      </Row>
     </Form>
+    </Panel>
+    <Panel header="背景配置" key="2">
     <BgStyleForm 
       ref={bgFormRef}
+      data={props.data.data.style.bg}
     />
+    </Panel>
+    <Panel header="轮播参数配置" key="3">
+    <SwiperStyleForm 
+      ref={swiperFormRef}
+      data={props.data.data.style.swiper}
+    />
+    </Panel>
+    </Collapse>
     </div>
   </Modal>
-
 }
 
 export default EditModal

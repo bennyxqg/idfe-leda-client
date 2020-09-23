@@ -3,6 +3,9 @@ import { Link, withRouter } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { menus, adminMenus } from "@/router/menus";
 import GlobalContext from "./GlobalContext";
+import { createFromIconfontCN } from '@ant-design/icons';
+import lodash from 'lodash'
+
 const { Sider } = Layout;
 
 class SideMenu extends Component {
@@ -11,9 +14,9 @@ class SideMenu extends Component {
         return (
             <Menu.SubMenu
                 key={subMenu.path?subMenu.path:'defaultMenu'}
+                icon={this.renderIcon(subMenu)}
                 title={
                     <span>
-                        {subMenu.icon}
                         <span>{subMenu.name}</span>
                     </span>
                 }
@@ -23,9 +26,22 @@ class SideMenu extends Component {
         );
     };
 
+    renderIcon = (item) => {
+        if(!item.icon) {
+            return null
+        }
+        return item.icon.map((i, index) => {
+            return (
+                <span key={index}>{i}</span>
+            )
+        })
+    }
+
     renderMenuItem = (menuItem = [], parent) => {
-        return menuItem.map((item) => (
-            <Menu.Item key={(parent?parent.path:'') + item.path} to={(parent?parent.path:'') + item.path}>
+        return menuItem.map((item, index) => (
+            <Menu.Item 
+                icon={this.renderIcon(item, index)}
+                key={(parent?parent.path:'') + item.path} to={(parent?parent.path:'') + item.path}>
                 <Link to={(parent?parent.path:'') + item.path}>
                     <span>{item.name}</span>
                 </Link>
@@ -35,9 +51,9 @@ class SideMenu extends Component {
 
     render() {
         // 高级管理员权限
-        const menusTemp = JSON.parse(JSON.stringify(menus))
+        const menusTemp = lodash.cloneDeep(menus) 
         if(this.context.userInfo && this.context.userInfo.name === 'admin') {
-            const adminMenusTemp = JSON.parse(JSON.stringify(adminMenus))
+            const adminMenusTemp = lodash.cloneDeep(adminMenus) 
             menusTemp.push(...adminMenusTemp)
         }
 
@@ -53,8 +69,8 @@ class SideMenu extends Component {
             defaultOpenKeys.push('defaultMenu')
         }
         return (
-            <Sider className="main-sider" width={260}>
-                <Menu selectedKeys={[menuSelected]} defaultOpenKeys={defaultOpenKeys} mode="inline" theme="dark">
+            <Sider className="main-sider" width={260} theme='light'>
+                <Menu selectedKeys={[menuSelected]} defaultOpenKeys={defaultOpenKeys} mode="inline">
                     {menusTemp.map((item) =>
                         item.children
                             ? this.renderSubMenu(

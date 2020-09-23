@@ -1,42 +1,89 @@
 .template-item {
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 20px;
+
   &>div {
-    width: 150px;
-    height: 200px;
-    border: 1px solid #ccc;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    width: 360px;
+    height: 180px;
+    border: 1px solid #e8e8e8;
     position: relative;
+    background-color: white;
   }
-  .template-item-title {
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    padding-top: 10px;
-  }
-  .template-item-icon {
-    font-size: 100px;
-    text-align: center;
+
+  .template-item-info {
     position: relative;
-    top: -20px;
+
+    &>div {
+      padding: 20px 20px 10px 80px;
+    }
+
+    h3 {
+      font-weight: bold;
+    }
+
+    p {
+      margin-top: 20px;
+      color: #888;
+    }
+
+    img {
+      position: absolute;
+      top: 20px;
+      left: 16px;
+      width: 50px;
+    }
   }
+
   .template-item-btns {
-    display: flex;
     position: absolute;
-    width: 150px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    background-color: #ddd;
-    cursor: pointer;
-    color: white;
-    border: 1px solid #666;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    background-color: #f7f9fa;
+    padding: 8px 0;
+    border-top: 1px solid #e8e8e8;
+    color: #888;
+
     &>div {
       flex: 1;
       text-align: center;
-    }
-    a {
-      color: white;
-      display: block;
+      border-right: 1px solid #e8e8e8;
+      cursor: pointer;
     }
   }
+
+  // .template-item-title {
+  //   font-size: 16px;
+  //   font-weight: bold;
+  //   text-align: center;
+  //   padding-top: 10px;
+  // }
+  // .template-item-icon {
+  //   font-size: 100px;
+  //   text-align: center;
+  //   position: relative;
+  //   top: -20px;
+  // }
+  // .template-item-btns {
+  //   display: flex;
+  //   position: absolute;
+  //   width: 150px;
+  //   left: -1px;
+  //   right: -1px;
+  //   bottom: -1px;
+  //   background-color: #ddd;
+  //   cursor: pointer;
+  //   color: white;
+  //   border: 1px solid #666;
+  //   &>div {
+  //     flex: 1;
+  //     text-align: center;
+  //   }
+  //   a {
+  //     color: white;
+  //     display: block;
+  //   }
+  // }
 }

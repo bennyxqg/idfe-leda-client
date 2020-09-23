@@ -1,13 +1,16 @@
-.imgNews-wrap {
-  width: 970px;
-  margin: auto;
-  height: 300px;
-  background-color: white;
-  text-align: center;
+.imgNews-wrap-inner {
+  .ant-carousel .slick-dots li.slick-active {
+    width: 16px;
+  }
   li {
     list-style: none;
   }
-  .imgNews-wrap-inner {
+  .imgNews-wrap-item {
+    width: 970px;
+    margin: auto;
+    height: 300px;
+    background-color: white;
+    text-align: center;
     display: flex;
     .imgNews-wrap-inner-carousel {
       width: 300px;

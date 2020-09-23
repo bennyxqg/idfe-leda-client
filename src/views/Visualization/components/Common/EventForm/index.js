@@ -109,6 +109,7 @@ const Index = React.forwardRef((props, ref) => {
               <Radio value={1}>外链</Radio>
               <Radio value={2}>内页</Radio>
               <Radio value={3}>锚点</Radio>
+              <Radio value={5}>视频</Radio>
             </Radio.Group>
           </Form.Item>
           {
@@ -190,6 +191,19 @@ const Index = React.forwardRef((props, ref) => {
               </Select>
             </Form.Item>
           )}
+          {
+            eventData.type == 5 && (
+              <>
+                <Form.Item
+                  label="视频地址"
+                  name="videoUrl"
+                  // rules={[{ required: true, message: '请输入外链地址' }]}
+                >
+                  <Input />
+                </Form.Item>
+              </>
+            )
+          }
         </Form>
         </div>
     }

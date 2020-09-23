@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef, useImperativeHandle} from "react";
-import { Modal, Button, Form, Input, message, InputNumber, Select, Radio } from 'antd';
+import { Switch, Button, Form, Input, message, InputNumber, Select, Radio } from 'antd';
 import CommonUpload from '@/components/CommonUpload/index'
 
 const layout = {
@@ -40,6 +40,13 @@ const Index = React.forwardRef((props, ref) => {
         ref={ref}
         form={form}
       >
+      <Form.Item
+        valuePropName="checked"
+        label="关闭背景"
+        name='disabled'
+      >
+        <Switch />
+      </Form.Item>
       <Form.Item
         label="背景类型"
         name='bgType'

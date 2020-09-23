@@ -54,7 +54,7 @@ const GlobalConfig = (props) => {
   return (
     <div className="shadow-radius">
       <div style={{width: '600px', margin: 'auto'}}>
-        <div style={{fontSize: '16px', fontWeight: '700', marginBottom: '16px'}}>基本信息</div>
+        <div className='mar-t-30' style={{fontSize: '16px', fontWeight: '700', marginBottom: '16px'}}>基本信息</div>
         <Form labelCol={{ span: 4 }} 
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}

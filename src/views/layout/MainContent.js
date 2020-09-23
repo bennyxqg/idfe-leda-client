@@ -11,6 +11,7 @@ import CarouselGroup from "@/views/Carousel/Group";
 import CarouselList from "@/views/Carousel/List";
 import VideoList from "@/views/Video/List";
 import AdminUser from "@/views/AdminConf/User";
+import AdminSite from "@/views/AdminConf/Site";
 import Template from "@/views/Template";
 import Visualization from "@/views/Visualization";
 
@@ -34,6 +35,7 @@ const MainContent = ({ location }) => {
       <Route path="/video/list" component={VideoList}/>
       <Route path="/template" component={Template}/>
       <Route path="/adminConf/user" component={AdminUser}/>
+      <Route path="/adminConf/site" component={AdminSite}/>
       <Route path="/visualization" component={Visualization}/>
       <Route path="/404" component={NotFound} key={'/404'}/>
       <Redirect from="/" exact to="/basic" />

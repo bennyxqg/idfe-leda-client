@@ -1,8 +1,21 @@
+import React, { Component } from "react";
+
+import {
+    TagsOutlined,
+    ContainerOutlined,
+    CommentOutlined,
+    AudioOutlined,
+    PictureOutlined,
+    VideoCameraAddOutlined,
+    AppstoreAddOutlined,
+    UserOutlined
+  } from '@ant-design/icons';
+
 export const menus = [{
         name: "网站信息",
         path: "",
         key: '',
-        icon: "",
+        icon: [<TagsOutlined />],
         children: [{
                 name: "基本信息",
                 path: "/basic",
@@ -18,22 +31,22 @@ export const menus = [{
     {
         name: "新闻管理",
         path: "/new",
-        icon: "",
+        icon: [<ContainerOutlined />],
     },
     {
         name: "评论管理",
         path: "/reply",
-        icon: ""
+        icon: [<CommentOutlined />]
     },
     {
         name: "留言管理",
         path: "/message",
-        icon: ""
+        icon: [<AudioOutlined />]
     },
     {
         name: "轮播图模块",
         path: "/carousel",
-        icon: "",
+        icon: [<PictureOutlined />],
         children: [{
                 name: "分组列表",
                 path: "/group",
@@ -49,7 +62,7 @@ export const menus = [{
     {
         name: "视频模块",
         path: "/video",
-        icon: "",
+        icon: [<VideoCameraAddOutlined />],
         children: [
             {
                 name: "视频列表",
@@ -61,7 +74,7 @@ export const menus = [{
     {
         name: "模板管理",
         path: "/template",
-        icon: ""
+        icon: [<AppstoreAddOutlined />]
     }
 ];
 
@@ -69,7 +82,7 @@ export const adminMenus = [
     {
         name: "管理员模块",
         path: "/adminConf",
-        icon: "",
+        icon: [<UserOutlined />],
         children: [
             {
                 name: "网站管理",

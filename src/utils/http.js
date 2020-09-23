@@ -20,7 +20,7 @@ $axios.interceptors.request.use(config => {
   } else {
     config.data = 'token=' + (token || '')
   }
-  config.data += ('&site_id=' + (siteId || ''))
+  config.data += ('&site_id=' + (siteId || '10'))
   // if (config.url.indexOf('login6') === -1) {
   //   config.headers['token'] = localStorage.token
   // }

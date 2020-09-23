@@ -5,6 +5,8 @@ import ImgUpload from '@/components/ImgUpload'
 import lodash from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 import update from 'immutability-helper';
+import SwiperStyleForm from '@/views/Visualization/components/Common/SwiperStyleForm/index'
+
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -19,6 +21,7 @@ const Index = React.forwardRef((props, ref) => {
   const [styleData, setStyleData] = useState(null)
   
   const [form] = Form.useForm();
+  // const swiperFormRef = useRef();
 
   useImperativeHandle(ref, () => ({
     ref: ref.current,
@@ -27,11 +30,7 @@ const Index = React.forwardRef((props, ref) => {
 
   useEffect(() => {
     if(props.data && props.data.data) {
-      const carouselStyle = lodash.cloneDeep(props.data.data.style.carousel)
-      
-      form.setFieldsValue({
-        carousel: carouselStyle
-      })
+
     }
     console.log('---props.section----22233----', props.data)
   }, []);
@@ -53,50 +52,16 @@ const Index = React.forwardRef((props, ref) => {
   return <div  className='widgets-modal-wrapper'>
       {
         <div className='widgets-modal-inner imgnews-style-modal'>
-          <Form name="nest-messages" 
-            initialValues={{}}
-            hideRequiredMark={true}
-            ref={ref}
-            form={form} onFinish={onFinish} >
-            <Collapse defaultActiveKey={['1']}>
-              <Panel header="板块样式" key="1">
-                <div>
-                  <Form.Item
-                    label="导航轮播样式"
-                    name={['carousel', 'nav', 'type']}
-                    rules={[{ required: true, message: '请选择导航轮播样式' }]}
-                  >
-                    <Select>
-                      <Option value="1">横线</Option>
-                      <Option value="2">点</Option>
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label="导航激活颜色"
-                    name={['carousel', 'nav', 'color']}
-                    rules={[{ required: true, message: '请选择导航激活颜色' }]}
-                  >
-                    <Input type='color'/>
-                  </Form.Item>
-                  <Form.Item
-                    label="轮播时间间隔（毫秒）"
-                    name={['carousel', 'delay']}
-                    rules={[{ required: true, message: '请输入轮播时间间隔' }]}
-                  >
-                    <Input />
-                  </Form.Item>
-                  <Form.Item
-                    label="是否自动轮播"
-                    name={['carousel', 'autoPlay']}
-                    valuePropName="checked"
-                    rules={[{ required: true, message: '请选择是否自动轮播' }]}
-                  >
-                    <Switch />
-                  </Form.Item>
-                </div>
-              </Panel>
-            </Collapse>
-          </Form>
+          <Collapse defaultActiveKey={['1']}>
+            <Panel header="模块样式" key="1">
+              <div>
+                <SwiperStyleForm 
+                  ref={ref}
+                  data={props.data.data.style.swiper}
+                />
+              </div>
+            </Panel>
+          </Collapse>
         </div>
       }
     </div>

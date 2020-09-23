@@ -110,6 +110,9 @@ export const addOrEditForListItem = (list, item, key) => {
 export const handleBgStyle = (bgData) => {
   const style = {}
   if(!bgData) return style
+  if(bgData.disabled) {
+    return style
+  }
   if(bgData.bgType === 1 && bgData.bgColor) {
     style.backgroundColor = bgData.bgColor
   } else if(bgData.bgType === 2 && bgData.bgImg){
@@ -128,6 +131,10 @@ export const handleBgStyle = (bgData) => {
   // form promise函数
   export const formPromise = (targetRef) => {
     return new Promise((resolve, reject) => {
+      if(!targetRef) {
+        reject()
+        return
+      }
       if(!targetRef.validateFields) {
         reject()
         return
