@@ -88,20 +88,21 @@ class Login extends React.Component {
                         }
                       },
                       color: {
-                        value: "#ffffff"
+                        value: "#1890ff"
+                        // value: "#ff4242"
                       },
                       "shape": {
                         "type": "circle",
                         "stroke": {
                           "width": 0,
-                          "color": "#000000"
+                          "color": "#1890ff"
                         },
                         "polygon": {
                           "nb_sides": 5
                         }
                       },
                       "opacity": {
-                        "value": 1,
+                        "value": 0.5,
                         "random": true,
                         "anim": {
                           "enable": true,

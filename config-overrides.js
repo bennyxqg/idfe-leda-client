@@ -121,13 +121,13 @@ module.exports = {
             changeOrigin: true
         },
         '/adminApi': {
-          // target: 'http://192.168.4.124:8010',
-          target: 'http://192.168.115.60:8079',
+          target: 'http://192.168.4.124:8010',
+          // target: 'http://192.168.115.60:8079',
           secure: false,
           changeOrigin: true,
-          // pathRewrite: {
-          //   '^/adminApi': ''
-          // }
+          pathRewrite: {
+            '^/adminApi': ''
+          }
         },
         '/reportApi': {
           target: 'http://dlog-h5.uu.cc',
