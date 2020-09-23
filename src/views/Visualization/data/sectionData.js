@@ -163,7 +163,7 @@ export const sectionData = () => {
           ]
         },
         style: {
-          type: 1, // 1： 普通，2：卡片
+          type: 2, // 1： 普通，2：卡片
           width: '',
           height: '',
           align: 'center',

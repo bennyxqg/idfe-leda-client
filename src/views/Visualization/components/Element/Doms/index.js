@@ -17,7 +17,7 @@ const Index = (props) => {
   const [showEditModal, setShowEditModal] = useState(false)
   const [currentElement, setCurrentElement] = useState(null)
   const [selectId, setSelectId] = useState('')
-  const [maxZIndex, setMaxZIndex] = useState(1)
+  const [maxZIndex, setMaxZIndex] = useState(10)
 
 	useEffect(() => {
     let zIndexTemp = 1
@@ -28,7 +28,9 @@ const Index = (props) => {
         }
       }
     })
-    setMaxZIndex(zIndexTemp + 1)
+    if(maxZIndex <= zIndexTemp) {
+      setMaxZIndex(zIndexTemp + 1)
+    }
   }, []);
   
   const showComp = (item, index) => {

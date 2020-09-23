@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button, Form, Select, Badge, message, Modal } from 'antd';
+import { message } from 'antd';
 import { Link } from 'react-router-dom';
 import './index.less'
 import {
@@ -20,32 +20,38 @@ const CardComp = (props) => {
 			</div>
 			<div className='template-item-btns'> 
 				<div onClick={props.editCB}><FormOutlined /><span>&nbsp;编辑</span></div>
-				<div><EyeOutlined /><span>&nbsp;预览</span></div>
+				<div onClick={props.previewCB}><EyeOutlined /><span>&nbsp;预览</span></div>
 			</div>
 		</div>
 	)
 }
 
 class Index extends React.Component  {
-	formRef = React.createRef();
 	state = {
 		
 	};
-	async componentWillMount() { 
 
+	// 编辑
+	toEdit(type) {
+		if(type === 'pc') {
+			this.props.history.push({ pathname: `/visualization` })
+		} else {
+			message.warning('功能开发中，敬请期待...');
+		}
 	}
 
-	componentWillUnmount   () {
-
-	}
-
-	toEdit() {
-		
-		this.props.history.push({ pathname: `/visualization` })
+	// 预览
+	toPreview(type) {
+		message.warning('功能开发中，敬请期待...');
+		return
+		if(type === 'pc') {
+			this.props.history.push({ pathname: `/visualization` })
+		} else {
+			message.warning('功能开发中，敬请期待...');
+		}
 	}
 
 	render() {
-
 		return (
 			<div className="">
 				<div className="template-page">
@@ -55,19 +61,24 @@ class Index extends React.Component  {
 								<CardComp 
 									title='电脑端官网模板'
 									desc='通过可视化的模块化编辑，搭建电脑端的官网。'
-									editCB={() => {this.toEdit()}}
+									editCB={() => {this.toEdit('pc')}}
+									previewCB={() => {this.toPreview('pc')}}
 								/> 
 							</li>
 							<li className="template-item"> 
 								<CardComp 
 									title='手机端官网模板'
 									desc='通过可视化的模块化编辑，搭建个性化的手机端官网。'
+									editCB={() => {this.toEdit('wap')}}
+									previewCB={() => {this.toPreview('wap')}}
 								/> 
 							</li>
 							<li className="template-item"> 
 								<CardComp 
 									title='落地页模板'
 									desc='快速搭建搭建个性化的落地页。'
+									editCB={() => {this.toEdit('wap')}}
+									previewCB={() => {this.toPreview('wap')}}
 								/> 
 							</li>
 						</ul>
