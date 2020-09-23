@@ -1,10 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
-import { Table, Button, Form, Select, Input, message, Modal } from 'antd';
-import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
-import { formatTime } from '@/utils/helper'
+import { DndProvider } from 'react-dnd';
 import SiteContent from './SiteContent'
 import LeftMenu from './LeftMenu'
-import RightMenu from './RightMenu'
 import SectionListModal from '@/views/Visualization/components/SectionListModal'
 import PagesModal from '@/views/Visualization/components/Common/PagesModal/index'
 import HeaderComp from './HeaderComp'

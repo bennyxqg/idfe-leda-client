@@ -9,8 +9,8 @@ export const elementData = () => {
       style: {
         width: '',
         height: '',
-        top: 0,
-        left: 0,
+        top: 10,
+        left: 30,
         align: 'left'
       },
       ...eventData()
@@ -21,8 +21,8 @@ export const elementData = () => {
       style: {
         width: 200,
         height: '',
-        top: 0,
-        left: 0,
+        top: 10,
+        left: 30,
         align: 'left',
         font: {
           fontSize: 14,
@@ -45,8 +45,8 @@ export const elementData = () => {
       style: {
         width: 400,
         height: 300,
-        top: 0,
-        left: 0,
+        top: 10,
+        left: 30,
       }
     }}
   }

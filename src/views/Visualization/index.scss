@@ -1,12 +1,14 @@
 .visualization-wrap {
   position: relative;
   padding-bottom: 20px;
+
   .hover-highlight {
     &:hover {
       border: 1px dotted #007ed3;
-      background-color: rgba(150,198,239,.3)
-    } 
+      background-color: rgba(150, 198, 239, .3)
+    }
   }
+
   // 中心点
   .center-dot {
     position: absolute;
@@ -15,49 +17,54 @@
     width: 1px;
     height: 1px;
   }
+
   .vis-wrap-header {
     height: 40px;
     background-color: white;
     display: flex;
     justify-content: space-between;
+
     .vis-wrap-header-left {
       line-height: 40px;
     }
   }
+
   .vis-wrap-leftMenu {
     position: fixed;
     top: 60px;
     left: 10px;
     z-index: 10;
+
     ul {
-        margin: 0;
-        padding: 0;
-        li.left-bar-item {
-          font-size: 16px;
-          background: -webkit-linear-gradient(top,rgba(255,255,255,.96) 0,rgba(238,238,238,.96) 100%);
-          background: linear-gradient(to bottom,rgba(255,255,255,.96) 0,rgba(238,238,238,.96) 100%);
-          box-shadow: 0 2px 5px 0 rgba(22,45,61,.58);
-          border-radius: 24px;
-          line-height: 2;
-          height: 48px;
-          position: relative;
-          cursor: pointer;
-          margin-bottom: 12px;
-          width: 48px;
-          padding-right: 0;
-          text-align: center;
-        }
-    }
-    .vis-wrap-leftMenu-operation {
-      li {
-        
+      margin: 0;
+      padding: 0;
+
+      li.left-bar-item {
+        font-size: 16px;
+        background: -webkit-linear-gradient(top, rgba(255, 255, 255, .96) 0, rgba(238, 238, 238, .96) 100%);
+        background: linear-gradient(to bottom, rgba(255, 255, 255, .96) 0, rgba(238, 238, 238, .96) 100%);
+        box-shadow: 0 2px 5px 0 rgba(22, 45, 61, .58);
+        border-radius: 24px;
+        line-height: 2;
+        height: 48px;
+        position: relative;
+        cursor: pointer;
+        margin-bottom: 12px;
+        width: 48px;
+        padding-right: 0;
+        text-align: center;
       }
     }
+
+    .vis-wrap-leftMenu-operation {
+      li {}
+    }
+
     .vis-wrap-leftMenu-module {
       position: absolute;
       top: 0;
       left: 60px;
-      
+
       ul {
         background: #001529;
         display: inline-block;
@@ -66,6 +73,7 @@
         padding: 18px 0;
         vertical-align: top;
         border-radius: 6px;
+
         li {
           width: 120px;
           color: #e8e8e8;
@@ -77,41 +85,51 @@
           padding-left: 10px;
         }
       }
-      
+
     }
   }
+
   .vis-wrap-siteContent {
     min-height: 600px;
     background-color: #e8e8e8;
-    padding-top: 30px;
+    // padding-top: 30px;
+
     .vis-section-item-wrap {
       position: relative;
       border: 2px dotted #e8e8e8;
+
       .vis-element-drag-item {
         .element-btns-wrap {
           display: none;
         }
+
         &:hover {
           .element-btns-wrap {
             display: block;
           }
         }
       }
+
       .section-btns-wrap {
         display: none;
       }
+
       &:hover {
         border: 2px dotted #007ed3;
+
         .section-btns-wrap {
           display: block;
         }
       }
+
       &.drop-over-downward {
         border-bottom: 2px dashed #1890ff;
       }
+
       &.drop-over-upward {
         border-top: 2px dashed #1890ff;
       }
+
       .vis-section-item-mask {
         position: absolute;
         width: 100%;
@@ -119,10 +137,12 @@
         top: 0;
         left: 0;
         z-index: 5;
+
         &:hover {
           border: 1px dotted #007ed3;
         }
       }
+
       .vis-section-item-btns {
         position: absolute;
         top: -28px;
@@ -132,50 +152,65 @@
         font-size: 18px;
         cursor: pointer;
         z-index: 6;
+
         span {
           padding: 4px 4px;
           font-weight: bold;
         }
+
         &.vis-element-item-btns {
           min-width: 66px;
           font-size: 14px;
           top: -22px;
           z-index: auto;
+
           span {
             padding: 0 2px;
             font-weight: normal;
           }
         }
       }
+
+      .section-btns-bottom-pos {
+        .vis-section-item-btns {
+          top: 0;
+        }
+      }
+
       .vis-add-section-btns {
         div {
           position: absolute;
           z-index: 100;
           left: 50%;
-          width: 40px;
-          height: 40px;
-          border-radius: 20px;
+          width: 30px;
+          height: 30px;
+          line-height: 28px;
+          border-radius: 50%;
           background-color: #1890ff;
           text-align: center;
           color: white;
           font-size: 24px;
           cursor: pointer;
           transform: translate(-50%);
+
           &.vis-add-section-btns-up {
-            top: -20px;
+            top: -15px;
           }
+
           &.vis-add-section-btns-down {
-            bottom: -20px;
+            bottom: -15px;
           }
         }
       }
     }
   }
+
   .vis-wrap-rightMenu {
     position: absolute;
     top: 0;
     right: 0;
     z-index: 10;
+
     .vis-rightMenu-inner {
       width: 200px;
       height: 600px;
@@ -189,54 +224,81 @@
   .ant-modal-header {
     display: none;
   }
+
   .ant-modal-body {
     padding: 0;
-    
+
   }
+
   .vis-add-modal-section-list {
-    
+
     .vis-add-modal-section-list-inner {
       display: flex;
+
       .section-list {
+        position: relative;
         min-height: 500px;
         flex: 0 0 200px;
-        background-color: #001529;
-        color: white;
+        background-color: white;
         padding-top: 20px;
+        box-shadow: 2px 0px 2px 0px #e8e8e8;
+        overflow: hidden;
+
         li {
           padding: 8px 30px;
           cursor: pointer;
-          color: #ccc;
+          color: #333;
+          position: relative;
+
+          &:hover {
+            color: #1890ff;
+          }
+
           &.active {
-            color: white;
-            background-color: #1890FF;
+            color: #1890ff;
+            background-color: #e6f7ff;
+
+            &:after {
+              content: "";
+              position: absolute;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              border-right: 3px solid #1890ff;
+            }
           }
         }
       }
+
       .section-preview {
         flex: 1;
         width: 600px;
         background-color: white;
+
         .section-preview-header {
           padding: 12px 16px;
           font-size: 18px;
           color: black;
           border-bottom: 1px solid #e8e8e8;
         }
+
         .section-preview-example {
           padding: 12px;
+
           li {
             cursor: pointer;
             padding: 4px;
             border: 1px solid #e8e8e8;
+
             img {
               width: 100%;
             }
+
             &:hover {
               border: 1px solid #40a9ff;
             }
           }
-          
+
         }
       }
     }
@@ -271,6 +333,7 @@
   left: 50%;
   width: 1px;
   height: 0;
+
   .drag-element-item {
     position: absolute;
   }
@@ -294,9 +357,10 @@ tr.common-drop-row.drop-over-upward td {
     li {
       &.slick-active {
         .circle-dot {
-          opacity:1;
+          opacity: 1;
         }
       }
+
       .circle-dot {
         opacity: 0.5;
       }

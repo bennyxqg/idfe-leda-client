@@ -3,6 +3,7 @@ import {withRouter} from "react-router-dom";
 import { Layout, Menu, Dropdown, Select, Message } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { toLogout } from '@/http/hlogin'
+import logo from '@/assets/images/logo.png'
 import '@/assets/css/common.less'
 import GlobalContext from "./GlobalContext";
 const {Header} = Layout
@@ -83,6 +84,7 @@ class TopHeader extends Component {
       <Header className="top-header">
         <div className="header-box">
           <div className="header-logo">
+            <img src={logo} alt='logo' />
           </div>
           <div className="header-content">
             <div className="header-site-list">

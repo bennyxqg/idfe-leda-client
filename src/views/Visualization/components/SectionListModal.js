@@ -1,16 +1,17 @@
-import React, {useState, useEffect, useRef, useContext} from "react";
-import { Modal, List } from 'antd';
+import React, {useState, useEffect, useContext} from "react";
+import { Modal } from 'antd';
 import {
 	AppstoreAddOutlined
 } from '@ant-design/icons';
 import { sectionData } from '@/views/Visualization/data/sectionData';
 import VisContext from "@/views/Visualization/context/VisContext";
 import classNames from 'classnames'
+import lodash from "lodash";
 
 const Index = (props) => {
 	const { showAddModal, setShowAddModal } = useContext(VisContext)
 	const [modalVisible] = useState(true)
-	const [activeIndex, setActiveIndex] = useState(0)
+	const [activeIndex, setActiveIndex] = useState()
 	const [examples, setExamples] = useState([])
 
 	const [menuList, setMenuList] = useState([
@@ -30,9 +31,12 @@ const Index = (props) => {
 		// },
 	])
 
-	const handleOk = (value) => {
-    // props.modalChange(false);
-  }
+	useEffect(() => {
+		if(menuList[0].modules.length) {
+			chooseItem(menuList[0].modules[0], 0)
+		}
+		
+  }, []);
 
   const handleCancel = () => {
 		const data = {
@@ -54,10 +58,16 @@ const Index = (props) => {
 
 	// 选择模块类型
 	const chooseItem = (item, index) => {
-		console.log('---chooseItem---', item, index)
 		if(index !== activeIndex) {
 			setActiveIndex(index)
-			setExamples(item.examples || [])
+			let examplesTemp = []
+			if(item.examples) {
+				examplesTemp = lodash.cloneDeep(item.examples)
+				examplesTemp.forEach(e => {
+					e.value = item.value
+				});
+			}
+			setExamples(examplesTemp)
 		}
 	}
 
@@ -109,7 +119,7 @@ const Index = (props) => {
 									{
 										examples.map((item, index) => {
 											return (
-												<li key={index} >
+												<li key={index} onClick={()=> {addSection(item)}}>
 													<span>
 														<img src={item.img} alt='' />
 													</span>

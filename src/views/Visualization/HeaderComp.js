@@ -1,12 +1,15 @@
-import React, {useState, useEffect, useRef, useContext} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { Button, message } from 'antd';
 import VisContext from "@/views/Visualization/context/VisContext";
 import { configSave, configPublish } from '@/http/hvisualization'
 import lodash from 'lodash'
 import { getWebsiteAddress } from '@/http/hvisualization'
+import { useHistory } from "react-router-dom";
 
 const Index = (props) => {
-	const { pageItem, pageData, sectionList, setShowPagesModal } = useContext(VisContext)
+	let history = useHistory();
+
+	const { pageItem, sectionList, setShowPagesModal } = useContext(VisContext)
 	const [address, setAddress] = useState({})
 
 	useEffect(() => {
@@ -33,6 +36,10 @@ const Index = (props) => {
 
 	const save = () => {
 		toReq('save')
+	}
+
+	const back = () => {
+		history.go(-1)
 	}
 
 	const websiteAddress = () => {
@@ -113,6 +120,9 @@ const Index = (props) => {
 				<Button type="primary" 
 					onClick={preview}
 					className='mar-r-10 mar-t-4' style={{'float': 'right'}}>预览</Button>
+				<Button
+					onClick={back}
+					className='mar-r-10 mar-t-4' style={{'float': 'right'}}>返回</Button>
 			</div>
 		</div>
 	)

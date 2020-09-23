@@ -4,6 +4,7 @@ import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import { getItemIndexByKey, swapArray } from '@/utils/helper'
 import SectionBtns from './SectionBtns'
 import VisContext from "@/views/Visualization/context/VisContext";
+import classNames from 'classnames'
 
 import {
 	BlankSection,
@@ -165,7 +166,12 @@ const DragableSection = ({ section, index, moveRow, className, style, ...restPro
             />
           } */}
           {
-            <div className='section-btns-wrap'>
+            <div
+              className={classNames({
+                'section-btns-wrap': true,
+                'section-btns-bottom-pos': index === 0
+              })}
+            >
               <SectionBtns 
                 handleStyle={() => {handleBtns('style', section)}}
                 handleData={() => {handleBtns('data', section)}}

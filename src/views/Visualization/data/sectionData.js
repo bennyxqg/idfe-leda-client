@@ -9,12 +9,18 @@ import {
 import demoNav from '@/assets/images/visualization/demo-nav.png'
 import demoCarouselCard from '@/assets/images/visualization/demo-carousel-card.png'
 import demoImgNewsCommon from '@/assets/images/visualization/demo-imgNews-common.png'
+import demoBlank from '@/assets/images/visualization/demo-blank.png'
 
 export const sectionData = () => {
   return {
     'blankSection': {
       type: 'blankSection',
       label: '空白板块',
+      examples: [
+        {
+          img: demoBlank
+        }
+      ],
       data: {
         name: '',
         style: {
@@ -129,7 +135,7 @@ export const sectionData = () => {
       name: '',
       examples: [
         {
-          img: demoImgNewsCommon
+          img: demoCarouselCard
         }
       ],
       data: {
@@ -177,7 +183,7 @@ export const sectionData = () => {
       label: '图文信息',
       examples: [
         {
-          img: demoCarouselCard
+          img: demoImgNewsCommon
         }
       ],
       data: {
