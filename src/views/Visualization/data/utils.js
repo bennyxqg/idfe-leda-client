@@ -19,7 +19,12 @@ export const swiperData = () => {
         color: '#ffffff',
       },
       autoPlay: true, // 是否自动轮播
-      delay: 3000 // 轮播时间间隔
+      delay: 3000, // 轮播时间间隔
+      navBtn: { // 前后按钮
+        show: true,
+        nextBg: '', // 前进按钮图片
+        prevBg: '' // 后退按钮图片
+      }
     }
   }
 }

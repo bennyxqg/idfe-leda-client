@@ -1,14 +1,17 @@
-import React, {useState, useEffect, useContext} from "react";
-import { Button, message } from 'antd';
+import React, {useState, useEffect, useContext, memo} from "react";
+import { Button, message, Row, Col } from 'antd';
 import VisContext from "@/views/Visualization/context/VisContext";
 import { configSave, configPublish } from '@/http/hvisualization'
 import lodash from 'lodash'
 import { getWebsiteAddress } from '@/http/hvisualization'
 import { useHistory } from "react-router-dom";
+import GlobalContext from "@/views/layout/GlobalContext";
 
-const Index = (props) => {
+
+const Index = memo((props) => {
 	let history = useHistory();
 
+	const { userInfo } = useContext(GlobalContext)
 	const { pageItem, sectionList, setShowPagesModal } = useContext(VisContext)
 	const [address, setAddress] = useState({})
 
@@ -28,7 +31,6 @@ const Index = (props) => {
 	}	
 
 	const showPageModal = () => {
-		console.log('-----showPageModal------')
 		setShowPagesModal({
 			show: true
 		})
@@ -101,32 +103,44 @@ const Index = (props) => {
 
 	return (
 		<div className="vis-wrap-header">
-			<div className="vis-wrap-header-left">
-				<span 
-					onClick={showPageModal}
-					className='mar-l-8'>当前{getPageData().type}：
-					<span style={{
-						cursor: 'pointer'
-					}}>{getPageData().name}</span>
-					</span>
-			</div>
-			<div className="vis-wrap-header-right">
-				<Button type="primary" 
-					onClick={save}
-					className='mar-r-10 mar-t-4' style={{'float': 'right'}}>保存</Button>
-				<Button type="primary" 
-					onClick={publish}
-					className='mar-r-10 mar-t-4' style={{'float': 'right'}}>发布</Button>
-				<Button type="primary" 
-					onClick={preview}
-					className='mar-r-10 mar-t-4' style={{'float': 'right'}}>预览</Button>
-				<Button
-					onClick={back}
-					className='mar-r-10 mar-t-4' style={{'float': 'right'}}>返回</Button>
-			</div>
+			<Row className='vis-wrap-header-inner'>
+				<Col span={8} className='header-part'>
+					<Button type="primary" 
+						onClick={save}
+						className='mar-l-32'>保存</Button>
+					<Button type="primary" 
+						onClick={publish}
+						className='mar-l-10'>发布</Button>
+					<Button
+						onClick={preview}
+						className='mar-l-30'>预览</Button>
+				</Col>
+				<Col span={8} className='header-part header-part-center'>
+					<div>
+						<span>
+							当前{getPageData().type}：
+						</span>
+						<span>
+							{getPageData().name}
+						</span>
+						<span onClick={showPageModal} className='mar-l-30 switch-page-btn'>
+							切换
+						</span>
+					</div>
+				</Col>
+				<Col span={8} className='header-part header-part-right'>
+					<div className='mar-r-32'>
+						<Button
+							type="primary" 
+							onClick={back}
+							className='mar-r-20 mar-t-4'>返回</Button>
+						<span>{userInfo.name}</span>
+					</div>
+				</Col>
+			</Row>
 		</div>
 	)
-}
+})
 
 export default Index
 

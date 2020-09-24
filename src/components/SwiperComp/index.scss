@@ -1,25 +1,30 @@
 .swiper-comp-wrap {
-  margin: 0 auto;
+  
+  .swiper-container-outer {
+    margin: 0 auto;
+    position: relative;
+  }
   .swiper-container {
+    margin: 0 auto;
     position: relative;
     
     &.swiper-container-card {
-      // overflow: hidden;
+      overflow: hidden;
       .swiper-slide {
-        background: #ffffff;
+        //background: #ffffff;
         // width: 200px;
         // height: 100px;
-        background: #A3A3A3;
+        //background: #A3A3A3;
         img{
           // width: 200px;
           // height: 100px;
-          object-fit: fill;
+          //object-fit: fill;
         }
       }
     }
     &.swiper-container-common {
       .swiper-slide {
-        img{
+        img {
           
         }
       }
@@ -37,6 +42,28 @@
       width: 20px;
       height: 4px;
       border-radius: 0;
+    }
+  }
+  .swiper-buttons {
+    .swiper-button {
+      position: absolute;
+      top: 50%;
+      width: 77px;
+      height: 77px;
+      // transform: translateY(-50%);
+      cursor: pointer;
+      background-size: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      &:focus{ 
+        outline: 0; 
+      }
+    }
+    .swiper-button-prev {
+      left: 0;
+    }
+    .swiper-button-next {
+      right: 0;
     }
   }
 }

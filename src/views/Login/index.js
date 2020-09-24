@@ -180,7 +180,7 @@ class Login extends React.Component {
                     <div className='text-c mar-b-50' style={{
                         color: '#999'
                     }}>
-                        <span>做东半球最具影响力的可视化官网搭建平台</span>
+                        <span>模块化快速、灵活地创造属于你的个性化官网</span>
                     </div>
                     <div className='form-box'>
                         <Form
@@ -252,7 +252,7 @@ class Login extends React.Component {
                             </Form.Item>
                         </Form>
                     </div>
-                    <p className="info">Copyright© 2020 IDFE出品</p>
+                    <p className="info">Copyright© 2020 创梦天地前端开发团队出品</p>
                 </div>
             </div>
         )

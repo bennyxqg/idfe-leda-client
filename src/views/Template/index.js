@@ -36,13 +36,13 @@ class Index extends React.Component  {
 		if(type === 'pc') {
 			this.props.history.push({ pathname: `/visualization` })
 		} else {
-			message.warning('功能开发中，敬请期待...');
+			message.warning('正在开发中...');
 		}
 	}
 
 	// 预览
 	toPreview(type) {
-		message.warning('功能开发中，敬请期待...');
+		message.warning('正在开发中...');
 		return
 		if(type === 'pc') {
 			this.props.history.push({ pathname: `/visualization` })

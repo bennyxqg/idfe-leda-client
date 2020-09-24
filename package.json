@@ -34,7 +34,7 @@
     "xtree-store": "^2.0.1"
   },
   "scripts": {
-    "start": "cross-env PORT=3010 env_config=dev react-app-rewired start",
+    "start": "cross-env PORT=3011 env_config=dev react-app-rewired start",
     "build": "cross-env  env_config=dev_build REACT_APP_PATH=manager react-app-rewired build",
     "test": "cross-env  env_config=test REACT_APP_PATH=manager react-app-rewired build",
     "sandbox": "cross-env  env_config=sandbox REACT_APP_PATH=manager react-app-rewired build",

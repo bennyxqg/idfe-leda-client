@@ -63,6 +63,7 @@ const Index = React.forwardRef((props, ref) => {
   ]
   
   useEffect(() => {
+    console.log('----props.imgData-------', props.imgData)
     if(props.imgData) {
       const imgData = lodash.cloneDeep(props.imgData)
       if(imgData.groupId) {

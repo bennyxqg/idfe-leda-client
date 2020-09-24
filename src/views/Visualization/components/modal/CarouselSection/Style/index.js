@@ -72,7 +72,7 @@ const EditModal = (props) => {
     okText='确定'
     onOk={handleOk}
     onCancel={handleCancel}
-    width='600px'
+    width='680px'
   >
     <div >
     <Collapse defaultActiveKey={['1', '2', '3']} >
@@ -82,7 +82,7 @@ const EditModal = (props) => {
       requiredMark={false}
       form={form}
     >
-      <Form.Item
+      {/* <Form.Item
         label="类型"
         name="type"
         rules={[{ required: true, message: '请输入轮播类型' }]}
@@ -91,33 +91,41 @@ const EditModal = (props) => {
           <Option value={1}>普通</Option>
           <Option value={2}>卡片</Option>
         </Select>
-      </Form.Item>
-      <Form.Item
-        label="上内边距"
-      >
-        <Form.Item
-          noStyle
-          name="paddingTop"
-          rules={[{ required: true, message: '请输入上内边距' }]}
-        >
-          <InputNumber />
-        </Form.Item>
-        {/* <span className='mar-l-4'>px</span> */}
-      </Form.Item>
-      <Form.Item
-        label="下内边距"
-      >
-        <Form.Item
-          noStyle
-          name="paddingBottom"
-          rules={[{ required: true, message: '请输入下内边距' }]}
-        >
-          <InputNumber />
-        </Form.Item>
-        {/* <span className='mar-l-4'>px</span> */}
-      </Form.Item>
-      {/* <Row className='pad-l-4'>
+      </Form.Item> */}
+      <Row className='pad-l-4'>
         <Col span={12}>
+          <Form.Item
+            {...subLayout}
+            label="上内边距"
+          >
+            <Form.Item
+              noStyle
+              name="paddingTop"
+              rules={[{ required: true, message: '请输入上内边距' }]}
+            >
+              <InputNumber />
+            </Form.Item>
+            {/* <span className='mar-l-4'>px</span> */}
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            {...subLayout}
+            label="下内边距"
+          >
+            <Form.Item
+              noStyle
+              name="paddingBottom"
+              rules={[{ required: true, message: '请输入下内边距' }]}
+            >
+              <InputNumber />
+            </Form.Item>
+            {/* <span className='mar-l-4'>px</span> */}
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row className='pad-l-4'>
+        {/* <Col span={12}>
           <Form.Item
             {...subLayout}
             label="容器宽度"
@@ -125,7 +133,7 @@ const EditModal = (props) => {
           >
             <InputNumber />
           </Form.Item>
-        </Col>
+        </Col> */}
         <Col span={12}>
           <Form.Item
             {...subLayout}
@@ -135,7 +143,7 @@ const EditModal = (props) => {
             <InputNumber />
           </Form.Item>
         </Col>
-      </Row> */}
+      </Row>
       <Row className='pad-l-4'>
         <Col span={12}>
           <Form.Item

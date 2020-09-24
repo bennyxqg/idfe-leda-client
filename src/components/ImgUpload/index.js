@@ -2,7 +2,7 @@ import React from 'react';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { uploadImgUrl } from '@/http/hcommon'
-import './index.less'
+import './index.scss'
 
 function getBase64(img, callback) {
   return new Promise((resolve) => {
@@ -112,6 +112,11 @@ class ImgUpload extends React.Component {
               <LoadingOutlined className="img-uploader-loading-icon" />
             </div>
           ): ''
+        }
+        {
+          imgUrl && <div>
+
+          </div>
         }
       </div>
       

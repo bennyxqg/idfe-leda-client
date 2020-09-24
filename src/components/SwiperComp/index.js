@@ -10,6 +10,7 @@ const Index = (props) => {
 	const [swiperId, setSwiperId] = useState(randomCode(8))
 	const [swiperObj, setSwiperObj] = useState(null)
 	const [wrapSize, setWrapSize] = useState({})
+	const [navBtnData, setNavBtnData] = useState({})
 
 	useEffect(() => {
 		setData(props.imgList)
@@ -20,23 +21,23 @@ const Index = (props) => {
 	}, []);
 
 	useEffect(() => {
-		console.log('------props.style.type-----', props.style.type)
+		
 		init()
 	}, [props.style]);
 
 	const init = () => {
-		
+		console.log('------init--111---')
 		const type = props.style.type
 		const opts = {
       
-			observer:true,//修改swiper自己或子元素时，自动初始化swiper 
-			observeParents:true,//修改swiper的父元素时，自动初始化swiper 
-			loop: true, // 无限循环
-			onSlideChangeEnd: function(swiper){ 
-				swiper.update();  
-				swiper.startAutoplay();
-				swiper.reLoop();  
-			}
+			// observer:true,//修改swiper自己或子元素时，自动初始化swiper 
+			// observeParents:true,//修改swiper的父元素时，自动初始化swiper 
+			// loop: true, // 无限循环
+			// onSlideChangeEnd: function(swiper){ 
+			// 	swiper.update();  
+			// 	swiper.startAutoplay();
+			// 	swiper.reLoop();  
+			// }
 		}
 		if(type == 2) {
 			if(props.style.img.width) {
@@ -52,73 +53,120 @@ const Index = (props) => {
 			}
 		}
 
-		if(props.style.height) {
-			opts.height = props.style.height
-		}
+		// if(props.style.height) {
+		// 	opts.height = props.style.height
+		// }
 		if(type == 2) {
-			opts.initialSlide = 1
+			// opts.initialSlide = 1
+			opts.loop = true // 无限循环
 			opts.effect = 'coverflow'
-			opts.grabCursor = true
+			opts.grabCursor = false
+			// opts.slidesPerView = 2
 			opts.slidesPerView = 'auto'
 			opts.centeredSlides = true
 			
-			opts.coverflowEffect = {
+			opts.coverflow = {
 				rotate: 50,
-				stretch: 50,
+				stretch: 20,
 				depth: 120,
 				modifier: 1,
 				slideShadows:true
       }
 		}
 		
-		
-		if(swiperObj) {
-			swiperObj.destroy(true, true)
-			// swiperObj.update(true)
-		}
-
-		console.log('------props.style.nav----', props.style)
 		const navOpt = props.style.swiper.nav
-		if(navOpt && navOpt.show) {
+		if(navOpt) {
 			const dotsOpt = {}
 			if (navOpt.type == 1) { // 线
 				dotsOpt.className = 'line-dots'
+				dotsOpt.className_rm = 'circle-dots'
 			} else { // 点
 				dotsOpt.className = 'circle-dots'
+				dotsOpt.className_rm = 'line-dots'
 			}
 			dotsOpt.color = navOpt.color
+			if(!navOpt.show) {
+				dotsOpt.hideClassName = 'hidden'
+			}
 			opts.pagination = {
 				el: '.swiper-pagination-' + swiperId,
 				renderBullet: function (index, className) {
-					return '<span class="' + className + " " + dotsOpt.className + '" style="background-color:' + dotsOpt.color + '"></span>';
+					return '<span class="' + className + " " + dotsOpt.className + " " + dotsOpt.hideClassName + '" style="background-color:' + dotsOpt.color + '"></span>';
 				},
 				clickable: true,
 			}
+			if(swiperObj) { // 更新指示器样式
+				for(let i=0;i<swiperObj.pagination.bullets.length;i++){
+					swiperObj.pagination.bullets[i].classList.add(dotsOpt.className)
+					swiperObj.pagination.bullets[i].classList.remove(dotsOpt.className_rm)
+					swiperObj.pagination.bullets[i].style.backgroundColor = dotsOpt.color
+					if(!navOpt.show) {
+						swiperObj.pagination.bullets[i].classList.add('hidden')
+					} else {
+						swiperObj.pagination.bullets[i].classList.remove('hidden')
+					}
+				}
+			}
 		}
+
+		// 前进后台按钮
+		const navBtnOpt = props.style.swiper.navBtn
+		if(navBtnOpt) {
+			opts.navigation = {
+				nextEl: '.swiper-button-next-'  + swiperId,
+				prevEl: '.swiper-button-prev-'  + swiperId,
+			}
+			const tempData = {}
+			tempData.show = navBtnOpt.show
+			if(navBtnOpt.show) {
+				tempData.nextBg = navBtnOpt.nextBg
+				tempData.prevBg = navBtnOpt.prevBg
+				
+			}
+			setNavBtnData(tempData)
+		}
+
+		
+		console.log('------opts-1-', opts)
+
+		// if(swiperObj) {
+		// 	swiperObj.destroy(true, true)
+		// 	// swiperObj.update(true)
+		// }
+		
 		setTimeout(() => {
-			// if(swiperObj) {
-			// 	swiperObj.update(true)
-			// } else {
-			// 	const swiper = new Swiper('.swiper-container-' + swiperId, opts);
-			// 	setSwiperObj(swiper)
-			// }
-			const swiper = new Swiper('.swiper-container-' + swiperId, opts);
-			setSwiperObj(swiper)
+			if(swiperObj) {
+				swiperObj.pagination.update()
+				swiperObj.update(true) // coverflow模式使用update才能生效
+			} else {
+				const swiper = new Swiper('.swiper-container-' + swiperId, opts);
+				setSwiperObj(swiper)
+			}
+			// const swiper = new Swiper('.swiper-container-' + swiperId, opts);
+			// setSwiperObj(swiper)
 		}, 100);
 		
 	}
 
 	return (
 		<div className="swiper-container-wrap swiper-comp-wrap"
-			// style={{
-			// 	width: props.style.width?props.style.width + 'px': 'auto',
-			// 	height: props.style.height?props.style.height + 'px': 'auto',
-			// }}
+			style={{
+				height: props.style.height?props.style.height + 'px': 'auto',
+			}}
 			// style={{
 			// 	width: '200px',
-			// 	height: '100px',
+			// 	height: '150px',
 			// }}
 		>
+			<div className="swiper-container-outer"
+				style={{
+					width: wrapSize.width?wrapSize.width + 200 + 'px': 'auto',
+				}}
+				// style={{
+				// 	width: '200px',
+				// 	height: '150px',
+				// }}
+			>
 			<div 
 				className = {classNames({
 					'swiper-container': true,
@@ -133,29 +181,33 @@ const Index = (props) => {
 				// 	width: props.style.img.width?props.style.img.width + 'px': 'auto',
 				// 	height: props.style.img.height?props.style.img.height + 'px': 'auto',
 				// }}
+				// style={{
+				// 	overflow: 'hidden',
+				// 	width: '1007px',
+				// 	height: '370px',
+				// 	position: 'relative'
+				// }}
 				
 			>
-				<div className="swiper-wrapper">
+				<div className="swiper-wrapper"
+					// 必须设置宽度，否则coverflow有问题
+					style={{
+						width: props.style.img.width?props.style.img.width + 'px': 'auto',
+						height: props.style.img.height?props.style.img.height + 'px': 'auto',
+					}}
+				>
 					{
 						data && data.list && 
 						(
 							data.list.map((item, index) => {
 								return (
 									<div key={index} className="swiper-slide"
-										// style={{
-										// 	width: props.style.img.width?props.style.img.width + 'px': 'auto',
-										// 	height: props.style.img.height?props.style.img.height + 'px': 'auto',
-										// }}
 									>
 										<img src={item.url} 
 											style={{
 												width: props.style.img.width?props.style.img.width + 'px': 'auto',
 												height: props.style.img.height?props.style.img.height + 'px': 'auto',
 											}}
-											// style={{
-											// 	width: '100px',
-											// 	height: '100px',
-											// }}
 										alt={item.title} />
 									</div>
 								)
@@ -168,6 +220,34 @@ const Index = (props) => {
 						['swiper-pagination-' + swiperId]: true,
 					})}
 				></div>
+				
+			</div>
+			{
+				navBtnData.show && (
+					<div className='swiper-buttons'>
+						<div
+							className = {classNames({
+								'swiper-button': true,
+								'swiper-button-prev': true,
+								['swiper-button-prev-' + swiperId]: true,
+							})}
+							style={{
+								backgroundImage: `url(${navBtnData.prevBg})`
+							}}
+						></div>
+						<div
+							className = {classNames({
+								'swiper-button': true,
+								'swiper-button-next': true,
+								['swiper-button-next-' + swiperId]: true,
+							})}
+							style={{
+								backgroundImage: `url(${navBtnData.nextBg})`
+							}}
+						></div>	
+					</div>
+				)
+			}
 			</div>
 		</div>
 	)

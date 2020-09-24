@@ -12,6 +12,7 @@ const EditModal = (props) => {
   const Img = useRef();
 
   useEffect(() => {
+    console.log('----props.data-------', props.data)
     if(props.data) {
     }
   }, []);
@@ -54,7 +55,7 @@ const EditModal = (props) => {
     <div >
       <ImgGroupSelector 
         ref={Img}
-        imgData={props.data.imgs}
+        imgData={props.data.data.imgs}
       />
     </div>
   </Modal>

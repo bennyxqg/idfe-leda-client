@@ -1,10 +1,16 @@
 import React, {useState, useEffect, useRef, useImperativeHandle} from "react";
-import { Switch, Button, Form, Input, message, InputNumber, Select, Radio } from 'antd';
+import { Switch, Row, Form, Input, Col, InputNumber, Select, Radio } from 'antd';
+import ImgUpload from '@/components/ImgUpload'
+
 const { Option } = Select;
 
 const layout = {
 labelCol: { span: 6 },
 wrapperCol: { span: 6 },
+};
+const subLayout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 12 },
 };
 
 const Index = React.forwardRef((props, ref) => {
@@ -48,6 +54,28 @@ return (
       message: '请选择是否自动轮播' }]}>
       <Switch />
     </Form.Item>
+    <Form.Item label="显示前后按钮" name={['swiper', 'navBtn', 'show' ]} 
+      valuePropName="checked" >
+      <Switch />
+    </Form.Item>
+    <Row className='pad-l-4'>
+      <Col span={12}>
+        <Form.Item 
+          {...subLayout}
+          label="前进按钮图片" 
+          name={['swiper', 'navBtn', 'nextBg' ]}>
+          <ImgUpload />
+        </Form.Item>
+      </Col>
+      <Col span={12}>
+        <Form.Item 
+          {...subLayout}
+          label="后退按钮图片" 
+          name={['swiper', 'navBtn', 'prevBg' ]}>
+          <ImgUpload />
+        </Form.Item>
+      </Col>
+    </Row>
   </Form>
 </>
 )

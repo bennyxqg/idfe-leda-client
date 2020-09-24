@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useContext} from "react";
+import React, {useState, useEffect, useRef, useContext, memo} from "react";
 import { randomCode } from '@/utils/helper'
 
 
@@ -20,7 +20,7 @@ const { BMap } = window
     return icon;
   }
 
-const Index = (props) => {
+const Index = memo((props) => {
   let id = `map_${randomCode(6)}`
   
   useEffect(() => {
@@ -43,6 +43,6 @@ const Index = (props) => {
       <div id={id} style={{ width: props.style.width + 'px', height: props.style.height + 'px' }}></div>
     </div>
   )
-}
+})
 
 export default Index
