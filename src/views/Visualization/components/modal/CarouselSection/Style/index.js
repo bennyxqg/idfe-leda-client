@@ -134,7 +134,7 @@ const EditModal = (props) => {
             <InputNumber />
           </Form.Item>
         </Col> */}
-        <Col span={12}>
+        {/* <Col span={12}>
           <Form.Item
             {...subLayout}
             label="容器高度"
@@ -142,7 +142,7 @@ const EditModal = (props) => {
           >
             <InputNumber />
           </Form.Item>
-        </Col>
+        </Col> */}
       </Row>
       <Row className='pad-l-4'>
         <Col span={12}>

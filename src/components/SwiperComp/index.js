@@ -21,12 +21,10 @@ const Index = (props) => {
 	}, []);
 
 	useEffect(() => {
-		
 		init()
 	}, [props.style]);
 
 	const init = () => {
-		console.log('------init--111---')
 		const type = props.style.type
 		const opts = {
       
@@ -230,9 +228,10 @@ const Index = (props) => {
 								'swiper-button': true,
 								'swiper-button-prev': true,
 								['swiper-button-prev-' + swiperId]: true,
+								'swiper-button-bg': !!navBtnData.prevBg,
 							})}
 							style={{
-								backgroundImage: `url(${navBtnData.prevBg})`
+								backgroundImage: navBtnData.prevBg?`url(${navBtnData.prevBg})`:''
 							}}
 						></div>
 						<div
@@ -240,9 +239,10 @@ const Index = (props) => {
 								'swiper-button': true,
 								'swiper-button-next': true,
 								['swiper-button-next-' + swiperId]: true,
+								'swiper-button-bg': !!navBtnData.nextBg,
 							})}
 							style={{
-								backgroundImage: `url(${navBtnData.nextBg})`
+								backgroundImage: navBtnData.nextBg?`url(${navBtnData.nextBg})`:''
 							}}
 						></div>	
 					</div>

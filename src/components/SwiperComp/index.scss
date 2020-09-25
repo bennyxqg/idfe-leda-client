@@ -48,8 +48,8 @@
     .swiper-button {
       position: absolute;
       top: 50%;
-      width: 77px;
-      height: 77px;
+      width: 27px;
+      height: 44px;
       // transform: translateY(-50%);
       cursor: pointer;
       background-size: 100%;
@@ -57,6 +57,10 @@
       background-repeat: no-repeat;
       &:focus{ 
         outline: 0; 
+      }
+      &.swiper-button-bg {
+        width: 44px;
+        height: 70px;
       }
     }
     .swiper-button-prev {

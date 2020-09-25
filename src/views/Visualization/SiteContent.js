@@ -1,13 +1,10 @@
-import React, {useState, useEffect, useRef, useCallback, useContext} from "react";
-import { Table, Button, Form, Select, Input, message, Modal } from 'antd';
-import { formatTime, randomCode } from '@/utils/helper'
+import React, {useState, useEffect, useContext} from "react";
+import { randomCode } from '@/utils/helper'
 import lodash from 'lodash'
-import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import update from 'immutability-helper';
 import VisContext from "@/views/Visualization/context/VisContext";
 import DragableSection from './components/DragableSection'
 import CurrentModal from './components/CurrentModal'
-import RNDContext from '@/views/Visualization/context/RNDContext'
 import {popupData} from '@/views/Visualization/data/popupData'
 
 const Index = (props) => {
@@ -39,7 +36,6 @@ const Index = (props) => {
 				$splice: [[index, 1], [index, 0, chooseSection]]
 			}))
 		}
-		
 	}, [chooseSection]);
 
 	// 获取弹窗初始数据
@@ -77,21 +73,6 @@ const Index = (props) => {
 		// 显示模块配置菜单
 		setChooseSection(section)
 	}
-
-	const moveRow = useCallback(
-    (dragIndex, hoverIndex) => {
-			const dragRow = sectionList[dragIndex];
-			setSectionList(
-        update(sectionList, {
-          $splice: [
-            [dragIndex, 1],
-            [hoverIndex, 0, dragRow],
-          ],
-        }),
-      );
-    },
-    [sectionList],
-	);
 	
 	// 显示操作弹窗
 	const showModal = (type, section) => {
@@ -104,7 +85,6 @@ const Index = (props) => {
 		setIsShowModal(false)
 	}
 
-	const manager = useRef(RNDContext);
 
 	// const dropWrapper = React.useRef();
 	// const [{ isOver }, drop] = useDrop({
@@ -139,8 +119,6 @@ const Index = (props) => {
 									key={index}
 									section={section}
 									index={index}
-									moveRow={moveRow}
-									activeSection={activeSection}
 									showModal={showModal}
 								></DragableSection>
 							)

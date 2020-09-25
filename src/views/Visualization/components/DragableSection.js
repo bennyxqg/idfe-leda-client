@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useRef, useCallback, useContext} from "react";
 import lodash from 'lodash'
-import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import { getItemIndexByKey, swapArray } from '@/utils/helper'
 import SectionBtns from './SectionBtns'
 import VisContext from "@/views/Visualization/context/VisContext";
@@ -23,9 +22,7 @@ import {
 //   console.log('--widgets---files-----', component)
 // })
 
-const type = 'DragableBodyRow';
-
-const DragableSection = ({ section, index, moveRow, className, style, ...restProps }) => {
+const DragableSection = ({ section, index, className, style, ...restProps }) => {
   const { chooseSection, setChooseSection, sectionList, setSectionList, setShowAddModal } = useContext(VisContext)
   const [isHover, setIsHover] = useState(false)
   
@@ -52,11 +49,6 @@ const DragableSection = ({ section, index, moveRow, className, style, ...restPro
       }
  
 	}
-
-  // 选中模块
-	const activeSection = (section, index) =>{
-    // restProps.activeSection(section, index)	
-  }
   
   const handleMouseUserOver = (e, section, index) =>{
     setIsHover(true)
@@ -113,40 +105,17 @@ const DragableSection = ({ section, index, moveRow, className, style, ...restPro
   }
 	
 	// 用于将当前组件用作拖动源的钩子
-	const [{ isOver, dropClassName }, drop] = useDrop({
-    accept: type,
-    collect: monitor => {
-      const { index: dragIndex } = monitor.getItem() || {};
-      if (dragIndex === index) {
-        return {};
-      }
-      return {
-        isOver: monitor.isOver(),
-        dropClassName: dragIndex < index ? ' drop-over-downward' : ' drop-over-upward',
-      };
-    },
-    drop: item => {
-      moveRow(item.index, index);
-    },
-  });
-  const [, drag] = useDrag({
-    item: { type, index },
-    collect: monitor => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-  drop(drag(ref));
   
 	return (
     <>{
       section? (
         <div 
           // ref={ref} 
-          className={`vis-section-item-wrap ${isOver ? dropClassName : ''}`}
+          className={`vis-section-item-wrap`}
           style={{ ...style }}
           // onMouseOver={(e) => {handleMouseUserOver(e, section, index)}}
           // onMouseLeave={(e) => {handleMouseOut(e, section, index)}}
-          onClick={() => {activeSection(section, index)}} key={section.sectionId}>
+          key={section.sectionId}>
           {/* <div className="vis-section-item-mask" key={section.sectionId}></div> */}
           <div className="vis-section-item-inner" id={`section_${section.sectionId}`}>
             {setComponent(section)}
