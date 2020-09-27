@@ -33,3 +33,12 @@
 //   justify-content: center;
 //   align-items: center;
 // }
+
+.img-uploader-wrapper {
+  .ant-upload-list-item-thumbnail {
+    object-fit: contain;
+    img {
+      object-fit: contain;
+    }
+  }
+}

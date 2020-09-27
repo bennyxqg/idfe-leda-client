@@ -33,12 +33,6 @@ const Index = (props) => {
         return
       }
       const list = pageData.filter(item => item.type === 'popup')
-      list.push({
-        id: "2",
-        identifer: "apply",
-        name: "申请弹窗",
-        type: "popup"
-      })
       setPopupList(list)
     }
   }
@@ -119,7 +113,7 @@ const Index = (props) => {
             )}
           />
         </TabPane>
-      </Tabs>,
+      </Tabs>
     </div>
   </Modal>
 

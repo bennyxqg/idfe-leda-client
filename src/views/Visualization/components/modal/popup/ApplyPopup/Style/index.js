@@ -22,13 +22,7 @@ const EditModal = (props) => {
     if(props.data) {
       console.log('---props.data.data.style-------', props.data.data.style)
       const styleData = {
-        ...props.data.data.style,
-        submitBtn: {
-          imgUrl: props.data.data.submitBtn.imgUrl
-        },
-        successPopup: {
-          imgUrl: props.data.data.successPopup.imgUrl
-        },
+        ...props.data.data.style
       }
       form.setFieldsValue(styleData)
     }
@@ -108,7 +102,17 @@ const EditModal = (props) => {
             <Form.Item
               labelCol={{span: 8}}
               wrapperCol={{span: 10}}
-              name={['submitBtn', 'imgUrl']} label="按钮图片:">
+              name={['closeBtn', 'imgUrl']} label="关闭按钮:">
+              <ImgUpload />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row className=''>
+          <Col span={12}>
+            <Form.Item
+              labelCol={{span: 8}}
+              wrapperCol={{span: 10}}
+              name={['submitBtn', 'imgUrl']} label="确认按钮:">
               <ImgUpload />
             </Form.Item>
           </Col>

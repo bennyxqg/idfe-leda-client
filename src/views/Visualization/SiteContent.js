@@ -21,17 +21,14 @@ const Index = (props) => {
 	useEffect(() => {
 		// 新模块加入队列中
 		if(props.newSection) {
-			console.log('----props.newSection-----', props.newSection)
 			setSectionList([...sectionList, lodash.cloneDeep(props.newSection)])
 		}
 	}, [props.newSection]);
 
 	useEffect(() => {
 		// 选中模块配置发生变化，更新模块数据
-		console.log('------chooseSection---change----')
 		if(chooseSection) {
 			const index = sectionIndex(chooseSection)
-			console.log('------chooseSection---change-index---', index)
 			setSectionList(update(sectionList, {
 				$splice: [[index, 1], [index, 0, chooseSection]]
 			}))

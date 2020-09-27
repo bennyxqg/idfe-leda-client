@@ -45,6 +45,7 @@ const DragableSection = ({ section, index, className, style, ...restProps }) => 
       } else if(type === 'subscribePopup') {
         return <SubscribePopup data={section}/>;
       } else if(type === 'applyPopup') {
+        
 				return <ApplyPopup data={section}/>;
       }
  

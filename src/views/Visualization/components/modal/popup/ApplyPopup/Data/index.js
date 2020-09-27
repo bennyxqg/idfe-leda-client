@@ -56,24 +56,8 @@ const EditModal = (props) => {
     width='600px'
     maskClosable={false}
   >
-    <div >
-    <Form
-      {...layout}
-      requiredMark={false}
-      initialValues={{}}
-      onFinish={onFinish}
-      form={form}
-    >
-      <Form.Item
-        name={['platForm' ]} label="选择平台:">
-        <Checkbox.Group
-          options={[
-            { label: 'android', value: 'android' },
-            { label: 'ios', value: 'ios' }
-          ]}
-        />
-      </Form.Item>
-    </Form>
+    <div className='text-c'>
+      暂无配置项
     </div>
   </Modal>
 

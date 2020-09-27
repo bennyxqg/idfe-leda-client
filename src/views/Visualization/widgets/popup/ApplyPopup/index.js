@@ -16,6 +16,7 @@ const Index = (props) => {
   }, [props]);
   
   const initStyleData = () => {
+    console.log('----props.data------', props.data)
 		const tempData = props.data.data.style
 		const result = {
 		}
@@ -52,10 +53,10 @@ const Index = (props) => {
                 >
               <div className='popup-box-header'>
                 <span>申请试用</span>
-                <img className="icon-close" src="" alt="" />
+                <img className="icon-close" src={data.style.closeBtn.imgUrl} alt="" />
               </div>
             
-              <div>
+              <div className='popup-box-content'>
                   <div className="form-item">
                       <div className="label">
                           <span className="text">姓名</span>
@@ -109,7 +110,7 @@ const Index = (props) => {
                       </div>
                   </div>
                   <div className='submit-button' >
-                      <img src='' alt='' />
+                      <img src={data.style.submitBtn.imgUrl} alt='' />
                   </div>
               </div>
               </div>

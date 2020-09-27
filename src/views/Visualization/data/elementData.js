@@ -5,7 +5,7 @@ export const elementData = () => {
   return {
     'imageElement': {type: 'imageElement', label: '图片', data: {
       zIndex: 1,
-      imgUrl: 'http://dl.gamdream.com//website/image/202009/5f61c714103a4.png',
+      imgUrl: 'http://dl.gamdream.com//website/image/202009/5f7002c2d3032.png',
       style: {
         width: '',
         height: '',

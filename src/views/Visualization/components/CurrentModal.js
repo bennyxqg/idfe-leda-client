@@ -14,6 +14,9 @@ import MainSectionData from './modal/MainSection/Data/index'
 import MainSectionStyle from './modal/MainSection/Style/index'
 import SubscribePopupData from './modal/popup/SubscribePopup/Data/index'
 import SubscribePopupStyle from './modal/popup/SubscribePopup/Style/index'
+import ApplyPopupData from './modal/popup/ApplyPopup/Data/index'
+import ApplyPopupStyle from './modal/popup/ApplyPopup/Style/index'
+
 import VisContext from "@/views/Visualization/context/VisContext";
 import update from 'immutability-helper';
 
@@ -89,6 +92,13 @@ const Index = (props) => {
         }
         if(type === 'style') {
           targetComp = SubscribePopupStyle
+        }
+      } else if(sectionType === 'applyPopup') { // 预约弹窗
+        if(type === 'data') {
+          targetComp = ApplyPopupData
+        }
+        if(type === 'style') {
+          targetComp = ApplyPopupStyle
         }
       }
     }

@@ -1,25 +1,32 @@
-.popup-box-header {
-  height: 64px;
-  line-height: 64px;
-  border-bottom: 1px solid #E8EAEC;
-  font-size: 16px;
-  font-weight: bold;
-  color: #333333;
-  padding-left: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-right: 32px;
-}
 
-.popup-box-header .icon-close {
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
+
+.applyPopup-wrap-inner {
 }
 
 .applyPopup-wrap-inner {
-  padding: 32px;
+  .popup-box-header {
+    height: 64px;
+    line-height: 64px;
+    border-bottom: 1px solid #E8EAEC;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+    padding-left: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 32px;
+  }
+  
+  .popup-box-header .icon-close {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+  }
+  .popup-box-content {
+    padding: 32px;
+  }
+  
 }
 
 .applyPopup-wrap-inner .form-item {

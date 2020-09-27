@@ -104,22 +104,41 @@ const Index = () => {
 					type: 'popup'
 				}
 			})))
+			pageDataTemp.push({
+				id: '4',
+				name: '申请弹窗',
+				identifer: 'apply',
+				type: 'popup'
+			})
 		}
+		let currentPage = null
 		pageDataTemp.forEach((page) => {
 			if(indexId) {
 				if(page.id == indexId) {
 					// setPageType(page.type == 1?'page':'popup')
+					currentPage = page
 					setPageItem(page)
 				}
 			} else {
 				if(page.identifer === 'index') {
+					currentPage = page
 					indexId = page.id
 					setPageItem(page)
 				}
 			}
 		})
+		if(!currentPage) {
+			setPageItem({})
+		}
 		setPageData(pageDataTemp)
-		configGet({
+		console.log('----556----', currentPage)
+		if(indexId == 4) { // 测试数据
+			setInit(true)
+			buildModuleData(imgList, [])
+			setSectionList([])
+			return
+		}
+		configGet({ 
 			id: indexId
 		}).then((rep) => {
 			if(rep.error_code === 0) {
@@ -133,6 +152,7 @@ const Index = () => {
 				}
 			}
 		})
+		
 	}
 
 	// 构造数据
@@ -219,7 +239,7 @@ const Index = () => {
 							<SiteContent newSection={newSectionType}  />
 						</DndProvider>
 						{
-							pageItem.type === 'page' && (
+							pageItem && pageItem.type === 'page' && (
 								<LeftMenu 
 									// addSection={addSection} 
 								/>

@@ -96,8 +96,8 @@ const Index = memo((props) => {
 
 	const getPageData = () => {
 		return {
-			type: pageItem.type === 'popup'?'弹窗':'页面',
-			name: pageItem.name
+			type: (pageItem && pageItem.type === 'popup')?'弹窗':'页面',
+			name: pageItem && pageItem.name
 		}
 	}
 
