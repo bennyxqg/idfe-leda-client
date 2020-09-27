@@ -25,9 +25,16 @@ class TopHeader extends Component {
   //     })
   //   }
   // }
+  componentDidMount() {
+    this.handleSite()
+  }
+
   componentWillReceiveProps() {
-    console.log('------this.context.currentSite-------', this.context.currentSite.id)
     // 设置默认站点
+    this.handleSite()
+  }
+
+  handleSite() {
     if(this.context.currentSite) {
       this.setState({
         currentSite: this.context.currentSite.id
