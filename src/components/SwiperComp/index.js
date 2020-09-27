@@ -19,7 +19,6 @@ const Index = (props) => {
 
 	useEffect(() => {
 		setData(props.imgList)
-		
 	}, [props]);
 
 	useEffect(() => {
@@ -32,17 +31,13 @@ const Index = (props) => {
 
 	useEffect(() => {
 		let isChange = false
-		console.log('----isChange--0---', isChange, prevStyleData)
 		if(prevStyleData) {
-			isChange = !(lodash.isEqual(prevStyleData, props.style))
-			console.log('----isChange-1----', isChange)
+			isChange = !(lodash.isEqual(prevStyleData, props))
 		} else {
-			setPrevStyleData(props.style)
+			setPrevStyleData(props)
 			// prevStyleData = props.style
 			isChange = true
-			console.log('----isChange--2---', isChange, prevStyleData)
 		}
-		
 		if(isChange) {
 			setLoadDom(false)
 			setTimeout(() => {
@@ -50,7 +45,7 @@ const Index = (props) => {
 			}, 0);
 		}
 		
-	}, [props.style]);
+	}, [props]);
 
 	useEffect(() => {
 		if(loadDom) {

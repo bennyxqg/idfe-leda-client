@@ -85,16 +85,16 @@ export const sectionData = () => {
             }
           }
         ],
-        navImg: 'http://dl.gamdream.com//website/image/202009/5f61a50a0e834.png',
+        navImg: 'http://dl.gamdream.com//website/image/202009/5f6ac25fdf668.png',
         style: {
           screenType: 1, // 1：普通， 2：宽屏
           navType: 'default', // default：固定 fixed：滚动时固定
           width: '',
-          height: 60,
+          height: 64,
           selectLine: { // 选中横线
             show: true,
-            color: '#2469f2',
-            height: 2
+            color: '#3233FF',
+            height: 5
           },
           selectFont: { // 选中的文字颜色
             color: '#000000'
@@ -104,8 +104,8 @@ export const sectionData = () => {
             right: 0
           },
           ...bgData(),
-          fontColor: '#000000',
-          fontSize: 18,
+          fontColor: '#333333',
+          fontSize: 15,
           isBold: false,
           align: 'left' // left, center, right
         }

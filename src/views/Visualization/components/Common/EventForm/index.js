@@ -188,6 +188,7 @@ const Index = React.forwardRef((props, ref) => {
                     return null
                   })
                 }
+                <Select.Option value={10000} key={10000}>{'视频弹窗'}</Select.Option>
               </Select>
             </Form.Item>
           )}
