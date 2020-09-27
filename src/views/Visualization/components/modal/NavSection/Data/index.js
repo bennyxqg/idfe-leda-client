@@ -5,7 +5,7 @@ import { DndProvider, useDrag, useDrop, createDndContext, DragSource } from 'rea
 import ImgUpload from '@/components/ImgUpload'
 import update from 'immutability-helper';
 import { randomCode, addOrEditForListItem, getItemByKey } from '@/utils/helper'
-import lodash from 'lodash'
+import { cloneDeep } from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 import RNDContext from '@/views/Visualization/context/RNDContext'
 import { UnorderedListOutlined } from '@ant-design/icons';
@@ -168,7 +168,7 @@ const Index = (props) => {
 
   useEffect(() => {
     if(props.data && props.data.data) {
-      const navList = lodash.cloneDeep(props.data.data.navList)
+      const navList = cloneDeep(props.data.data.navList)
       navList.forEach(item => {
         item.Uid = randomCode(10)
         item = Object.assign(item, item.event)
@@ -221,7 +221,7 @@ const Index = (props) => {
     Modal.confirm({
       content: '确认删除吗？',
       onOk: () => {
-        const tableDataTemp = lodash.cloneDeep(tableData)
+        const tableDataTemp = cloneDeep(tableData)
         tableDataTemp.splice(index, 1)
         setTableData(tableDataTemp)
       }
@@ -241,9 +241,9 @@ const Index = (props) => {
 
   const	successCB = (item) => {
     // 改变数据
-    let tableDataTemp = lodash.cloneDeep(tableData)
+    let tableDataTemp = cloneDeep(tableData)
 
-    let itemTemp = lodash.cloneDeep(item)
+    let itemTemp = cloneDeep(item)
     
     tableDataTemp = addOrEditForListItem(tableDataTemp, itemTemp, 'Uid')
     setTableData(tableDataTemp)
@@ -253,7 +253,7 @@ const Index = (props) => {
   const onFinish = values => {
     message.success('操作成功');
     const sendData = values
-    const dataObj = lodash.cloneDeep(props.data.data)
+    const dataObj = cloneDeep(props.data.data)
     dataObj.navImg = sendData.navImg
     dataObj.name = sendData.name || ''
     dataObj.navList = tableData

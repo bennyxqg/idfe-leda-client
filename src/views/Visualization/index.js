@@ -155,13 +155,17 @@ const Index = () => {
 	}
 	
 	// 新增模块
-	const addSection = (type) => {
+	const addSection = (item) => {
+		const type = item.value
+		const uniqueData = item.data || {}
 		// setNewSectionType(Object.assign((sectionData())[type], {
 		// 	sectionId: randomCode(10)
 		// }))
 		const newItem = Object.assign((sectionData())[type], {
 			sectionId: randomCode(10)
 		})
+		lodash.merge(newItem.data, uniqueData)
+		console.log('-----newItem-----', newItem)
 		const sectionListTemp = lodash.cloneDeep(sectionList)
 		if(typeof showAddModal.index !== 'undefined') {
 			sectionListTemp.splice(showAddModal.index, 0, newItem);
@@ -216,7 +220,9 @@ const Index = () => {
 						</DndProvider>
 						{
 							pageItem.type === 'page' && (
-								<LeftMenu addSection={addSection} />
+								<LeftMenu 
+									// addSection={addSection} 
+								/>
 							)
 						}
 						{/* <RightMenu onFinish={rightFormFinish} /> */}

@@ -135,7 +135,25 @@ export const sectionData = () => {
       name: '',
       examples: [
         {
-          img: demoCarouselCard
+          img: demoCarouselCard,
+          data: {
+            style: {
+              paddingTop: 20,
+              paddingBottom: 30,
+              img: {
+                width: 657,
+                height: 370,
+              }
+            }
+          }
+        },
+        {
+          img: demoCarouselCard,
+          data: {
+            style: {
+              type: 1
+            }
+          }
         }
       ],
       data: {

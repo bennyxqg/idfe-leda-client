@@ -89,7 +89,6 @@ const DragableSection = ({ section, index, className, style, ...restProps }) => 
       setSectionList(sectionListTemp)
     } else if(type === 'add') { // 增加模块
       const direction = opts.direction
-      console.log('-----direction-----', direction)
       let index = getItemIndexByKey(sectionList, 'sectionId', section.sectionId)
       if(direction === 'down') {
         index++

@@ -3,12 +3,7 @@
   .swiper-container-outer {
     margin: 0 auto;
     position: relative;
-  }
-  .swiper-container {
-    margin: 0 auto;
-    position: relative;
-    
-    &.swiper-container-card {
+    &.swiper-container-outer-card {
       overflow: hidden;
       .swiper-slide {
         //background: #ffffff;
@@ -22,7 +17,7 @@
         }
       }
     }
-    &.swiper-container-common {
+    &.swiper-container-outer-common {
       .swiper-slide {
         img {
           
@@ -37,37 +32,52 @@
         left: 0;
         width: 100%;
       }
+      .swiper-buttons { 
+        .swiper-button-prev {
+          left: 10px;
+        }
+        .swiper-button-next {
+          right: 10px;
+        }
+      }
+      
     }
     .swiper-pagination .line-dots {
       width: 20px;
       height: 4px;
       border-radius: 0;
     }
-  }
-  .swiper-buttons {
-    .swiper-button {
-      position: absolute;
-      top: 50%;
-      width: 27px;
-      height: 44px;
-      // transform: translateY(-50%);
-      cursor: pointer;
-      background-size: 100%;
-      background-position: center;
-      background-repeat: no-repeat;
-      &:focus{ 
-        outline: 0; 
+    .swiper-buttons {
+      .swiper-button {
+        position: absolute;
+        top: 50%;
+        width: 27px;
+        height: 44px;
+        // transform: translateY(-50%);
+        cursor: pointer;
+        background-size: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        &:focus{ 
+          outline: 0; 
+        }
+        &.swiper-button-bg {
+          width: 44px;
+          height: 70px;
+        }
       }
-      &.swiper-button-bg {
-        width: 44px;
-        height: 70px;
+      .swiper-button-prev {
+        left: 0;
+      }
+      .swiper-button-next {
+        right: 0;
       }
     }
-    .swiper-button-prev {
-      left: 0;
-    }
-    .swiper-button-next {
-      right: 0;
+    .swiper-container {
+      margin: 0 auto;
+      position: relative;
     }
   }
+  
+  
 }

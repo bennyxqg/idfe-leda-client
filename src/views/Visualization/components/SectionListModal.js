@@ -51,7 +51,7 @@ const Index = (props) => {
 	// 
 	const addSection = (item) => {
 		if(props.addSection) {
-			props.addSection(item.value)
+			props.addSection(item)
 		}
 		handleCancel()
 	}

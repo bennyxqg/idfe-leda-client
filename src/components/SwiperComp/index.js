@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import Swiper from "swiper"
 import classNames from 'classnames' 
 import {randomCode} from '@/utils/helper'
+import lodash from "lodash";
 import './index.scss'
 
 const Index = (props) => {
@@ -11,31 +12,69 @@ const Index = (props) => {
 	const [swiperObj, setSwiperObj] = useState(null)
 	const [wrapSize, setWrapSize] = useState({})
 	const [navBtnData, setNavBtnData] = useState({})
+	const [loadDom, setLoadDom] = useState(false) // 重新挂载dom
+	const [prevStyleData, setPrevStyleData] = useState(null)
+
+	// let prevStyleData = null
 
 	useEffect(() => {
 		setData(props.imgList)
+		
 	}, [props]);
 
 	useEffect(() => {
 		// init()
 	}, []);
 
+	// useEffect(() => {
+	// 	init(false)
+	// }, [props.style]);
+
 	useEffect(() => {
-		init()
+		let isChange = false
+		console.log('----isChange--0---', isChange, prevStyleData)
+		if(prevStyleData) {
+			isChange = !(lodash.isEqual(prevStyleData, props.style))
+			console.log('----isChange-1----', isChange)
+		} else {
+			setPrevStyleData(props.style)
+			// prevStyleData = props.style
+			isChange = true
+			console.log('----isChange--2---', isChange, prevStyleData)
+		}
+		
+		if(isChange) {
+			setLoadDom(false)
+			setTimeout(() => {
+				setLoadDom(true)
+			}, 0);
+		}
+		
 	}, [props.style]);
 
-	const init = () => {
+	useEffect(() => {
+		if(loadDom) {
+			init(true)
+		}
+	}, [loadDom]);
+
+	// useEffect(() => {
+	// 	init()
+	// }, [props.style]);
+
+	const init = (domChange) => {
+		console.log('-----init-----', domChange)
 		const type = props.style.type
 		const opts = {
-      
-			// observer:true,//修改swiper自己或子元素时，自动初始化swiper 
-			// observeParents:true,//修改swiper的父元素时，自动初始化swiper 
-			// loop: true, // 无限循环
-			// onSlideChangeEnd: function(swiper){ 
-			// 	swiper.update();  
-			// 	swiper.startAutoplay();
-			// 	swiper.reLoop();  
-			// }
+      loop: true, // 无限循环
+			observer:true,//修改swiper自己或子元素时，自动初始化swiper 
+			observeParents:true,//修改swiper的父元素时，自动初始化swiper 
+			observeSlideChildren:true,
+			onSlideChangeEnd: function(swiper){ 
+				swiper.update();  
+				swiper.startAutoplay();
+				swiper.reLoop();  
+			}
 		}
 		if(type == 2) {
 			if(props.style.img.width) {
@@ -56,7 +95,7 @@ const Index = (props) => {
 		// }
 		if(type == 2) {
 			// opts.initialSlide = 1
-			opts.loop = true // 无限循环
+			
 			opts.effect = 'coverflow'
 			opts.grabCursor = false
 			// opts.slidesPerView = 2
@@ -93,7 +132,7 @@ const Index = (props) => {
 				},
 				clickable: true,
 			}
-			if(swiperObj) { // 更新指示器样式
+			if(swiperObj && swiperObj.pagination && swiperObj.pagination.bullets) { // 更新指示器样式
 				for(let i=0;i<swiperObj.pagination.bullets.length;i++){
 					swiperObj.pagination.bullets[i].classList.add(dotsOpt.className)
 					swiperObj.pagination.bullets[i].classList.remove(dotsOpt.className_rm)
@@ -127,129 +166,144 @@ const Index = (props) => {
 		
 		console.log('------opts-1-', opts)
 
-		// if(swiperObj) {
-		// 	swiperObj.destroy(true, true)
-		// 	// swiperObj.update(true)
-		// }
+		if(domChange) {
+			if(swiperObj) {
+				swiperObj.destroy(true, true)
+				// swiperObj.update(true)
+			}
+		}
+		
 		
 		setTimeout(() => {
-			if(swiperObj) {
-				swiperObj.pagination.update()
-				swiperObj.update(true) // coverflow模式使用update才能生效
-			} else {
-				const swiper = new Swiper('.swiper-container-' + swiperId, opts);
-				setSwiperObj(swiper)
-			}
-			// const swiper = new Swiper('.swiper-container-' + swiperId, opts);
-			// setSwiperObj(swiper)
+			// if(swiperObj) {
+			// 	swiperObj.pagination.update()
+			// 	swiperObj.update(true) // coverflow模式使用update才能生效
+			// } else {
+			// 	const swiper = new Swiper('.swiper-container-' + swiperId, opts);
+			// 	setSwiperObj(swiper)
+			// }
+			const swiper = new Swiper('.swiper-container-' + swiperId, opts);
+			setSwiperObj(swiper)
 		}, 100);
-		
 	}
 
 	return (
-		<div className="swiper-container-wrap swiper-comp-wrap"
-			style={{
-				height: props.style.height?props.style.height + 'px': 'auto',
-			}}
-			// style={{
-			// 	width: '200px',
-			// 	height: '150px',
-			// }}
-		>
-			<div className="swiper-container-outer"
+		<>
+				<div className="swiper-container-wrap swiper-comp-wrap"
 				style={{
-					width: wrapSize.width?wrapSize.width + 200 + 'px': 'auto',
+					height: props.style.height?props.style.height + 'px': 'auto',
 				}}
 				// style={{
 				// 	width: '200px',
 				// 	height: '150px',
 				// }}
 			>
-			<div 
-				className = {classNames({
-					'swiper-container': true,
-					['swiper-container-' + swiperId]: true,
-					'swiper-container-card': props.style.type == 2,
-					'swiper-container-common': props.style.type != 2
-				})}
-				style={{
-					width: wrapSize.width?wrapSize.width + 'px': 'auto'
-				}}
-				// style={{
-				// 	width: props.style.img.width?props.style.img.width + 'px': 'auto',
-				// 	height: props.style.img.height?props.style.img.height + 'px': 'auto',
-				// }}
-				// style={{
-				// 	overflow: 'hidden',
-				// 	width: '1007px',
-				// 	height: '370px',
-				// 	position: 'relative'
-				// }}
-				
-			>
-				<div className="swiper-wrapper"
-					// 必须设置宽度，否则coverflow有问题
+				{loadDom && 
+				<div
+					className={classNames({
+						'swiper-container-outer': true,
+						'swiper-container-outer-card': props.style.type == 2,
+						'swiper-container-outer-common': props.style.type != 2
+					})}
 					style={{
-						width: props.style.img.width?props.style.img.width + 'px': 'auto',
-						height: props.style.img.height?props.style.img.height + 'px': 'auto',
+						width: wrapSize.width?wrapSize.width + (props.style.type == 2?200:0) + 'px': 'auto',
 					}}
+					// style={{
+					// 	width: '200px',
+					// 	height: '150px',
+					// }}
 				>
+					
+						<div 
+							className = {classNames({
+								'swiper-container': true,
+								['swiper-container-' + swiperId]: true
+							})}
+							style={{
+								width: wrapSize.width?wrapSize.width + 'px': 'auto'
+							}}
+							// style={{
+							// 	width: props.style.img.width?props.style.img.width + 'px': 'auto',
+							// 	height: props.style.img.height?props.style.img.height + 'px': 'auto',
+							// }}
+							// style={{
+							// 	overflow: 'hidden',
+							// 	width: '1007px',
+							// 	height: '370px',
+							// 	position: 'relative'
+							// }}
+							
+						>
+							<div className="swiper-wrapper"
+								// 必须设置宽度，否则coverflow有问题
+								style={{
+									width: props.style.img.width?props.style.img.width + 'px': 'auto',
+									height: props.style.img.height?props.style.img.height + 'px': 'auto',
+								}}
+							>
+								{
+									data && data.list && 
+									(
+										data.list.map((item, index) => {
+											return (
+												<div key={index} className="swiper-slide"
+												>
+													<img src={item.url} 
+														style={{
+															width: props.style.img.width?props.style.img.width + 'px': 'auto',
+															height: props.style.img.height?props.style.img.height + 'px': 'auto',
+														}}
+													alt={item.title} />
+												</div>
+											)
+										})
+									)
+								}
+							</div>
+							<div className = {classNames({
+									'swiper-pagination': true,
+									['swiper-pagination-' + swiperId]: true,
+								})}
+							></div>
+							
+						</div>
 					{
-						data && data.list && 
-						(
-							data.list.map((item, index) => {
-								return (
-									<div key={index} className="swiper-slide"
-									>
-										<img src={item.url} 
-											style={{
-												width: props.style.img.width?props.style.img.width + 'px': 'auto',
-												height: props.style.img.height?props.style.img.height + 'px': 'auto',
-											}}
-										alt={item.title} />
-									</div>
-								)
-							})
+						navBtnData.show && (
+							<div
+								className = {classNames({
+									'swiper-buttons': true,
+									
+								})}
+							>
+								<div
+									className = {classNames({
+										'swiper-button': true,
+										'swiper-button-prev': true,
+										['swiper-button-prev-' + swiperId]: true,
+										'swiper-button-bg': !!navBtnData.prevBg,
+									})}
+									style={{
+										backgroundImage: navBtnData.prevBg?`url(${navBtnData.prevBg})`:''
+									}}
+								></div>
+								<div
+									className = {classNames({
+										'swiper-button': true,
+										'swiper-button-next': true,
+										['swiper-button-next-' + swiperId]: true,
+										'swiper-button-bg': !!navBtnData.nextBg,
+									})}
+									style={{
+										backgroundImage: navBtnData.nextBg?`url(${navBtnData.nextBg})`:''
+									}}
+								></div>	
+							</div>
 						)
 					}
 				</div>
-        <div className = {classNames({
-						'swiper-pagination': true,
-						['swiper-pagination-' + swiperId]: true,
-					})}
-				></div>
-				
+				}
 			</div>
-			{
-				navBtnData.show && (
-					<div className='swiper-buttons'>
-						<div
-							className = {classNames({
-								'swiper-button': true,
-								'swiper-button-prev': true,
-								['swiper-button-prev-' + swiperId]: true,
-								'swiper-button-bg': !!navBtnData.prevBg,
-							})}
-							style={{
-								backgroundImage: navBtnData.prevBg?`url(${navBtnData.prevBg})`:''
-							}}
-						></div>
-						<div
-							className = {classNames({
-								'swiper-button': true,
-								'swiper-button-next': true,
-								['swiper-button-next-' + swiperId]: true,
-								'swiper-button-bg': !!navBtnData.nextBg,
-							})}
-							style={{
-								backgroundImage: navBtnData.nextBg?`url(${navBtnData.nextBg})`:''
-							}}
-						></div>	
-					</div>
-				)
-			}
-			</div>
-		</div>
+		</>
 	)
 }
 

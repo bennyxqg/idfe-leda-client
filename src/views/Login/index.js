@@ -88,14 +88,14 @@ class Login extends React.Component {
                         }
                       },
                       color: {
-                        value: "#1890ff"
+                        value: "#ccc"
                         // value: "#ff4242"
                       },
                       "shape": {
                         "type": "circle",
                         "stroke": {
                           "width": 0,
-                          "color": "#1890ff"
+                          "color": "#ccc"
                         },
                         "polygon": {
                           "nb_sides": 5
@@ -117,7 +117,7 @@ class Login extends React.Component {
                         "anim": {
                           "enable": false,
                           "speed": 8,
-                          "size_min": 0.1,
+                          "size_min": 1,
                           "sync": false
                         }
                       },
