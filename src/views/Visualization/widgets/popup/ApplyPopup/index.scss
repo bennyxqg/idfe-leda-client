@@ -26,63 +26,51 @@
   .popup-box-content {
     padding: 32px;
   }
-  
-}
-
-.applyPopup-wrap-inner .form-item {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 24px;
-  color: #666666;
-}
-
-.applyPopup-wrap-inner .form-item input[type='text'] {
-  width: 360px;
-  height: 32px;
-  padding-left: 8px;
-  border-radius: 4px;
-  border: 1px solid #D0D0D0;
-  outline: none;
-}
-
-
-.applyPopup-wrap-inner .form-item .radio-group {
-  width: 360px;
-  text-align: left;
-  display: flex;
-}
-
-.applyPopup-wrap-inner .form-item .radio-group .radio-group-item {
-  margin-right: 20px;
-}
-
-.applyPopup-wrap-inner .form-item .radio-group input[type='radio'] {
-  margin-right: 10px;
-}
-
-.applyPopup-wrap-inner .form-item .label {
-  padding-top: 5px;
-}
-
-.applyPopup-wrap-inner .form-item .must {
-  color: #FF0606;
-  margin-right: 4px;
-}
-
-.applyPopup-wrap-inner .wrong-input input {
-  border: 1px solid #FF0606 !important;
-}
-
-.applyPopup-wrap-inner .form-item .err-tips {
-  visibility: hidden;
-  color: #FF0606;
-  font-size: 12px;
-  height: 14px;
-}
-
-.applyPopup-wrap-inner .form-item .err-tips.show {
-  visibility: visible;
-  color: #FF0606;
-  font-size: 12px;
-  height: 14px;
+  .form-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    color: #666666;
+  }
+  .form-item input[type='text'] {
+    width: 360px;
+    height: 32px;
+    padding-left: 8px;
+    border-radius: 4px;
+    border: 1px solid #D0D0D0;
+    outline: none;
+  }
+  .form-item .radio-group {
+    width: 360px;
+    text-align: left;
+    display: flex;
+  }
+  .form-item .radio-group .radio-group-item {
+    margin-right: 20px;
+  }
+  .form-item .radio-group input[type='radio'] {
+    margin-right: 10px;
+  }
+  .form-item .label {
+    padding-top: 5px;
+  }
+  .form-item .must {
+    color: #FF0606;
+    margin-right: 4px;
+  }
+  .wrong-input input {
+    border: 1px solid #FF0606 !important;
+  }
+  .form-item .err-tips {
+    visibility: hidden;
+    color: #FF0606;
+    font-size: 12px;
+    height: 14px;
+  }
+  .form-item .err-tips.show {
+    visibility: visible;
+    color: #FF0606;
+    font-size: 12px;
+    height: 14px;
+  }
 }

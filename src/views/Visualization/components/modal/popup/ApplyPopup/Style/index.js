@@ -36,10 +36,10 @@ const EditModal = (props) => {
         const dataObj = lodash.cloneDeep(props.data.data)
 
         Object.assign(dataObj.style.bg, childVal)
-        Object.assign(dataObj.submitBtn, value.submitBtn)
-        Object.assign(dataObj.successPopup, value.successPopup)
-        delete value.submitBtn
-        delete value.successPopup
+        // Object.assign(dataObj.submitBtn, value.submitBtn)
+        // Object.assign(dataObj.successPopup, value.successPopup)
+        // delete value.submitBtn
+        // delete value.successPopup
         Object.assign(dataObj.style, value)
 
         props.onFinish(dataObj);

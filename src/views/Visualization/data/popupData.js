@@ -31,7 +31,7 @@ export const popupData = () => {
         height: 551,
         borderRadius: 0,
         submitBtn: {
-          imgUrl: 'http://oaa.uu.cc/manage/upload/image/oaa.uu.cc/2019-12-26/20191226_141845_539620.png',
+          imgUrl: 'http://dl.gamdream.com//website/image/202009/5f702c265efbf.png',
           align: 'center',
           width: '',
           height: '',

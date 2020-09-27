@@ -112,7 +112,9 @@ class ImgUpload extends React.Component {
     this.setState({
       fileList: []
     })
-    this.props.onChange('');
+    if(this.props.onChange) {
+      this.props.onChange('');
+    }
   }
 
   handleCancel = () => this.setState({ previewVisible: false });
