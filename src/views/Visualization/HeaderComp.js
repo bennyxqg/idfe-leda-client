@@ -41,7 +41,8 @@ const Index = memo((props) => {
 	}
 
 	const back = () => {
-		history.go(-1)
+		// history.go(-1)
+		history.push('/template')
 	}
 
 	const websiteAddress = () => {

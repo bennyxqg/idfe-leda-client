@@ -31,7 +31,7 @@ export const popupData = () => {
         height: 551,
         borderRadius: 0,
         submitBtn: {
-          imgUrl: 'http://dl.gamdream.com//website/image/202009/5f702c265efbf.png',
+          imgUrl: 'http://dl.gamdream.com//website/image/202009/5f70337258d17.png',
           align: 'center',
           width: '',
           height: '',

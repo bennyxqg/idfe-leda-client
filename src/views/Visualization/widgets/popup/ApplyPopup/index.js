@@ -109,7 +109,7 @@ const Index = (props) => {
                           <div className="err-tips"></div>
                       </div>
                   </div>
-                  <div className='submit-button' >
+                  <div className='submit-button text-r' >
                       <img src={data.style.submitBtn.imgUrl} alt='' />
                   </div>
               </div>
