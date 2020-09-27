@@ -44,6 +44,7 @@ class TopHeader extends Component {
     // }, 1000)
     localStorage.removeItem('token');
     localStorage.removeItem('name');
+    localStorage.removeItem('currentSiteId');
     this.props.history.push('/login')
   }
 
