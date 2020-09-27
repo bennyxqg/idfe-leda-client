@@ -104,12 +104,12 @@ const Index = () => {
 					type: 'popup'
 				}
 			})))
-			pageDataTemp.push({
-				id: '4',
-				name: '申请弹窗',
-				identifer: 'apply',
-				type: 'popup'
-			})
+			// pageDataTemp.push({
+			// 	id: '4',
+			// 	name: '申请弹窗',
+			// 	identifer: 'apply',
+			// 	type: 'popup'
+			// })
 		}
 		let currentPage = null
 		pageDataTemp.forEach((page) => {
@@ -132,12 +132,12 @@ const Index = () => {
 		}
 		setPageData(pageDataTemp)
 		console.log('----556----', currentPage)
-		if(indexId == 4) { // 测试数据
-			setInit(true)
-			buildModuleData(imgList, [])
-			setSectionList([])
-			return
-		}
+		// if(indexId == 4) { // 测试数据
+		// 	setInit(true)
+		// 	buildModuleData(imgList, [])
+		// 	setSectionList([])
+		// 	return
+		// }
 		configGet({ 
 			id: indexId
 		}).then((rep) => {

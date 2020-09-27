@@ -18,13 +18,17 @@ const Index = React.forwardRef((props, ref) => {
 
   useEffect(() => {
     if(props.data) {
-      console.log('----props.data---666---', props.data)
+      if(props.data.bgType) {
+        setBgType(props.data.bgType)
+      }
       form.setFieldsValue(props.data)
     }
   }, []);
 
   useEffect(() => {
-    setBgType(props.defaultType)
+    if(props.defaultType) {
+      setBgType(props.defaultType)
+    }
   }, [props.defaultType]);
 
   const changeType = (e) => {

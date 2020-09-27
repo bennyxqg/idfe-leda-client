@@ -38,7 +38,13 @@ const Index = (props) => {
     },
   };
 
-
+  const changeText = (e) => {
+    console.log('-----changeText-----', e.target.value)
+    setUrl(e.target.value)
+    if(props.onChange) {
+      props.onChange(e.target.value);
+    }
+  }
 
   return (
     <div style={{display: 'flex'}} className={props.className}>
@@ -46,6 +52,7 @@ const Index = (props) => {
         value={url}
         style={{width: '200px'}}
         placeholder={props.placeholder}
+        onChange={changeText}
       /></div>
       <div className='mar-l-8'>
         <Upload {...uploadProps}>

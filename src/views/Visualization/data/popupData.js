@@ -24,7 +24,7 @@ export const popupData = () => {
         ...bgData()
       }
     }}, 
-    'applyPopup': {type: 'applyPopup', identifer: "apply", label: '申请弹窗', data: {
+    'applyPopup': {type: 'applyPopup', identifer: "application", label: '申请弹窗', data: {
       submitUrl: '',
       style: {
         width: 560,
