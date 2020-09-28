@@ -60,14 +60,7 @@ export const sectionData = () => {
             // linkType: '1', // 1：锚点，2：当前窗口打开，3：新窗口打开
             // url: 'https://www.jianshu.com/p/256b28d7b816',
             // sectionId: null
-            event: { // 交互事件
-              type: 1, // 交互类型 1: 外链，2：内页 3：锚点 4：弹窗
-              linkUrl: '', // 外链
-              sitePage: null, // 内页
-              sectionId: '', // 锚点
-              popupId: '', // 弹窗
-              linkUrlType: 1 // 1：本窗口打开， 2：新窗口打开
-            }
+            ...eventData()
           },
           {
             Uid: randomCode(),
@@ -75,14 +68,7 @@ export const sectionData = () => {
             // linkType: '2', // 1：锚点，2：当前窗口打开，3：新窗口打开
             // sectionId: null,
             // url: ''
-            event: { // 交互事件
-              type: 1, // 交互类型 1: 外链，2：内页 3：锚点 4：弹窗
-              linkUrl: '', // 外链
-              sitePage: null, // 内页
-              sectionId: '', // 锚点
-              popupId: '', // 弹窗
-              linkUrlType: 1 // 1：本窗口打开， 2：新窗口打开
-            }
+            ...eventData()
           }
         ],
         navImg: 'http://dl.gamdream.com//website/image/202009/5f6ac25fdf668.png',

@@ -32,7 +32,7 @@ export const swiperData = () => {
 export const eventData = () => {
   return {
     event: { // 交互事件
-      disabled: false,
+      enabled: false,
       type: 1, // 交互类型 1: 外链，2：内页 3：锚点 4：弹窗 5：视频
       linkUrl: '', // 外链
       sitePage: null, // 内页

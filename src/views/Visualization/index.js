@@ -143,12 +143,13 @@ const Index = () => {
 		}).then((rep) => {
 			if(rep.error_code === 0) {
 				if(rep.data) {
-					setInit(true)
 					if(rep.data.config_json_pre) {
 						const configobj = JSON.parse(rep.data.config_json_pre) 
 						buildModuleData(imgList, configobj.moduleList)
 						setSectionList(configobj.moduleList)
 					}
+					// 设置好section后再挂载dom，init必须放最后
+					setInit(true)
 				}
 			}
 		})
