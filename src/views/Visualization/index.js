@@ -182,11 +182,14 @@ const Index = () => {
 		// setNewSectionType(Object.assign((sectionData())[type], {
 		// 	sectionId: randomCode(10)
 		// }))
-		const newItem = Object.assign((sectionData())[type], {
+		const sectionTemp = (sectionData())[type]
+		if(sectionTemp.examples) {
+			delete sectionTemp.examples
+		}
+		const newItem = Object.assign(sectionTemp, {
 			sectionId: randomCode(10)
 		})
 		lodash.merge(newItem.data, uniqueData)
-		console.log('-----newItem-----', newItem)
 		const sectionListTemp = lodash.cloneDeep(sectionList)
 		if(typeof showAddModal.index !== 'undefined') {
 			sectionListTemp.splice(showAddModal.index, 0, newItem);
