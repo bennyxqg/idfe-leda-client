@@ -46,7 +46,7 @@ class Login extends React.Component {
 
     onFinish(values) {
         toLogin(values).then((rep) => {
-            if(rep.error_code === 0) {
+            if(rep && rep.error_code === 0) {
                 localStorage.setItem('token', rep.data.token);
                 localStorage.setItem('name', values.name);
                 if(this.state.remember) { // 记住密码
@@ -61,7 +61,7 @@ class Login extends React.Component {
                 message.success('登录成功');
                 this.props.history.push('/basic')
             } else {
-                message.error(rep.msg);
+                message.error(rep && rep.msg);
             }
         })
 

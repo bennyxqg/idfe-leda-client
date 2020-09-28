@@ -9,6 +9,12 @@ const $axios = axios.create({
   timeout: 8000 // 请求超时时间
 })
 
+const logout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('name');
+  localStorage.removeItem('currentSiteId');
+}
+
 //  request拦截器
 $axios.interceptors.request.use(config => {
   // 没有token时返回登录页面
@@ -49,11 +55,16 @@ $axios.interceptors.response.use(
       if (response.data.error_code === 0) {
         return response.data
       } else if(response.data.error_code === 401 || response.data.error_code === 400) { // 未登录已过期
+        logout()
+        window.location.href = process.env.publicPath + '/#login'
+        return Promise.reject()
+      } else if(response.data.error_code === -9999) { // 站点已过期
+        logout()
+        message.error('站点已过期，请重新登录')
         window.location.href = process.env.publicPath + '/#login'
         return Promise.reject()
       } else {
-        message.error(response.data.msg)
-        return Promise.reject()
+        return response.data
       }
     } else {
       message.error(response.data.msg)
