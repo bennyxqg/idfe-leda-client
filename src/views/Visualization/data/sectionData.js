@@ -147,14 +147,14 @@ export const sectionData = () => {
             }
           }
         },
-        {
-          img: demoCarouselCard,
-          data: {
-            style: {
-              type: 1
-            }
-          }
-        }
+        // {
+        //   img: demoCarouselCard,
+        //   data: {
+        //     style: {
+        //       type: 1
+        //     }
+        //   }
+        // }
       ],
       data: {
         name: '',
