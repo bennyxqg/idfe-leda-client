@@ -13,6 +13,14 @@ import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
 console.log('--buildTime--', process.env.buildTime)
+console.log('--publicPath--', process.env.publicPath)
+setTimeout(() => {
+    const siteIcon = document.querySelector('#site_icon')
+    if(siteIcon) {
+        siteIcon.href = process.env.publicPath + '/logo.ico'
+    }
+}, 2000);
+
 
 ReactDOM.render(
     <Provider store={store}>
