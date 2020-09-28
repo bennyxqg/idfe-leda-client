@@ -53,7 +53,7 @@ class index extends React.Component {
     await this.getAllSite()
     getLoginUser().then((rep) => {
       if(rep.error_code === 0 && rep.data) {
-        if(rep.data.site_id) {
+        if(rep.data.site_id || rep.data.name === 'admin') {
           rep.data.site_ids = []
           const siteIds = rep.data.site_id.split(',')
           let firstSite = null
@@ -72,6 +72,7 @@ class index extends React.Component {
                 cacheSite = siteTemp
               }
             })
+            
           } else {
             siteIds.forEach((item, index) => {
               this.state.siteList.some((site) => {
