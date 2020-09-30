@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useImperativeHandle} from "react";
 import { Modal, Button, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import FontStyleForm from '@/views/Visualization/components/Common/FontStyleForm/index'
 
 const { TextArea } = Input;
@@ -21,7 +21,7 @@ const Index = React.forwardRef((props, ref) => {
 
   useEffect(() => {
     if(props.data) {
-      const dataTemp = lodash.cloneDeep(props.data)
+      const dataTemp = cloneDeep(props.data)
       if(!props.data.style.align) {
         dataTemp.style.align = 'left'
       }

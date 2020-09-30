@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef, useImperativeHandle} from "react";
 import { Modal, Button, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
-import lodash from 'lodash'
 
 const layout = {
   labelCol: { span: 4 },

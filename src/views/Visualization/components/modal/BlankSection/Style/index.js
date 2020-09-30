@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
 import { Modal, Button, Checkbox, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import BgStyleForm from '@/views/Visualization/components/Common/BgStyleForm/index_whole'
 import VisContext from "@/views/Visualization/context/VisContext";
 
@@ -35,7 +35,7 @@ const Index = (props) => {
       formRef.current.ref.validateFields().then((childVal) => {
         message.success('操作成功');
         // props.modalChange(false)
-        const dataObj = lodash.cloneDeep(props.data.data)
+        const dataObj = cloneDeep(props.data.data)
         
         Object.assign(dataObj.style, value)
         Object.assign(dataObj.style.bg, childVal)
@@ -53,7 +53,7 @@ const Index = (props) => {
   const onFinish = values => {
     message.success('操作成功');
     const sendData = values
-    const dataObj = lodash.cloneDeep(props.data.data)
+    const dataObj = cloneDeep(props.data.data)
     dataObj.style = sendData
     props.onFinish(dataObj);
   };

@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef, useCallback, useContext} from "react";
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import { getItemIndexByKey, swapArray } from '@/utils/helper'
 import SectionBtns from './SectionBtns'
 import VisContext from "@/views/Visualization/context/VisContext";
@@ -45,10 +45,8 @@ const DragableSection = ({ section, index, className, style, ...restProps }) => 
       } else if(type === 'subscribePopup') {
         return <SubscribePopup data={section}/>;
       } else if(type === 'applyPopup') {
-        
 				return <ApplyPopup data={section}/>;
       }
- 
 	}
   
   const handleMouseUserOver = (e, section, index) =>{
@@ -69,7 +67,7 @@ const DragableSection = ({ section, index, className, style, ...restProps }) => 
       restProps.showModal(type, section)
     } else if(type === 'del') { // 删除
       const index = getItemIndexByKey(sectionList, 'sectionId', section.sectionId)
-      const sectionListTemp = lodash.cloneDeep(sectionList)
+      const sectionListTemp = cloneDeep(sectionList)
       sectionListTemp.splice(index, 1)
       setSectionList(sectionListTemp)
     } else if(type === 'up') { // 上移
@@ -77,7 +75,7 @@ const DragableSection = ({ section, index, className, style, ...restProps }) => 
       if(index === 0) {
         return
       }
-      let sectionListTemp = lodash.cloneDeep(sectionList)
+      let sectionListTemp = cloneDeep(sectionList)
       sectionListTemp = swapArray(sectionListTemp, index, index - 1)
       setSectionList(sectionListTemp)
     } else if(type === 'down') { // 下移
@@ -85,7 +83,7 @@ const DragableSection = ({ section, index, className, style, ...restProps }) => 
       if(index === sectionList.length - 1) {
         return
       }
-      let sectionListTemp = lodash.cloneDeep(sectionList)
+      let sectionListTemp = cloneDeep(sectionList)
       sectionListTemp = swapArray(sectionListTemp, index, index + 1)
       setSectionList(sectionListTemp)
     } else if(type === 'add') { // 增加模块

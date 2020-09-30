@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef, useContext, useImperativeHandle} fro
 import { Modal, Checkbox, Row, Col, Space, Button, Form, Input, message, Select, Collapse, Radio, Slider } from 'antd';
 import { addPic, editPic } from '@/http/hcarousel'
 import ImgUpload from '@/components/ImgUpload'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 import update from 'immutability-helper';
 import BgStyleForm from '@/views/Visualization/components/Common/BgStyleForm/index_whole'
@@ -37,8 +37,8 @@ const Index = React.forwardRef((props, ref) => {
 
   useEffect(() => {
     if(props.data && props.data.data) {
-      setStyleData(lodash.cloneDeep(props.data.data.style))
-      form.setFieldsValue(lodash.cloneDeep(props.data.data.style))
+      setStyleData(cloneDeep(props.data.data.style))
+      form.setFieldsValue(cloneDeep(props.data.data.style))
     }
   }, []);
 
@@ -56,7 +56,7 @@ const Index = React.forwardRef((props, ref) => {
     //     style: sendData
     //   }
     // }}))
-    const chooseSectionTemp = lodash.cloneDeep(chooseSection)
+    const chooseSectionTemp = cloneDeep(chooseSection)
     chooseSectionTemp.data.style = sendData
     setChooseSection(chooseSectionTemp)
     console.log('------onFinish--2----', chooseSectionTemp)

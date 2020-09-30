@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext, useImperativeHandle} from "react";
 import { Modal, Switch, Form, Input, Select, message, InputNumber, Radio } from 'antd';
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 
 const layout = {
@@ -13,6 +13,7 @@ const Index = React.forwardRef((props, ref) => {
   const [sections, setSections] = useState([])
   const [eventData, setEventData] = useState(null)
   const [eventEnabled, setEventEnabled] = useState(false)
+  const [popupId, setPopupId] = useState('')
 
   const [form] = Form.useForm();
 
@@ -25,12 +26,15 @@ const Index = React.forwardRef((props, ref) => {
     handleSections()
     let eventTemp = {}
     if(props.data) {
-      eventTemp = lodash.cloneDeep(props.data)
+      eventTemp = cloneDeep(props.data)
       if(!eventTemp.enabled) {
         eventTemp.enabled = false
         setEventEnabled(false)
       } else {
         setEventEnabled(true)
+      }
+      if(eventTemp.popupId) {
+        setPopupId(eventTemp.popupId)
       }
       eventTemp.sitePageId = eventTemp.sitePage?eventTemp.sitePage.id: ''
     }
@@ -61,9 +65,14 @@ const Index = React.forwardRef((props, ref) => {
     })
   }
 
-  // 改变交互
+  // 改变交互状态
   const changeEnabled = (val) => {
     setEventEnabled(val)
+  }
+
+  // 改变弹窗类型（视频为独特类型）
+  const changePopup = (e) => {
+    setPopupId(e)
   }
 
   // 校验表单
@@ -125,7 +134,7 @@ const Index = React.forwardRef((props, ref) => {
                   <Radio value={1}>外链</Radio>
                   <Radio value={2}>内页</Radio>
                   <Radio value={3}>锚点</Radio>
-                  <Radio value={5}>视频</Radio>
+                  {/* <Radio value={5}>视频</Radio> */}
                 </Radio.Group>
               </Form.Item>
               {
@@ -193,7 +202,9 @@ const Index = React.forwardRef((props, ref) => {
                   label="选择弹窗"
                   name="popupId"
                 >
-                  <Select>
+                  <Select
+                    onChange={(e) => {changePopup(e)}}
+                  >
                     {
                       pageData.map((item) => {
                         if(item.type === 'popup') {
@@ -209,7 +220,7 @@ const Index = React.forwardRef((props, ref) => {
                 </Form.Item>
               )}
               {
-                eventData.type == 5 && (
+                eventData.type == 4 && popupId == 10000 && (
                   <>
                     <Form.Item
                       label="视频地址"

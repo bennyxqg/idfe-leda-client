@@ -4,9 +4,10 @@ import {elementData} from '@/views/Visualization/data/elementData'
 import ImageForm from '@/views/Visualization/components/Element/FormList/Image/index'
 import TextForm from '@/views/Visualization/components/Element/FormList/Text/index'
 import BMapForm from '@/views/Visualization/components/Element/FormList/BMap/index'
+import FormForm from '@/views/Visualization/components/Element/FormList/Form/index'
 import VisContext from "@/views/Visualization/context/VisContext";
 import {getItemByKey, formPromise} from '@/utils/helper'
-import lodash from 'lodash'
+import {assign, cloneDeep} from 'lodash'
 import {randomCode} from '@/utils/helper';
 import FontStyleForm from '@/views/Visualization/components/Common/FontStyleForm/index'
 import EventForm from '@/views/Visualization/components/Common/EventForm/index'
@@ -55,21 +56,6 @@ const Index = (props) => {
         validForm()
       })
     }
-
-    // form.validateFields().then((value) => {
-    //   formRef.current.ref.validateFields().then((positionVal) => {
-    //     if(fontFormRef.current && fontFormRef.current.ref) {
-    //       fontFormRef.current.ref.validateFields().then((fontVal) => {
-    //         updateSection(value, positionVal, fontVal)
-    //       })
-    //     } else {
-    //       updateSection(value, positionVal)
-    //     }
-    //   })
-    // })
-
-    // props.modalChange(false);
-    // form.submit()
   }
 
   const validForm = async () => {
@@ -104,37 +90,37 @@ const Index = (props) => {
     if(props.type === 'edit') { // 编辑
       let sendData = {}
       if(valueData.common) {
-        lodash.assign(sendData, valueData.common)
+        assign(sendData, valueData.common)
       }
       
       if(sendData.style && valueData.font) {
-        lodash.assign(sendData.style, {
+        assign(sendData.style, {
           font: valueData.font
         })
       }
       if(valueData.event) {
-        lodash.assign(sendData, {
+        assign(sendData, {
           event: valueData.event
         })
       }
       console.log('-----sendData--22---', sendData)
       props.onFinish(sendData)
     } else { // 新增
-      lodash.assign(elementItem.data, valueData.common)
+      assign(elementItem.data, valueData.common)
       if(valueData.font) {
-        lodash.assign(elementItem.data.style, {
+        assign(elementItem.data.style, {
           font: valueData.font
         })
       }
       if(valueData.event) {
-        lodash.assign(elementItem.data, {
+        assign(elementItem.data, {
           event: valueData.event
         })
       }
       // setChooseSection(update(chooseSection, {$merge: {
       //   data: childVal
       // }}))
-      // const chooseSectionTemp = lodash.cloneDeep(chooseSection)
+      // const chooseSectionTemp = cloneDeep(chooseSection)
       elementItem.elementId = `element_${randomCode(8)}`
       if(chooseSection.data.elements && chooseSection.data.elements.length) {
         chooseSection.data.elements.push(elementItem)
@@ -156,7 +142,7 @@ const Index = (props) => {
   const changeType = type => {
     setElementType(type)
     const item = getItemByKey(elementList, 'type', type)
-    setElementItem(lodash.cloneDeep(item))
+    setElementItem(cloneDeep(item))
   }
 
   return <Modal
@@ -232,6 +218,16 @@ const Index = (props) => {
               (
                 <>
                   <BMapForm 
+                    data={elementItem.data}
+                    ref={formRef} />
+                </>
+              )
+            }
+            {
+              elementType && elementType==='formElement' &&
+              (
+                <>
+                  <FormForm 
                     data={elementItem.data}
                     ref={formRef} />
                 </>

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
 import { Carousel } from 'antd';
 import { handleBgStyle } from '@/utils/helper'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 import './index.scss'
 import ElementDoms from '@/views/Visualization/components/Element/Doms/index'
@@ -26,7 +26,7 @@ const Index = (props) => {
 				name: '最新',
 				list: lastestNews.slice(0, 5)
 			},
-			...lodash.cloneDeep(allNews)
+			...cloneDeep(allNews)
 		]
 		setGroups(allNewsTemp)
 		changeGroup(allNewsTemp[0], 0)

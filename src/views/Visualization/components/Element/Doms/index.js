@@ -2,14 +2,16 @@ import React, {useState, useEffect, useRef, useContext} from "react";
 import ImageComp from './Image/index'
 import TextComp from './Text/index'
 import BMapComp from './BMap/index'
+import FormComp from './Form/index'
 import {Rnd} from 'react-rnd'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import { getItemIndexByKey } from '@/utils/helper'
 import VisContext from "@/views/Visualization/context/VisContext";
 import ElementBtns from './ElementBtns'
 import EditForm from '@/views/Visualization/components/Element/ListModal/index'
-import {eventLink} from '@/views/Visualization/utils/index'
 import ElementContext from "@/views/Visualization/context/ElementContext";
+import FormConfModal from '@/views/Visualization/components/Element/FormList/Form/config/index'
+
 
 const Index = (props) => {
   const { sectionList, setSectionList } = useContext(VisContext)
@@ -46,6 +48,8 @@ const Index = (props) => {
       targetComp = TextComp
     } else if(type === "bMapElement") { // 百度地图
       targetComp = BMapComp
+    } else if(type === "formElement") { // 百度地图
+      targetComp = FormComp
     }
     
     if(targetComp) {
@@ -60,27 +64,37 @@ const Index = (props) => {
   }
 
   const moveItem = (e,d, data) => {
+    let position_y = 0
+    let position_x = 0
+    
+    if(d.y && d.x) {
+      position_y = Math.round(d.y * 100) / 100
+      position_x = Math.round(d.x * 100) / 100
+    } else {
+      return
+    }
+    
+
 		// 更新模块数据
 		const sectionId = props.section.sectionId
 		const sectionIndex = getItemIndexByKey(sectionList, 'sectionId', sectionId)
-    const sectionListTemp = lodash.cloneDeep(sectionList)
+    const sectionListTemp = cloneDeep(sectionList)
     
     const elementId = data.elementId
     const elementIndex = getItemIndexByKey(sectionListTemp[sectionIndex].data.elements, 'elementId', elementId)
-    sectionListTemp[sectionIndex].data.elements[elementIndex].data.style.top = d.y
-    sectionListTemp[sectionIndex].data.elements[elementIndex].data.style.left = d.x
-		
+    sectionListTemp[sectionIndex].data.elements[elementIndex].data.style.top = position_y
+    sectionListTemp[sectionIndex].data.elements[elementIndex].data.style.left = position_x
+
 		setSectionList(sectionListTemp)
   }
   
   // 右上角按钮事件
   const handleBtns = (type, data, opts) =>{
-      
     if(type === 'del') { // 删除
       // 更新模块数据
       const sectionId = props.section.sectionId
       const sectionIndex = getItemIndexByKey(sectionList, 'sectionId', sectionId)
-      const sectionListTemp = lodash.cloneDeep(sectionList)
+      const sectionListTemp = cloneDeep(sectionList)
       
       const elementId = data.elementId
       const elementIndex = getItemIndexByKey(sectionListTemp[sectionIndex].data.elements, 'elementId', elementId)
@@ -88,9 +102,27 @@ const Index = (props) => {
       
       setSectionList(sectionListTemp)
     } else if(type === 'edit') { // 编辑
-      console.log('----handleBtns------', type, data)
+      setCurrentElement(cloneDeep(data))
       setShowEditModal(true)
-      setCurrentElement(lodash.cloneDeep(data))
+    } else if(type === 'config') { // 配置
+      setCurrentElement(cloneDeep(data))
+      setShowEditModal(true)
+    }
+  }
+
+  // 显示配置弹窗
+  const showModalComp = (params) => {
+    if(params) {
+      if(params.type === 'edit') {
+        return <EditForm 
+          {...params}
+        />
+      }
+      if(params.type === 'config') {
+        return <FormConfModal 
+        {...params}
+        />
+      }
     }
   }
 
@@ -99,7 +131,7 @@ const Index = (props) => {
     // 更新模块数据
     const sectionId = props.section.sectionId
     const sectionIndex = getItemIndexByKey(sectionList, 'sectionId', sectionId)
-    const sectionListTemp = lodash.cloneDeep(sectionList)
+    const sectionListTemp = cloneDeep(sectionList)
     
     const elementId = currentElement.elementId
     const elementIndex = getItemIndexByKey(sectionListTemp[sectionIndex].data.elements, 'elementId', elementId)
@@ -164,13 +196,12 @@ const Index = (props) => {
                 <ElementBtns 
                   handleDel={() => {handleBtns('del', data)}}
                   handleEdit={() => {handleBtns('edit', data)}}
+                  handleConfig={() => {handleBtns('config', data)}}
                 />
               </div>
             )
           }
-          
         </div>
-
       </Rnd>)
   }
 
@@ -192,12 +223,20 @@ const Index = (props) => {
         }
         {
           showEditModal && currentElement &&
-          <EditForm 
-            type='edit'
-            data={currentElement}
-            onFinish={editFinish}
-            modalChange={editFormModalChange}
-          />
+          // <EditForm 
+          //   type='edit'
+          //   data={currentElement}
+          //   onFinish={editFinish}
+          //   modalChange={editFormModalChange}
+          // />
+          showModalComp(
+            {
+              type: 'edit',
+              data: currentElement,
+              onFinish: editFinish,
+              modalChange: editFormModalChange,
+            }
+          )
         }
       </div>
     </ElementContext.Provider>

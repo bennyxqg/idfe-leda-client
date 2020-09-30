@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
 import { randomCode } from '@/utils/helper'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import update from 'immutability-helper';
 import VisContext from "@/views/Visualization/context/VisContext";
 import DragableSection from './components/DragableSection'
@@ -21,7 +21,7 @@ const Index = (props) => {
 	useEffect(() => {
 		// 新模块加入队列中
 		if(props.newSection) {
-			setSectionList([...sectionList, lodash.cloneDeep(props.newSection)])
+			setSectionList([...sectionList, cloneDeep(props.newSection)])
 		}
 	}, [props.newSection]);
 
@@ -44,7 +44,7 @@ const Index = (props) => {
 			const popupList = popupData()
 			Object.keys(popupList).some((key) => {
 				if(popupList[key].identifer === pageItem.identifer) {
-					const popupItem = lodash.cloneDeep(popupList[key])
+					const popupItem = cloneDeep(popupList[key])
 					popupItem.sectionId = 'section_' + randomCode(10)
 					setSectionList([popupItem])
 					return true

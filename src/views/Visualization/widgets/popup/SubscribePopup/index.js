@@ -16,7 +16,8 @@ const Index = (props) => {
   }, [props]);
   
   const initStyleData = () => {
-		const tempData = props.data.data.style
+    const tempData = props.data.data.style
+    console.log('----tempData-----', tempData)
 		const result = {
 		}
 		result.position = 'relative'
@@ -85,7 +86,7 @@ const Index = (props) => {
                       <div className="get-code-button">获取验证码</div>
                   </div>
                   <div className={`${sectionName}-submit-button`}>
-                    <img src={data.submitBtn.imgUrl} alt='' />
+                    <img src={data.style.submitBtn.imgUrl} alt='' />
                   </div>
                 </div>
 								<div 

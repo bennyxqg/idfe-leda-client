@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef, useContext} from "react";
 import { Modal, Button, Form, Input, message, Select, Radio } from 'antd';
 import VisContext from "@/views/Visualization/context/VisContext";
 import EventForm from '@/views/Visualization/components/Common/EventForm/index'
-import lodash from 'lodash'
+import { assign } from 'lodash'
 import {getItemByKey, formPromise} from '@/utils/helper'
 
 const layout = {
@@ -66,7 +66,7 @@ const EditModal = (props) => {
           }
         }
       }
-      sendData = lodash.assign(sendData, {
+      sendData = assign(sendData, {
         event: eventVal
       })
     }

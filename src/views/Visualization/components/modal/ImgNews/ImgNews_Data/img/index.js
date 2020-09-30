@@ -6,7 +6,7 @@ import EditModal from './EditModal'
 import GroupModal from './GroupModal'
 import { randomCode, getItemIndexByKey } from '@/utils/helper'
 import { groupPage } from '@/http/hcarousel'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 import { getAllCarouselByGroup } from '@/utils/data'
 
@@ -64,7 +64,7 @@ const Index = React.forwardRef((props, ref) => {
   
   useEffect(() => {
     if(props.data && props.data.data) {
-      const imgData = lodash.cloneDeep(props.data.data.imgs)
+      const imgData = cloneDeep(props.data.data.imgs)
       if(imgData.groupId) {
         setCurrentGroup(imgData.groupId)
         setTableData(imgData.list)

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { Modal, Button, Checkbox, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import BgStyleForm from '@/views/Visualization/components/Common/BgStyleForm/index_whole'
 
 const { Panel } = Collapse;
@@ -33,7 +33,7 @@ const EditModal = (props) => {
     form.validateFields().then((value) => {
       formRef.current.ref.validateFields().then((childVal) => {
         message.success('操作成功');
-        const dataObj = lodash.cloneDeep(props.data.data)
+        const dataObj = cloneDeep(props.data.data)
 
         Object.assign(dataObj.style.bg, childVal)
         // Object.assign(dataObj.submitBtn, value.submitBtn)

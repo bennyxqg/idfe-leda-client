@@ -13,7 +13,7 @@ import { sectionData } from '@/views/Visualization/data/sectionData';
 import RNDContext from '@/views/Visualization/context/RNDContext'
 import { configGet, getPageList, getPopupList } from '@/http/hvisualization'
 import { getAllNewsByGroup, getAllCarouselByGroup, getAllNews } from '@/utils/data'
-import lodash from 'lodash'
+import {cloneDeep, merge} from 'lodash'
 import { useHistory } from "react-router-dom";
 
 const Index = () => {
@@ -164,7 +164,7 @@ const Index = () => {
 				if(groupId) {
 					imgList.some((img) => {
 						if(img.id == groupId) {
-							item.data.imgs.list = lodash.cloneDeep(img.list) 
+							item.data.imgs.list = cloneDeep(img.list) 
 							return true
 						}
 						return false
@@ -189,8 +189,8 @@ const Index = () => {
 		const newItem = Object.assign(sectionTemp, {
 			sectionId: randomCode(10)
 		})
-		lodash.merge(newItem.data, uniqueData)
-		const sectionListTemp = lodash.cloneDeep(sectionList)
+		merge(newItem.data, uniqueData)
+		const sectionListTemp = cloneDeep(sectionList)
 		if(typeof showAddModal.index !== 'undefined') {
 			sectionListTemp.splice(showAddModal.index, 0, newItem);
 		} else {

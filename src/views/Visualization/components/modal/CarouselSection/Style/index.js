@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { Modal, Collapse, Form, Select, message, InputNumber, Row, Col } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import BgStyleForm from '@/views/Visualization/components/Common/BgStyleForm/index_whole'
 import SwiperStyleForm from '@/views/Visualization/components/Common/SwiperStyleForm/index'
 import {formPromise} from '@/utils/helper'
@@ -40,7 +40,7 @@ const EditModal = (props) => {
     const swiperVal = await formPromise(swiperFormRef.current.ref)
     if(commonVal && bgVal && swiperVal) {
       message.success('操作成功');
-      const dataObj = lodash.cloneDeep(props.data.data)
+      const dataObj = cloneDeep(props.data.data)
       Object.assign(dataObj.style, commonVal)
       Object.assign(dataObj.style.bg, bgVal)
       Object.assign(dataObj.style.swiper, swiperVal.swiper)
@@ -58,7 +58,7 @@ const EditModal = (props) => {
   // const onFinish = values => {
   //   message.success('操作成功');
   //   const sendData = values
-  //   const dataObj = lodash.cloneDeep(props.data.data)
+  //   const dataObj = cloneDeep(props.data.data)
   //   dataObj.style = sendData
   //   props.onFinish(dataObj);
   // };

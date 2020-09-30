@@ -1,12 +1,12 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 
 const Index = (props) => {
   const [data, setData] = useState(null)
   const [fontStyle, setFontStyle] = useState(null)
 
   useEffect(() => {
-    const dataTemp = lodash.cloneDeep(props.data.data)
+    const dataTemp = cloneDeep(props.data.data)
     dataTemp.text = dataTemp.text.replace(/\n/g, '<br/>')
     setData(dataTemp)
     if(props.data.data.style.font) {

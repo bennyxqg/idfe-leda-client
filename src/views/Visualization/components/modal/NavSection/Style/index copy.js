@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { Modal, Button, Form, Input, message, InputNumber, Select, Radio } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import BgStyleForm from '@/views/Visualization/components/Common/BgStyleForm/index'
 
 
@@ -39,7 +39,7 @@ const EditModal = (props) => {
   const onFinish = values => {
     message.success('操作成功');
     const sendData = values
-    const dataObj = lodash.cloneDeep(props.data.data)
+    const dataObj = cloneDeep(props.data.data)
     dataObj.style = sendData
     props.onFinish(dataObj);
   };

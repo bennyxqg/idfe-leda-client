@@ -7,17 +7,20 @@ export const popupData = () => {
     'subscribePopup': {type: 'subscribePopup', identifer: "yuyue", label: '预约弹窗', data: {
       submitUrl: '',
       platForm: ['android', 'ios'],
-      submitBtn: {
-        imgUrl: 'http://oaa.uu.cc/manage/upload/image/oaa.uu.cc/2019-12-26/20191226_141845_539620.png',
-        align: 'center',
-        width: '',
-        height: '',
-      },
-      successPopup: {
-        show: true,
-        imgUrl: 'http://oaa.uu.cc/manage/upload/image/oaa.uu.cc/2019-12-26/20191226_141900_325042.png',
-      },
       style: {
+        outerCloseBtn: {
+          show: true
+        },
+        submitBtn: {
+          imgUrl: 'http://oaa.uu.cc/manage/upload/image/oaa.uu.cc/2019-12-26/20191226_141845_539620.png',
+          align: 'center',
+          width: '',
+          height: '',
+        },
+        successPopup: {
+          show: true,
+          imgUrl: 'http://oaa.uu.cc/manage/upload/image/oaa.uu.cc/2019-12-26/20191226_141900_325042.png',
+        },
         width: 614,
         height: 472,
         borderRadius: 10,
@@ -30,6 +33,9 @@ export const popupData = () => {
         width: 560,
         height: 551,
         borderRadius: 0,
+        outerCloseBtn: {
+          show: false
+        },
         submitBtn: {
           imgUrl: 'http://dl.gamdream.com//website/image/202009/5f70337258d17.png',
           align: 'center',

@@ -6,7 +6,7 @@ import {
 import { sectionData } from '@/views/Visualization/data/sectionData';
 import VisContext from "@/views/Visualization/context/VisContext";
 import classNames from 'classnames'
-import lodash from "lodash";
+import {cloneDeep} from "lodash";
 
 const Index = (props) => {
 	const { showAddModal, setShowAddModal } = useContext(VisContext)
@@ -62,7 +62,7 @@ const Index = (props) => {
 			setActiveIndex(index)
 			let examplesTemp = []
 			if(item.examples) {
-				examplesTemp = lodash.cloneDeep(item.examples)
+				examplesTemp = cloneDeep(item.examples)
 				examplesTemp.forEach(e => {
 					e.value = item.value
 				});

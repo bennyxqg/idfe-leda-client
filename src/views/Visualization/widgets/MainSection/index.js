@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
 import { Button } from 'antd';
 import {Rnd} from 'react-rnd'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 import update from 'immutability-helper';
 import { getItemIndexByKey } from '@/utils/helper'
@@ -52,14 +52,14 @@ const Index = (props) => {
 
 	// const moveItem = (e,d) => {
 	// 	console.log('----111----')
-	// 	const dataTemp = lodash.cloneDeep(data)
+	// 	const dataTemp = cloneDeep(data)
 	// 	dataTemp.btn.style.top = d.y
 	// 	dataTemp.btn.style.left = d.x
 		
 	// 	// 更新模块数据
 	// 	const sectionId = props.data.sectionId
 	// 	const sectionIndex = getItemIndexByKey(sectionList, 'sectionId', sectionId)
-	// 	const sectionListTemp = lodash.cloneDeep(sectionList)
+	// 	const sectionListTemp = cloneDeep(sectionList)
 	// 	sectionListTemp[sectionIndex].data = dataTemp
 	// 	setSectionList(sectionListTemp)
 

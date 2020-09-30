@@ -2,18 +2,21 @@ import React, {useState, useEffect, useContext, memo} from "react";
 import { Button, message, Row, Col } from 'antd';
 import VisContext from "@/views/Visualization/context/VisContext";
 import { configSave, configPublish } from '@/http/hvisualization'
-import lodash from 'lodash'
+import {cloneDeep, merge} from 'lodash'
 import { getWebsiteAddress } from '@/http/hvisualization'
 import { useHistory } from "react-router-dom";
 import GlobalContext from "@/views/layout/GlobalContext";
-
+import { sectionData } from "@/views/Visualization/data/sectionData";
+import { popupData } from "@/views/Visualization/data/popupData";
+import { elementData } from "@/views/Visualization/data/elementData";
 
 const Index = memo((props) => {
 	let history = useHistory();
 
 	const { userInfo } = useContext(GlobalContext)
-	const { pageItem, sectionList, setShowPagesModal } = useContext(VisContext)
+	const { pageItem, sectionList, setSectionList, setShowPagesModal } = useContext(VisContext)
 	const [address, setAddress] = useState({})
+	const [updateBtn, setUpdateBtn] = useState(false)
 
 	useEffect(() => {
 		websiteAddress()
@@ -45,6 +48,34 @@ const Index = memo((props) => {
 		history.push('/template')
 	}
 
+	const showUpdateBtn = () => {
+		if(userInfo.name === 'admin') {
+			setUpdateBtn(!updateBtn)
+		}
+	}
+
+	// 更新数据（后期属性增加的情况下使用）
+	const updateData = () => {
+		const listTemp = []
+		sectionList.forEach((item) => {
+			let itemTemp = null
+			if(item.type.indexOf('Popup') !== -1) { // 弹窗
+				itemTemp = popupData()[item.type]
+			} else {
+				itemTemp = sectionData()[item.type]
+			}
+			if(itemTemp) {
+				if(itemTemp.examples) {
+					delete itemTemp.examples
+				}
+				itemTemp = merge(itemTemp, item)
+				listTemp.push(itemTemp)
+				setSectionList(listTemp)
+			}
+		})
+		message.success('更新成功');
+	}
+
 	const websiteAddress = () => {
 		const sendData = {}
 		getWebsiteAddress(sendData).then((rep) => {
@@ -58,7 +89,7 @@ const Index = memo((props) => {
 
 	// 发起请求
 	const toReq = (type, showSuccess = true) => {
-		const sectionListTemp = lodash.cloneDeep(sectionList)
+		const sectionListTemp = cloneDeep(sectionList)
 		sectionListTemp.forEach(item => {
 			if(item.type === 'imgNews') { // 处理图文信息的提交数据
 				item.data.imgs = {
@@ -119,7 +150,7 @@ const Index = memo((props) => {
 				<Col span={8} className='header-part header-part-center'>
 					<div>
 						<span>
-							当前{getPageData().type}：
+							<span onClick={showUpdateBtn}>当前</span>{getPageData().type}：
 						</span>
 						<span>
 							{getPageData().name}
@@ -127,6 +158,11 @@ const Index = memo((props) => {
 						<span onClick={showPageModal} className='mar-l-30 switch-page-btn'>
 							切换
 						</span>
+						{
+							updateBtn && <span onClick={updateData} className='mar-l-30 switch-page-btn'>
+								更新数据
+							</span>
+						}
 					</div>
 				</Col>
 				<Col span={8} className='header-part header-part-right'>

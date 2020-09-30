@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { Modal, Button, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
-import lodash from 'lodash'
+import {cloneDeep, assign} from 'lodash'
 import BgStyleForm from '@/views/Visualization/components/Common/BgStyleForm/index'
 
 const { Panel } = Collapse;
@@ -44,7 +44,7 @@ const EditModal = (props) => {
     message.success('操作成功');
     const sendData = values
     console.log('-----sendData------', sendData)
-    const dataObj = lodash.cloneDeep(props.data.data)
+    const dataObj = cloneDeep(props.data.data)
     if(!sendData.width) {
       sendData.width = ''
     }
@@ -53,8 +53,8 @@ const EditModal = (props) => {
     }
     // dataObj.style = sendData
     // props.onFinish(dataObj);
-    dataObj.style = lodash.assign(dataObj.style, sendData)
-    dataObj.btn = lodash.assign(dataObj.btn, sendData.btn)
+    dataObj.style = assign(dataObj.style, sendData)
+    dataObj.btn = assign(dataObj.btn, sendData.btn)
     delete dataObj.style.btn
     props.onFinish(dataObj);
   };

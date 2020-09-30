@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
 import { Modal, Button, Form, Input, message, Select, Table, Tabs } from 'antd';
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 import ImgComp from './img/index'
 import NewsComp from './news/index'
@@ -61,7 +61,7 @@ const Index = (props) => {
 
   // 把数据更新至全局数据中
   const changeSection = (value) => {
-    const chooseSectionTemp = lodash.cloneDeep(chooseSection)
+    const chooseSectionTemp = cloneDeep(chooseSection)
     let style = chooseSectionTemp.data.style
     style = Object.assign(style, value)
     chooseSectionTemp.data.style = style

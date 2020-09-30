@@ -1,6 +1,9 @@
 import React, {useState, useEffect, useRef, useImperativeHandle} from "react";
-import { Switch, Button, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
-import ImgUpload from '@/components/ImgUpload'
+import { Modal, Button, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
+import {cloneDeep} from 'lodash'
+import ItemConfigModal from './ItemConfigModal'
+
+const { TextArea } = Input;
 
 const layout = {
   labelCol: { span: 4 },
@@ -9,18 +12,32 @@ const layout = {
 
 const Index = React.forwardRef((props, ref) => {
 
+  const [showItemConfigModal, setShowItemConfigModal] = useState(false)
+  
   const [form] = Form.useForm();
+  
 
   useImperativeHandle(ref, () => ({
     ref: ref.current
   }));
 
   useEffect(() => {
-    console.log('--------props.data--------', props.data)
     if(props.data) {
-      form.setFieldsValue(props.data)
+      const dataTemp = cloneDeep(props.data)
+      if(!props.data.style.align) {
+        dataTemp.style.align = 'left'
+      }
+      form.setFieldsValue(dataTemp)
     }
   }, []);
+
+  const handleShowItemConfigModal = () => {
+    setShowItemConfigModal(true)
+  }
+
+  const modalChange = () => {
+    setShowItemConfigModal(false)
+  }
 
   return <div >
     <Form
@@ -70,60 +87,33 @@ const Index = React.forwardRef((props, ref) => {
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item
-        name='markerIconUrl' label="标注图片:">
-        <ImgUpload />
-      </Form.Item>
-      <div className='pad-l-90'>
-          <span style={{
-            color: '#999'
-          }}>
-            图标尺寸为21*31，不传则为默认图标
-          </span>
-        </div>
-      <Row className='pad-l-20'>
-        <Col span={8}>
+      <Row className='pad-l-4'>
+        <Col span={24}>
           <Form.Item
-            labelCol={{span: 10}}
-            wrapperCol={{span: 14}}
-            name={['position', 'lng']} label="经度:">
-            <InputNumber />
+            labelCol={{span: 4}}
+            wrapperCol={{span: 16}}
+            name={['style', 'align']} label="位置:">
+            <Radio.Group>
+              <Radio value="left">居左</Radio>
+              <Radio value="center">居中</Radio>
+              <Radio value="right">居右</Radio>
+            </Radio.Group>
           </Form.Item>
         </Col>
-        <Col span={8}>
-          <Form.Item
-            labelCol={{span: 10}}
-            wrapperCol={{span: 14}}
-            name={['position', 'lat']} label="纬度:">
-            <InputNumber />
-          </Form.Item>
-        </Col>
-        <div className='pad-l-72'>
-          <span style={{
-            color: '#999'
-          }}>
-            请通过
-            <a 
-              target='_blank'
-              rel="noopener noreferrer"
-              href='http://api.map.baidu.com/lbsapi/getpoint/index.html'>百度地图拾取坐标系统</a>
-              获取经纬度
-          </span>
-        </div>
       </Row>
-      <Form.Item
-        valuePropName="checked"
-        name='disableDragging' label="禁止拖拽:">
-        <Switch />
-      </Form.Item>
-      <Form.Item
-        valuePropName="checked"
-        name='disableZoom' label="禁止缩放:">
-        <Switch />
-      </Form.Item>
+      <Row className='pad-l-4'>
+        <Button onClick={handleShowItemConfigModal}>表单配置</Button>
+      </Row>
     </Form>
-    
-    </div>
+    {
+      showItemConfigModal && (
+        <ItemConfigModal 
+          data={props.data.itemConfig}
+          modalChange={modalChange}
+        />
+      )
+    }
+  </div>
 })
 
 export default Index

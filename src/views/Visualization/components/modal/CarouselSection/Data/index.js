@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
 import { Modal, Button, Form, Input, message } from 'antd';
 import ImgGroupSelector from '@/components/ImgGroupSelector/index'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 
 const EditModal = (props) => {
@@ -20,7 +20,7 @@ const EditModal = (props) => {
   const handleOk = (value) => {
     // // 把数据更新至全局数据中
     let isChange = false
-    const chooseSectionTemp = lodash.cloneDeep(chooseSection)
+    const chooseSectionTemp = cloneDeep(chooseSection)
     if(Img.current && Img.current.dataToParent) {
       const {groupId, list} = Img.current.dataToParent()
       // chooseSectionTemp.data.imgs = imgData

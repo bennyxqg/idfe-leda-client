@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
 import { Modal, Button, Form, Input, message, Select, Table } from 'antd';
 import VisContext from "@/views/Visualization/context/VisContext";
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 const { Option } = Select;
 
 const FormItem = Form.Item;
@@ -49,7 +49,7 @@ const EditModal = (props) => {
   }, []);
 
   const handleDel = (row, index) => {
-    const tableDataTemp = lodash.cloneDeep(tableData)
+    const tableDataTemp = cloneDeep(tableData)
     tableDataTemp.splice(index, 1)
     setTableData(tableDataTemp)
   }
@@ -69,12 +69,12 @@ const EditModal = (props) => {
 
   const onFinish = values => {
     const sendData = values
-    let list = lodash.cloneDeep(tableData)
+    let list = cloneDeep(tableData)
     if(sendData && sendData.id) {
       let item = null
       allNews.some((i) => {
         if(i.id == sendData.id) {
-          item = lodash.cloneDeep(i)
+          item = cloneDeep(i)
           return true
         }
         return false

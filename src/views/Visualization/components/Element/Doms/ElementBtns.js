@@ -12,6 +12,10 @@ const SectionBtns = (props) => {
     props.handleEdit()
   }
 
+  const handleConfig = () => {
+    props.handleConfig()
+  }
+
 	return (
     <div>
       <div className="vis-section-item-btns vis-element-item-btns">
@@ -24,8 +28,13 @@ const SectionBtns = (props) => {
           <SettingOutlined />
         </span>
         <span
-          onClick={() => {handleDel()}}
-        ><DeleteOutlined /></span>
+          onClick={() => {handleConfig()}}>
+          <SettingOutlined />
+        </span>
+        <span
+          onClick={() => {handleDel()}}>
+          <DeleteOutlined />
+        </span>
       </div>
     </div>
 	)

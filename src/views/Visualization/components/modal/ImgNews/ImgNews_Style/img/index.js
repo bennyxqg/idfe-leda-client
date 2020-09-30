@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef, useContext, useImperativeHandle} fro
 import { Modal, Switch, Row, Col, Space, Button, Form, Input, message, Select, Collapse, Radio, Slider } from 'antd';
 import { addPic, editPic } from '@/http/hcarousel'
 import ImgUpload from '@/components/ImgUpload'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 import update from 'immutability-helper';
 import SwiperStyleForm from '@/views/Visualization/components/Common/SwiperStyleForm/index'

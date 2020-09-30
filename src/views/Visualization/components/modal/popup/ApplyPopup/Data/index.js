@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { Modal, Button, Checkbox, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 
 const { Panel } = Collapse;
 
@@ -40,7 +40,7 @@ const EditModal = (props) => {
     message.success('操作成功');
     const sendData = values
     console.log('--sendData----666---', sendData)
-    const dataObj = lodash.cloneDeep(props.data.data)
+    const dataObj = cloneDeep(props.data.data)
     dataObj.platForm = sendData.platForm
     props.onFinish(dataObj);
   };

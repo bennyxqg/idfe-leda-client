@@ -3,7 +3,7 @@ import { Modal, Button, Form, Input, message, InputNumber, Radio, Table } from '
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import ImgUpload from '@/components/ImgUpload'
 import { randomCode, addOrEditForListItem, getItemByKey } from '@/utils/helper'
-import lodash from 'lodash'
+import {cloneDeep, assign} from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 
 const layout = {
@@ -20,7 +20,7 @@ const Index = (props) => {
 
   useEffect(() => {
     if(props.data && props.data.data) {
-      const eventTemp = lodash.cloneDeep(props.data.data.btn.event)
+      const eventTemp = cloneDeep(props.data.data.btn.event)
       setEventData(eventTemp)
       form.setFieldsValue(eventTemp)
     }
@@ -42,8 +42,8 @@ const Index = (props) => {
 
     message.success('操作成功');
     const sendData = values
-    const dataObj = lodash.cloneDeep(props.data.data)
-    dataObj.btn.event = lodash.assign(dataObj.btn.event, sendData) 
+    const dataObj = cloneDeep(props.data.data)
+    dataObj.btn.event = assign(dataObj.btn.event, sendData) 
     props.onFinish(dataObj);
   };
 

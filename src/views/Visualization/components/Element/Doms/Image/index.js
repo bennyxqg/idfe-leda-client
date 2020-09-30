@@ -10,7 +10,7 @@ const Index = (props) => {
   }, [props]);
 
   const handleErrorImg = (e) => {
-    console.log('-----e-----', e.target.src = errorImg)
+    e.target.src = errorImg
   }
 
   return (

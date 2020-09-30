@@ -2,8 +2,6 @@ import React, {useState, useEffect, useContext} from "react";
 import { useHistory } from "react-router-dom";
 import { Modal, Form, Tabs, message,List } from 'antd';
 import VisContext from "@/views/Visualization/context/VisContext";
-import { getPageList, getPopupList } from '@/http/hvisualization'
-import lodash from 'lodash'
 
 const { TabPane } = Tabs;
 

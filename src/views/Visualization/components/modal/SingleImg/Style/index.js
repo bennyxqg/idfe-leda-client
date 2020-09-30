@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { Modal, Button, Form, Input, message, InputNumber, Radio } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 
 const layout = {
   labelCol: { span: 4 },
@@ -21,7 +21,7 @@ const EditModal = (props) => {
 
   useEffect(() => {
     if(props.data) {
-      setStyleData(lodash.cloneDeep(props.data.data.style))
+      setStyleData(cloneDeep(props.data.data.style))
       form.setFieldsValue({
         ...props.data.data.style
       })
@@ -48,7 +48,7 @@ const EditModal = (props) => {
     if(sendData.heightType == 1) {
       sendData.height = 0
     }
-    const dataObj = lodash.cloneDeep(props.data.data)
+    const dataObj = cloneDeep(props.data.data)
     dataObj.style = Object.assign({}, styleData, sendData)
     props.onFinish(dataObj);
   };

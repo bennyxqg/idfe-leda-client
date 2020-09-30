@@ -5,7 +5,7 @@ import ImgUpload from '@/components/ImgUpload'
 import EditModal from './EditModal'
 import BindModal from './bindModal'
 import { randomCode, getItemIndexByKey } from '@/utils/helper'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 
 const { TextArea } = Input;
@@ -58,7 +58,7 @@ const Index = React.forwardRef((props, ref) => {
   
   useEffect(() => {
     if(props.data && props.data.data) {
-      const groups = lodash.cloneDeep(props.data.data.newsList.groups)
+      const groups = cloneDeep(props.data.data.newsList.groups)
       groups.forEach(item => {
         item.Uid = randomCode(10)
       });
@@ -73,7 +73,7 @@ const Index = React.forwardRef((props, ref) => {
 
   // 改变状态
   const changeState = (val, row, index) => {
-    const tableDataTemp = lodash.cloneDeep(tableData)
+    const tableDataTemp = cloneDeep(tableData)
     tableDataTemp[index].state = val?1:0
     setTableData(tableDataTemp)
   }
@@ -92,7 +92,7 @@ const Index = React.forwardRef((props, ref) => {
     Modal.confirm({
       content: '确认删除吗？',
       onOk: () => {
-        const tableDataTemp = lodash.cloneDeep(tableData)
+        const tableDataTemp = cloneDeep(tableData)
         tableDataTemp.splice(index, 1)
         setTableData(tableDataTemp)
       }
@@ -116,9 +116,9 @@ const Index = React.forwardRef((props, ref) => {
 
 	const	successCB = (item) => {
     // 改变数据
-    const tableDataTemp = lodash.cloneDeep(tableData)
+    const tableDataTemp = cloneDeep(tableData)
     
-    let itemTemp = lodash.cloneDeep(item)
+    let itemTemp = cloneDeep(item)
     if(item.Uid) {
       const index = getItemIndexByKey(tableDataTemp, 'Uid', item.Uid)
       itemTemp = Object.assign(tableDataTemp[index], itemTemp)
@@ -142,8 +142,8 @@ const Index = React.forwardRef((props, ref) => {
   const	BindModalSuccessCB = (item) => {
     
     // 改变数据
-    const tableDataTemp = lodash.cloneDeep(tableData)
-    let itemTemp = lodash.cloneDeep(item)
+    const tableDataTemp = cloneDeep(tableData)
+    let itemTemp = cloneDeep(item)
     const index = getItemIndexByKey(tableDataTemp, 'Uid', item.Uid)
     tableDataTemp[index].list = itemTemp.list
     setTableData(tableDataTemp)

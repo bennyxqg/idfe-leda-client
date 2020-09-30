@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { Modal, Button, Form, Input, message } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 
 const layout = {
   labelCol: { span: 4 },
@@ -34,7 +34,7 @@ const EditModal = (props) => {
   const onFinish = values => {
     message.success('操作成功');
     const sendData = values
-    const dataObj = lodash.cloneDeep(props.data.data)
+    const dataObj = cloneDeep(props.data.data)
     dataObj.url = sendData.url
     props.onFinish(dataObj);
   };

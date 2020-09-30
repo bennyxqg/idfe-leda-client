@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef, useContext} from "react";
 import { Modal, Table, Button, Form, Input, message, Popconfirm } from 'antd';
 import { groupPage, delGroup, addGroup, editGroup } from '@/http/hcarousel'
 import VisContext from "@/views/Visualization/context/VisContext";
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import { getAllCarouselByGroup } from '@/utils/data'
 
 const EditableCell = ({
@@ -146,7 +146,7 @@ const EditModal = (props) => {
 
   useEffect(() => {
     if(allPic && allPic.length) {
-      setTableData(lodash.cloneDeep(allPic))
+      setTableData(cloneDeep(allPic))
     }
   }, [allPic]);
 
