@@ -12,7 +12,6 @@ const $axios = axios.create({
 const logout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('name');
-  localStorage.removeItem('currentSiteId');
 }
 
 //  request拦截器
@@ -60,6 +59,7 @@ $axios.interceptors.response.use(
         return Promise.reject()
       } else if(response.data.error_code === -9999) { // 站点已过期
         logout()
+        localStorage.removeItem('currentSiteId');
         message.error('站点已过期，请重新登录')
         window.location.href = process.env.publicPath + '/#login'
         return Promise.reject()

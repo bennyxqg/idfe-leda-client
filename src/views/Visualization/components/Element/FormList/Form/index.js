@@ -1,9 +1,7 @@
 import React, {useState, useEffect, useRef, useImperativeHandle} from "react";
 import { Modal, Button, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
 import {cloneDeep} from 'lodash'
-import ItemConfigModal from './ItemConfigModal'
 
-const { TextArea } = Input;
 
 const layout = {
   labelCol: { span: 4 },
@@ -11,8 +9,6 @@ const layout = {
 };
 
 const Index = React.forwardRef((props, ref) => {
-
-  const [showItemConfigModal, setShowItemConfigModal] = useState(false)
   
   const [form] = Form.useForm();
   
@@ -31,13 +27,6 @@ const Index = React.forwardRef((props, ref) => {
     }
   }, []);
 
-  const handleShowItemConfigModal = () => {
-    setShowItemConfigModal(true)
-  }
-
-  const modalChange = () => {
-    setShowItemConfigModal(false)
-  }
 
   return <div >
     <Form
@@ -101,18 +90,7 @@ const Index = React.forwardRef((props, ref) => {
           </Form.Item>
         </Col>
       </Row>
-      <Row className='pad-l-4'>
-        <Button onClick={handleShowItemConfigModal}>表单配置</Button>
-      </Row>
     </Form>
-    {
-      showItemConfigModal && (
-        <ItemConfigModal 
-          data={props.data.itemConfig}
-          modalChange={modalChange}
-        />
-      )
-    }
   </div>
 })
 

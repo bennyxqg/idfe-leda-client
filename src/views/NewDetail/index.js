@@ -5,7 +5,7 @@ import Editor from '@/components/ReactQuill'
 import ImgUpload from '@/components/ImgUpload'
 import { addNews, editNews, newsCateList, newsDetail } from '@/http/hnews'
 import { getQueryVariable } from '@/utils/helper'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import './index.less'
 const { Option } = Select;
 const { TextArea } = Input;
@@ -85,8 +85,7 @@ class index extends Component {
     console.log(value)
   }
   onFinish = (value) => {
-    console.log('------onFinish------', value)
-    const sendData = lodash.cloneDeep(value)
+    const sendData = cloneDeep(value)
     sendData.content = this.state.formParams.editorContent
     // sendData.decription = sendData.decription || ''
     if(!sendData.big_url) {

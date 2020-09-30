@@ -4,7 +4,7 @@ import { Layout, Menu } from "antd";
 import { menus, adminMenus } from "@/router/menus";
 import GlobalContext from "./GlobalContext";
 import { createFromIconfontCN } from '@ant-design/icons';
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 
 const { Sider } = Layout;
 
@@ -51,9 +51,9 @@ class SideMenu extends Component {
 
     render() {
         // 高级管理员权限
-        const menusTemp = lodash.cloneDeep(menus) 
+        const menusTemp = cloneDeep(menus) 
         if(this.context.userInfo && this.context.userInfo.name === 'admin') {
-            const adminMenusTemp = lodash.cloneDeep(adminMenus) 
+            const adminMenusTemp = cloneDeep(adminMenus) 
             menusTemp.push(...adminMenusTemp)
         }
 

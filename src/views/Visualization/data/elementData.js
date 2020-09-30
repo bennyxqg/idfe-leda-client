@@ -66,7 +66,7 @@ export const elementData = () => {
         {
           itemId: 'form-item-' + randomCode(),
           type: 'radio',
-          label: '称谓',
+          label: '称谓1',
           name: 'sex',
           isVerification: false, // 是否校验
           regex: '', // 正则

@@ -6,6 +6,7 @@ import { ArrowUpOutlined, ArrowDownOutlined,
   SettingOutlined,DeleteOutlined,
   FontSizeOutlined,LineHeightOutlined,
   AimOutlined, CloseOutlined,
+  DownSquareOutlined,
   PlusOutlined, AppstoreOutlined } from '@ant-design/icons';
 import { randomCode } from '@/utils/helper'
 
@@ -16,7 +17,7 @@ const widgetsTypeList = [
     label: '单行文本框'
   },
   {
-    type: 'textArea',
+    type: 'textarea',
     icon: <LineHeightOutlined />,
     label: '多行文本框'
   },
@@ -29,6 +30,11 @@ const widgetsTypeList = [
     type: 'checkbox',
     icon: <AppstoreOutlined />,
     label: '多选框'
+  },
+  {
+    type: 'select',
+    icon: <DownSquareOutlined />,
+    label: '下拉框'
   }
 ]
 
@@ -65,13 +71,13 @@ const Index = (props) => {
     itemData.type = item.type
     itemData.isVerification = false
     itemData.regex = ''
-    itemData.name = item.type + '_' + randomCode()
+    itemData.name = item.type + '_' + randomCode(10)
     itemData.placeholder = ''
-    itemData.itemId = 'form-item-' + randomCode()
+    itemData.itemId = 'form-item-' + randomCode(10)
     if(item.type === 'input') {
       itemData.label = '单行文本框'
     }
-    if(item.type === 'textArea') {
+    if(item.type === 'textarea') {
       itemData.label = '多行文本框'
     }
     if(item.type === 'radio') {
@@ -101,6 +107,19 @@ const Index = (props) => {
           label: '选项2',
           value: 'option_2',
           checked: false
+        }
+      ]
+    }
+    if(item.type === 'select') {
+      itemData.label = '下拉框'
+      itemData.items = [
+        {
+          label: '选项1',
+          value: 'option_1'
+        },
+        {
+          label: '选项2',
+          value: 'option_2',
         }
       ]
     }
@@ -157,6 +176,7 @@ const Index = (props) => {
                         {FormWidgetsComp(formItem)}
                       </div>
                     </div>
+                    
                     <div className='el-form-item-operate-btn'>
 
                     </div>

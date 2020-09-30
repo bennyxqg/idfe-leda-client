@@ -7,7 +7,7 @@ import BMapForm from '@/views/Visualization/components/Element/FormList/BMap/ind
 import FormForm from '@/views/Visualization/components/Element/FormList/Form/index'
 import VisContext from "@/views/Visualization/context/VisContext";
 import {getItemByKey, formPromise} from '@/utils/helper'
-import {assign, cloneDeep} from 'lodash'
+import {assign, cloneDeep, merge} from 'lodash'
 import {randomCode} from '@/utils/helper';
 import FontStyleForm from '@/views/Visualization/components/Common/FontStyleForm/index'
 import EventForm from '@/views/Visualization/components/Common/EventForm/index'
@@ -87,6 +87,8 @@ const Index = (props) => {
 
   const updateSection = (valueData) => {
     message.success('操作成功');
+    let elementItemTemp = cloneDeep(elementItem)
+    const original_element = getItemByKey(elementList, 'type', elementItemTemp.type, true)
     if(props.type === 'edit') { // 编辑
       let sendData = {}
       if(valueData.common) {
@@ -103,29 +105,27 @@ const Index = (props) => {
           event: valueData.event
         })
       }
-      console.log('-----sendData--22---', sendData)
+      sendData = merge(original_element.data, elementItemTemp.data, sendData)
+      
       props.onFinish(sendData)
     } else { // 新增
-      assign(elementItem.data, valueData.common)
+      assign(elementItemTemp.data, valueData.common)
       if(valueData.font) {
-        assign(elementItem.data.style, {
+        assign(elementItemTemp.data.style, {
           font: valueData.font
         })
       }
       if(valueData.event) {
-        assign(elementItem.data, {
+        assign(elementItemTemp.data, {
           event: valueData.event
         })
       }
-      // setChooseSection(update(chooseSection, {$merge: {
-      //   data: childVal
-      // }}))
-      // const chooseSectionTemp = cloneDeep(chooseSection)
-      elementItem.elementId = `element_${randomCode(8)}`
+      elementItemTemp = merge(original_element, elementItemTemp)
+      elementItemTemp.elementId = `element_${randomCode(8)}`
       if(chooseSection.data.elements && chooseSection.data.elements.length) {
-        chooseSection.data.elements.push(elementItem)
+        chooseSection.data.elements.push(elementItemTemp)
       } else {
-        chooseSection.data.elements = [elementItem]
+        chooseSection.data.elements = [elementItemTemp]
       }
       props.modalChange(false)
     }

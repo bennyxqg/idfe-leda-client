@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { cloneDeep } from "lodash";
 
 // 时间戳转时间
 export const formatTime = (val, type) => {
@@ -35,7 +36,7 @@ export function getQueryVariable(variable, url = '') {
 }
 
 // 获取随机字符串
-export const randomCode = (length) => {
+export const randomCode = (length = 6) => {
   var UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   var LOWER = UPPER.toLocaleLowerCase()
   var DIGITS = '0123456789'
@@ -55,15 +56,15 @@ export const randomCode = (length) => {
 }
 
 // 根据key获取列表项
-export const getItemByKey = (list, key, value) => {
+export const getItemByKey = (list, key, value, clone = false) => {
   let result = null
-  list.some((item) => {
-    if (item[key] == value) {
-      result = item
-      return true
+  const index = getItemIndexByKey(list, key, value)
+  if(index !== -1) {
+    result = list[index]
+    if(clone) {
+      result = cloneDeep(result)
     }
-    return false
-  })
+  }
   return result
 }
 

@@ -28,6 +28,8 @@ const Index = (props) => {
 
   // 更新数据
   const onFinish = (data) => {
+    console.log('------sendData--2--', data)
+    return
     setChooseSection(update(chooseSection, {$merge: {
       data
     }}))

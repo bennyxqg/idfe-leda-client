@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { Row, Col, Button, Input, Form, message, Modal} from 'antd';
 import { editBasicConfig, delBasicConfig } from '@/http/hwebInfo'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 
 const { TextArea } = Input;
 
@@ -17,7 +17,7 @@ const InfoItem = (props) => {
     formRef.current.validateFields().then(() => {
       // 保存数据
       const formInfo = formRef.current.getFieldsValue()
-      const sendData = lodash.cloneDeep(el)
+      const sendData = cloneDeep(el)
       sendData.content = formInfo.configVal
       editBasicConfig(sendData).then((rep) => {
         if(rep.error_code === 0) {
@@ -53,7 +53,7 @@ const InfoItem = (props) => {
   }
 
   useEffect(() => {
-    setFormInfoData(lodash.cloneDeep(el))
+    setFormInfoData(cloneDeep(el))
 	}, [el.id]);
 
   return <Form

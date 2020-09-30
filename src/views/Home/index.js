@@ -6,7 +6,7 @@ import { basicConfigList } from '@/http/hwebInfo'
 import GlobalContext from "@/views/layout/GlobalContext";
 import { editBasicConfig, delBasicConfig } from '@/http/hwebInfo'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import './home.less'
 
 const { TextArea } = Input;
@@ -106,7 +106,7 @@ export default class index extends Component {
   }
 
   saveData = (record, index) => {
-    const sendData = lodash.cloneDeep(record)
+    const sendData = cloneDeep(record)
     sendData.content = ''
     if(typeof this.contentData[record.id] !== 'undefined') {
       if(this.contentData[record.id] == '') {

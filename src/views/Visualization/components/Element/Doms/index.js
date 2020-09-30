@@ -18,6 +18,7 @@ const Index = (props) => {
 
   const [showEditModal, setShowEditModal] = useState(false)
   const [currentElement, setCurrentElement] = useState(null)
+  const [currentType, setCurrentType] = useState('')
   const [selectId, setSelectId] = useState('')
   const [maxZIndex, setMaxZIndex] = useState(10)
 
@@ -90,6 +91,7 @@ const Index = (props) => {
   
   // 右上角按钮事件
   const handleBtns = (type, data, opts) =>{
+    console.log('---handleBtns--------', type)
     if(type === 'del') { // 删除
       // 更新模块数据
       const sectionId = props.section.sectionId
@@ -101,17 +103,20 @@ const Index = (props) => {
       sectionListTemp[sectionIndex].data.elements.splice(elementIndex, 1)
       
       setSectionList(sectionListTemp)
-    } else if(type === 'edit') { // 编辑
+    } else {
+      if(type === 'edit') { // 编辑
+        
+      } else if(type === 'config') { // 配置
+      }
       setCurrentElement(cloneDeep(data))
-      setShowEditModal(true)
-    } else if(type === 'config') { // 配置
-      setCurrentElement(cloneDeep(data))
+      setCurrentType(type)
       setShowEditModal(true)
     }
   }
 
   // 显示配置弹窗
-  const showModalComp = (params) => {
+  const activeModalComp = (params) => {
+    console.log('----showModalComp--props.section.sectionId----', params, props.section.sectionId)
     if(params) {
       if(params.type === 'edit') {
         return <EditForm 
@@ -119,11 +124,14 @@ const Index = (props) => {
         />
       }
       if(params.type === 'config') {
-        return <FormConfModal 
-        {...params}
-        />
+        if(params.data.type === "formElement") {
+          return <FormConfModal 
+          {...params}
+          />
+        }
       }
     }
+    return null
   }
 
   // 编辑完成
@@ -229,12 +237,13 @@ const Index = (props) => {
           //   onFinish={editFinish}
           //   modalChange={editFormModalChange}
           // />
-          showModalComp(
+          activeModalComp(
             {
-              type: 'edit',
+              type: currentType,
               data: currentElement,
               onFinish: editFinish,
               modalChange: editFormModalChange,
+              sectionId: props.section.sectionId
             }
           )
         }

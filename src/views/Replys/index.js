@@ -4,7 +4,7 @@ import './index.less'
 import { commentPage, dealComment } from '@/http/hcomment'
 import { newsAll } from '@/http/hnews'
 import { formatTime } from '@/utils/helper'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import moment from 'moment'
 
@@ -172,7 +172,7 @@ class Index extends React.Component {
     getPageList() {
         let searchData = {}
         if(this.formRef.current) {
-            searchData = lodash.cloneDeep(this.formRef.current.getFieldsValue()) 
+            searchData = cloneDeep(this.formRef.current.getFieldsValue()) 
             if(searchData.timeRange && searchData.timeRange.length === 2) {
                 searchData.start_time = Math.round(moment(searchData.timeRange[0].format('YYYY-MM-DD') + ' 00:00:00').valueOf() / 1000)
                 searchData.end_time = Math.round((moment(searchData.timeRange[1].format('YYYY-MM-DD') + ' 23:59:59').valueOf())/1000)

@@ -3,6 +3,7 @@ const paths = require('react-scripts/config/paths')
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin"); 
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { override, setWebpackPublicPath, fixBabelImports, addWebpackPlugin, disableEsLint, overrideDevServer, watchAll, addLessLoader } = require('customize-cra');
 const fs = require('fs');
 
@@ -60,7 +61,13 @@ const extra_config= ()=>(config, env)=>{
     ...config.resolve.alias,
     '@': path.resolve(__dirname, 'src')
   }
+  config.plugins[0].options = {
+    ...config.plugins[0].options,
+    'publicPath': publicPath
+  }
+  // config.plugins[0].options.publicPath = 'sdsadsad'
   // fillLog(JSON.stringify(config.module.rules))
+  // fillLog(JSON.stringify(config.plugins[0].options))
   return config;
 }
 
@@ -94,6 +101,9 @@ module.exports = {
           evnFlag: '"' + envConfigData[envConfig].evnFlag + '"'
         }
       }),
+      new HtmlWebpackPlugin({
+        versionTime: `123213`,
+      })
       // new ExtractTextPlugin({
       //   filename: '../dist/css/style.css', // 从 .js 文件中提取出来的 .css 文件的名称
       // }),

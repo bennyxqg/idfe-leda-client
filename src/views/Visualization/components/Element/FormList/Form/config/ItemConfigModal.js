@@ -1,12 +1,16 @@
-import React, {useState, useEffect, useRef, useImperativeHandle} from "react";
+import React, {useState, useEffect, useContext, useImperativeHandle} from "react";
 import { Modal, Form, Tabs, message,List } from 'antd';
 import { cloneDeep } from "lodash";
 import FormItemList from '@/views/Visualization/components/Common/FormElement/FormItemList/index.js'
-
+import VisContext from "@/views/Visualization/context/VisContext";
+import {getItemByKey} from '@/utils/helper'
 
 const Index = ((props) => {
+  const { sectionList, setSectionList } = useContext(VisContext)
+
   const [modalVisible] = useState(true)
   const [itemList, setItemList] = useState([])
+  const [isChange, setIsChange] = useState(false)
 
   useEffect(() => {
     if(props.data && props.data.length) {
@@ -16,6 +20,19 @@ const Index = ((props) => {
 
   const handleOk = (value) => {
     props.modalChange(false)
+    if(isChange) {
+      updateSection()
+    }
+  }
+
+  const updateSection = () => {
+    const sectionListTemp = cloneDeep(sectionList)
+    const targetSection = getItemByKey(sectionListTemp, 'sectionId', props.sectionId)
+    const targetElement = getItemByKey(targetSection.data.elements, 'elementId', props.elementId)
+    
+    targetElement.data.itemConfig = itemList
+
+    setSectionList(sectionListTemp)
   }
 
   const handleCancel = (value) => {
@@ -24,7 +41,9 @@ const Index = ((props) => {
 
   // 修改控件
   const changeForm = (list) => {
-    console.log('-----changeForm-----', list)
+    console.log('-----changeForm-----', list, props.sectionId, props.elementId)
+    setItemList(list)
+    setIsChange(true)
   }
 
   return <Modal
@@ -34,7 +53,7 @@ const Index = ((props) => {
     okText='确定'
     onOk={handleOk}
     onCancel={handleCancel}
-    width='600px'
+    width='660px'
   >
     <div >
       <div>

@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import Swiper from "swiper"
 import classNames from 'classnames' 
 import {randomCode} from '@/utils/helper'
-import lodash from "lodash";
+import {isEqual} from "lodash";
 import './index.scss'
 
 const Index = (props) => {
@@ -32,7 +32,7 @@ const Index = (props) => {
 	useEffect(() => {
 		let isChange = false
 		if(prevStyleData) {
-			isChange = !(lodash.isEqual(prevStyleData, props))
+			isChange = !(isEqual(prevStyleData, props))
 		} else {
 			setPrevStyleData(props)
 			// prevStyleData = props.style

@@ -22,97 +22,28 @@ const Index = React.forwardRef((props, ref) => {
   }));
 
   useEffect(() => {
+    console.log('4566---', props.data)
     if(props.data) {
       const dataTemp = cloneDeep(props.data)
-      if(!props.data.style.align) {
-        dataTemp.style.align = 'left'
-      }
+    
       form.setFieldsValue(dataTemp)
     }
   }, []);
 
   const handleShowItemConfigModal = () => {
-    setShowItemConfigModal(true)
   }
 
   const modalChange = () => {
-    setShowItemConfigModal(false)
+    props.modalChange(false)
   }
 
   return <div >
-    <Form
-      {...layout}
-      requiredMark={false}
-      initialValues={{}}
-      ref={ref}
-      form={form}
-    >
-      <Form.Item
-        name='zIndex' label="层级:">
-        <InputNumber />
-      </Form.Item>
-      <Row className='pad-l-20'>
-        <Col span={8}>
-          <Form.Item
-            labelCol={{span: 10}}
-            wrapperCol={{span: 10}}
-            name={['style', 'width']} label="宽度:">
-            <InputNumber />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item
-            labelCol={{span: 10}}
-            wrapperCol={{span: 10}}
-            name={['style', 'height']} label="高度:">
-            <InputNumber />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row className='pad-l-20'>
-        <Col span={8}>
-          <Form.Item
-            labelCol={{span: 10}}
-            wrapperCol={{span: 10}}
-            name={['style', 'left']} label="x:">
-            <InputNumber />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item
-            labelCol={{span: 10}}
-            wrapperCol={{span: 10}}
-            name={['style', 'top']} label="y:">
-            <InputNumber />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row className='pad-l-4'>
-        <Col span={24}>
-          <Form.Item
-            labelCol={{span: 4}}
-            wrapperCol={{span: 16}}
-            name={['style', 'align']} label="位置:">
-            <Radio.Group>
-              <Radio value="left">居左</Radio>
-              <Radio value="center">居中</Radio>
-              <Radio value="right">居右</Radio>
-            </Radio.Group>
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row className='pad-l-4'>
-        <Button onClick={handleShowItemConfigModal}>表单配置</Button>
-      </Row>
-    </Form>
-    {
-      showItemConfigModal && (
-        <ItemConfigModal 
-          data={props.data.itemConfig}
-          modalChange={modalChange}
-        />
-      )
-    }
+    <ItemConfigModal 
+      data={props.data.data.itemConfig}
+      elementId={props.data.elementId}
+      sectionId={props.sectionId}
+      modalChange={modalChange}
+    />
   </div>
 })
 

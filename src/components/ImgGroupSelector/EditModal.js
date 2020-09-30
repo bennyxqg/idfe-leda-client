@@ -3,7 +3,7 @@ import { Modal, Button, Form, Input, message, Select } from 'antd';
 import { addPic, editPic } from '@/http/hcarousel'
 import ImgUpload from '@/components/ImgUpload'
 import VisContext from "@/views/Visualization/context/VisContext";
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -22,7 +22,7 @@ const EditModal = (props) => {
 
   useEffect(() => {
     if(props.editForm) {
-      const editForm = lodash.cloneDeep(props.editForm)
+      const editForm = cloneDeep(props.editForm)
       editForm.group_ids = editForm.groups
       form.setFieldsValue(editForm)
     }

@@ -19,15 +19,35 @@
         border: 1px solid #D0D0D0;
         outline: none;
       }
-      .radio-group {
+      .common-textarea {
+        width: 200px;
+        padding-left: 8px;
+        border-radius: 4px;
+        border: 1px solid #D0D0D0;
+        outline: none;
+      }
+      .radio-group, .checkbox-group {
         width: 200px;
         text-align: left;
         display: flex;
-        .radio-group-item {
+        .radio-group-item, .checkbox-group-item {
           margin-right: 20px;
           input[type='radio'] {
             margin-right: 10px;
           }
+          input[type='checkbox'] {
+            margin-right: 10px;
+          }
+        }
+      }
+      .select-wrap {
+        select {
+          width: 200px;
+          height: 32px;
+          padding-left: 8px;
+          border-radius: 4px;
+          border: 1px solid #D0D0D0;
+          outline: none;
         }
       }
     }

@@ -1,6 +1,5 @@
-import React, {useState, useEffect, useRef, useCallback} from "react";
-import { Table, Button, Form, Select, Input, message, Modal } from 'antd';
-import { SettingOutlined, DeleteOutlined, DragOutlined} from '@ant-design/icons';
+import React from "react";
+import { SettingOutlined, DeleteOutlined, DragOutlined, CloudServerOutlined} from '@ant-design/icons';
 
 const SectionBtns = (props) => {
 
@@ -29,7 +28,7 @@ const SectionBtns = (props) => {
         </span>
         <span
           onClick={() => {handleConfig()}}>
-          <SettingOutlined />
+          <CloudServerOutlined />
         </span>
         <span
           onClick={() => {handleDel()}}>

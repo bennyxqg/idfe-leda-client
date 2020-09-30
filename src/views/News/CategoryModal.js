@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 import { Modal, Table, Button, Form, Input, message } from 'antd';
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import { newsCateList, newsCateAdd, newsCateEdit, newsCateDel } from '@/http/hnews'
 
 const CategoryInfo = (props) => {
@@ -85,7 +85,7 @@ const CategoryInfo = (props) => {
   // 改变table名称的值
   const changeTableName = (event, index) => {
     console.log('------changeTableName-------', event.target.value, index)
-    const listTemp = lodash.cloneDeep(dataSource)
+    const listTemp = cloneDeep(dataSource)
     listTemp[index].nameInput = event.target.value
     setDataSource(listTemp)
   }
@@ -100,7 +100,7 @@ const CategoryInfo = (props) => {
     newsCateEdit(sendData).then((rep) => {
 			if(rep.error_code === 0) {
         message.success('操作成功');
-        const listTemp = lodash.cloneDeep(dataSource)
+        const listTemp = cloneDeep(dataSource)
         listTemp[index].isEdit = false
         listTemp[index].name = value.nameInput
         setDataSource(listTemp)
@@ -113,7 +113,7 @@ const CategoryInfo = (props) => {
   // 编辑table
   const handleEdit = (value, index) => {
     console.log(value, index)
-    const listTemp = lodash.cloneDeep(dataSource)
+    const listTemp = cloneDeep(dataSource)
     listTemp[index].isEdit = true
     setDataSource(listTemp)
   }
@@ -121,7 +121,7 @@ const CategoryInfo = (props) => {
   // 取消编辑table
   const handleCancelSave = (value, index) => {
     console.log(value, index)
-    const listTemp = lodash.cloneDeep(dataSource)
+    const listTemp = cloneDeep(dataSource)
     listTemp[index].isEdit = false
     setDataSource(listTemp)
   }

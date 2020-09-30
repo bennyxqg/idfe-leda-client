@@ -25,7 +25,7 @@ const Index = (props) => {
             width: data.style.width?data.style.width + 'px': 'auto',
             height: data.style.height?data.style.height + 'px': 'auto',
           }}>
-            <div className='el-form-wrap'>
+            <div className='el-form-wrap-outer'>
               {/* <div>
                 <ul>
                   {
