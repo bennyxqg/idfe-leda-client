@@ -48,7 +48,7 @@ const Index = (props) => {
                 </ul>
               </div> */}
               <FormItemList 
-                className='el-form-wrap'
+                className='el-form-show-wrap'
                 data={data.itemConfig}
               />
               {

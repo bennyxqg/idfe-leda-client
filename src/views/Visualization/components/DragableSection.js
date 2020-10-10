@@ -101,8 +101,6 @@ const DragableSection = ({ section, index, className, style, ...restProps }) => 
       restProps.showModal(type, section)
     }
   }
-	
-	// 用于将当前组件用作拖动源的钩子
   
 	return (
     <>{
