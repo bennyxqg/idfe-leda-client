@@ -4,13 +4,15 @@ import classNames from 'classnames'
 
 import './index.scss'
 
-const sectionName = 'applyPopup'
+// const sectionName = 'applyPopup'
 
 const Index = (props) => {
   const [data, setData] = useState(null)
   const [styleData, setStyleData] = useState({})
+  const [sectionName, setSectionName] = useState('')
 
   useEffect(() => {
+    setSectionName(props.data.type)
     setData(props.data.data)
     initStyleData()
   }, [props]);
@@ -51,69 +53,14 @@ const Index = (props) => {
               <div className={`${sectionName}-wrap-item popup-wrap-item ${sectionName}-wrap-inner-${props.data.sectionId}`}
                 style={styleData}
                 >
-              <div className='popup-box-header'>
-                <span>申请试用</span>
-                <img className="icon-close" src={data.style.closeBtn.imgUrl} alt="" />
-              </div>
-            
-              <div className='popup-box-content'>
-                  <div className="form-item">
-                      <div className="label">
-                          <span className="text">姓名</span>
-                          <span className="must">*</span></div>
-                          <div className="form-item-input">
-                          <input name="name" placeholder="请输入您的姓名" type="text" />
-                          <div className="err-tips" ></div>
-                      </div>
-                  </div>
-                  <div className="form-item">
-                      <div className="label">
-                          <span>称谓</span>
-                          <span className="must">*</span>
-                      </div>
-                      <div className="radio-group">
-                          <div className="radio-group-item">
-                              <input name="sex" type="radio" value="male" checked readOnly/><span>先生</span>
-                          </div>
-                          <div className="radio-group-item">
-                              <input name="sex" type="radio" value="female" readOnly/><span>女士</span>
-                          </div>
-                      </div>
-                  </div>
-                  <div className="form-item">
-                      <div className="label">
-                          <span className="text">联系电话</span>
-                          <span className="must">*</span>
-                      </div>
-                      <div className="form-item-input">
-                          <input name="phone" placeholder="请留下您的联系电话" type="text" />
-                          <div className="err-tips" ></div>
-                      </div>
-
-                  </div>
-                  <div className="form-item">
-                      <div className="label">
-                          <span className="text">邮箱</span>
-                          <span className="must">*</span></div>
-                      <div className="form-item-input">
-                          <input name="email" placeholder="请留下您的邮箱" type="text" />
-                          <div className="err-tips" ></div>
-                      </div>
-                  </div>
-                  <div className="form-item">
-                      <div className="label">
-                          <span className="text">企业名称</span>
-                          <span className="must">*</span></div>
-                      <div className="form-item-input">
-                          <input name="company" placeholder="请留下您的团队或公司名称" type="text" />
-                          <div className="err-tips"></div>
-                      </div>
-                  </div>
-                  <div className='submit-button text-r' >
-                      <img src={data.style.submitBtn.imgUrl} alt='' />
-                  </div>
-              </div>
-              </div>
+                {
+                  data.style.header && data.style.header.show && (
+                    <div className='popup-box-header'>
+                      <span>{data.style.header && data.style.header.title}</span>
+                      <img className="icon-close" src={data.style.closeBtn.imgUrl} alt="" />
+                    </div>
+                  )
+                }
               <div 
                 // 以中心点为参照
                 className='center-dot'
@@ -127,11 +74,11 @@ const Index = (props) => {
                 }
               </div>
           </div>
+          </div>
 					)
 				}
       </div>
     </div>
-    
   )
 }
 

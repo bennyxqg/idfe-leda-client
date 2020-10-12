@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import { Modal, Button, Checkbox, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
+import { Modal, Button, Switch, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
 import ImgUpload from '@/components/ImgUpload'
 import {cloneDeep} from 'lodash'
 import BgStyleForm from '@/views/Visualization/components/Common/BgStyleForm/index_whole'
@@ -102,27 +102,28 @@ const EditModal = (props) => {
             <Form.Item
               labelCol={{span: 8}}
               wrapperCol={{span: 10}}
+              valuePropName="checked"
+              name={['header', 'show']} label="显示头部:">
+              <Switch />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row className=''>
+          <Col span={12}>
+            <Form.Item
+              labelCol={{span: 8}}
+              wrapperCol={{span: 10}}
+              name={['header', 'title']} label="弹窗标题:">
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row className=''>
+          <Col span={12}>
+            <Form.Item
+              labelCol={{span: 8}}
+              wrapperCol={{span: 10}}
               name={['closeBtn', 'imgUrl']} label="关闭按钮:">
-              <ImgUpload />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row className=''>
-          <Col span={12}>
-            <Form.Item
-              labelCol={{span: 8}}
-              wrapperCol={{span: 10}}
-              name={['submitBtn', 'imgUrl']} label="确认按钮:">
-              <ImgUpload />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row className=''>
-          <Col span={12}>
-            <Form.Item
-              labelCol={{span: 8}}
-              wrapperCol={{span: 10}}
-              name={['successPopup', 'imgUrl']} label="成功图片:">
               <ImgUpload />
             </Form.Item>
           </Col>

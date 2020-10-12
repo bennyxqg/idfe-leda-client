@@ -18,7 +18,7 @@ const EditModal = (props) => {
 
   useEffect(() => {
     if(props.data) {
-      console.log('---props.data.data.style-------', props.data.data.style)
+      console.log('---props.data.data.style-------', props.data)
       form.setFieldsValue({
         platForm: props.data.data.platForm
       })

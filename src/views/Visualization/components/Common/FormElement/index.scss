@@ -1,7 +1,8 @@
 .el-form-wrap {
   .el-form-item-widget {
+    width: 60%;
     .widget-item {
-      width: 200px;
+      width: 100%;
     }
     .common-input {
       height: 32px;
@@ -43,7 +44,7 @@
     .el-form-item {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 38px;
       color: #666666;
       .el-form-item-label {
         .must {
@@ -76,6 +77,12 @@
       }
     }
     .el-form-item-wrap {
+      &.drop-over-downward {
+        border-bottom: 2px dashed #1890ff;
+      }
+      &.drop-over-upward {
+        border-top: 2px dashed #1890ff;
+      }
       // border: 1px solid #e8e8e8;
       position: relative;
       padding: 8px;

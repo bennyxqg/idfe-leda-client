@@ -1,7 +1,11 @@
-import React from "react";
-import { SettingOutlined, DeleteOutlined, DragOutlined, CloudServerOutlined} from '@ant-design/icons';
+import React, {useEffect} from "react";
+import { SettingOutlined, DeleteOutlined, DragOutlined, DatabaseOutlined} from '@ant-design/icons';
 
 const SectionBtns = (props) => {
+
+  useEffect(() => {
+    
+  }, []);
 
   const handleDel = () => {
     props.handleDel()
@@ -26,10 +30,14 @@ const SectionBtns = (props) => {
           onClick={() => {handleEdit()}}>
           <SettingOutlined />
         </span>
-        <span
-          onClick={() => {handleConfig()}}>
-          <CloudServerOutlined />
-        </span>
+        {
+          props.type === 'formElement' && (
+            <span
+              onClick={() => {handleConfig()}}>
+              <DatabaseOutlined />
+            </span>
+          )
+        }
         <span
           onClick={() => {handleDel()}}>
           <DeleteOutlined />

@@ -53,7 +53,11 @@ const Index = (props) => {
               />
               {
                 data.style.submitBtn && (
-                  <div className='el-form-submit-btn'>
+                  <div className='el-form-submit-btn'
+                    style={{
+                      textAlign: data.style.submitBtn.align
+                    }}
+                  >
                     <img 
                       style={{
                         width: data.style.submitBtn.width?data.style.submitBtn.width + 'px': 'auto',

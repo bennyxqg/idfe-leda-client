@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import FormWidgetsComp from '@/views/Visualization/components/Common/FormElement/FormWidgetsComp/index.js'
 import '../index.scss'
 import { cloneDeep } from "lodash";
@@ -12,6 +12,7 @@ import { randomCode } from '@/utils/helper'
 import classNames from "classnames";
 import FormItemEditModal from "../FormItemEditModal/index";
 import { DndProvider, useDrag, useDrop, createDndContext, DragSource } from 'react-dnd';
+import update from 'immutability-helper'
 
 const dndType = 'DragableFormItem';
 
@@ -170,40 +171,157 @@ const Index = (props) => {
     }
   }
 
-  const formItemComp = () => {
-    
-  }
+  // 改变数据顺序
+  const moveItem=useCallback((dragIndex,hoverIndex)=>{
+    // return
+    // 把拖拽的元素的索引和鼠标悬浮的索引交换
+    const dragRow=itemList[dragIndex]
+    const itemListTemp = update(itemList,{
+      $splice:[
+          [dragIndex,1],
+          // 删除
+          [hoverIndex,0,dragRow]
+          // 添加
+          // 好像是个链式操作
+      ]
+    })
+    setItemList(itemListTemp)
+    props.onChange(itemListTemp)
+  },[itemList])
 
-  const dndRef = React.useRef();
-  const index = 0
-  const moveRow = () => {
-    console.log('----moveRow-----')
+  const FormItemComp = (subProps) => {
+    const dndRef = React.useRef();
+    
+    // 用于将当前组件用作拖动源的钩子
+    const [{ isOver, dropClassName }, drop] = useDrop({
+      accept: dndType,
+      collect: monitor => {
+        const { index: dragIndex } = monitor.getItem() || {};
+        if (dragIndex === subProps.index) {
+          return {};
+        }
+        return {
+          isOver: monitor.isOver(),
+          dropClassName: dragIndex < subProps.index ? ' drop-over-downward' : ' drop-over-upward',
+        };
+      },
+      drop: item => {
+        subProps.moveItem(item.index, subProps.index);
+      },
+      // 存在性能问题，待优化，暂不使用hover回调函数
+      // hover: (item:DragItem,mointor:DropTargetMonitor)=>{
+      //   if(!dndRef.current){
+      //     return
+      //   }
+      //   const dragIndex=item.index
+      //   const hoverIndex=subProps.index
+      //   if(dragIndex===hoverIndex){
+      //       return 
+      //   }
+
+      //   const hoverBoundingRect=dndRef.current?.getBoundingClientRect()
+      //   if(hoverBoundingRect){
+      //     const hoverMiddleY=(hoverBoundingRect.bottom-hoverBoundingRect.top)/2
+      //     const clientOffSet=mointor.getClientOffset()
+      //     const hoverClientY=clientOffSet.y-hoverBoundingRect.top
+
+      //     if(dragIndex<hoverIndex&&hoverClientY<hoverMiddleY){
+      //         return 
+      //     }
+
+      //     if(dragIndex>hoverIndex&&hoverClientY>hoverMiddleY){
+      //         return 
+      //     }
+      //     subProps.moveItem(item.index, subProps.index);
+      //     item.index=hoverIndex
+      //   }
+      // },
+    });
+    const [, drag] = useDrag({
+      item: { type: dndType, index: subProps.index },
+      collect: monitor => ({
+        isDragging: monitor.isDragging(),
+      }),
+    });
+    drop(drag(dndRef));
+    // drag(dndRef)
+
+    return (
+      <div>
+        {
+          subProps.formItem.type === 'addItem'? (
+            <div className='el-form-builder-toolbar-wrap'>
+              <p>请选择即将插入表单的表单项类型：</p>
+              <div>
+                <ul>
+                  {
+                    widgetsTypeList.map((item, i) => {
+                      return (
+                        <li key={i} onClick={() => {chooseWidget(item, subProps.index)}}>
+                          <span className="item-type-icon">
+                            {item.icon}
+                          </span>
+                          <span className="item-type-label">{item.label}</span>
+                        </li>
+                      )
+                    })
+                  }
+                  <li onClick={() => {cancelToolbar(subProps.index)}}>
+                    <span className="item-type-icon">
+                      <CloseOutlined />
+                    </span>
+                    <span className="item-type-label">取消</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ): (
+            <div ref={ dndRef }  className={`el-form-item-wrap ${isOver ? dropClassName : ''}`}>
+              <div className='el-form-item'>
+                <div className='el-form-item-label'>
+                  <span className='text'>{subProps.formItem.label}</span>
+                  {
+                    subProps.formItem.isMust && (
+                      <span className='must'>*</span>
+                    )
+                  }
+                </div>
+                <div className='el-form-item-widget'>
+                  {FormWidgetsComp(subProps.formItem)}
+                </div>
+              </div>
+              {/* 编辑、删除表单项按钮 */}
+              <div className='el-form-item-operate-btn'>
+                <div className="el-form-item-operate-btn-edit"
+                  onClick={() => {handleEdit(subProps.index)}}
+                >
+                  <FormOutlined />
+                </div>
+                <div className="el-form-item-operate-btn-del"
+                  onClick={() => {handleDel(subProps.index)}}
+                >
+                  <DeleteOutlined />
+                </div>
+              </div>
+              {/* 添加表单项按钮 */}
+              <div className='el-form-item-add-btn'>
+                <div className="el-form-item-add-btn-up"
+                  onClick={() => {handleAdd('up', subProps.index)}}
+                >
+                  <PlusOutlined />
+                </div>
+                <div className="el-form-item-add-btn-down"
+                  onClick={() => {handleAdd('down', subProps.index)}}
+                >
+                  <PlusOutlined />
+                </div>
+              </div>
+            </div>
+          )
+        }
+        </div>
+    )
   }
-  // 用于将当前组件用作拖动源的钩子
-	const [{ isOver, dropClassName }, drop] = useDrop({
-    accept: dndType,
-    collect: monitor => {
-      const { index: dragIndex } = monitor.getItem() || {};
-      if (dragIndex === index) {
-        return {};
-      }
-      return {
-        isOver: monitor.isOver(),
-        dropClassName: dragIndex < index ? ' drop-over-downward' : ' drop-over-upward',
-      };
-    },
-    drop: item => {
-      moveRow(item.index, index);
-    },
-  });
-  const [, drag] = useDrag({
-    item: { type: dndType, index },
-    collect: monitor => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-  drop(drag(dndRef));
-  // drag(dndRef)
 
 
   return (
@@ -218,75 +336,13 @@ const Index = (props) => {
           itemList.map((formItem, index) => {
             return (
               <li key={index} >
-                <div ref={ dndRef }>
                 {
-                  formItem.type === 'addItem'? (
-                    <div className='el-form-builder-toolbar-wrap'>
-                      <p>请选择即将插入表单的表单项类型：</p>
-                      <div>
-                        <ul>
-                          {
-                            widgetsTypeList.map((item, i) => {
-                              return (
-                                <li key={i} onClick={() => {chooseWidget(item, index)}}>
-                                  <span className="item-type-icon">
-                                    {item.icon}
-                                  </span>
-                                  <span className="item-type-label">{item.label}</span>
-                                </li>
-                              )
-                            })
-                          }
-                          <li onClick={() => {cancelToolbar(index)}}>
-                            <span className="item-type-icon">
-                              <CloseOutlined />
-                            </span>
-                            <span className="item-type-label">取消</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  ): (
-                    <div  className='el-form-item-wrap'>
-                      <div className='el-form-item'>
-                        <div className='el-form-item-label'>
-                          <span className='text'>{formItem.label}</span>
-                          <span className='must'>*</span>
-                        </div>
-                        <div className='el-form-item-widget'>
-                          {FormWidgetsComp(formItem)}
-                        </div>
-                      </div>
-                      {/* 编辑、删除表单项按钮 */}
-                      <div className='el-form-item-operate-btn'>
-                        <div className="el-form-item-operate-btn-edit"
-                          onClick={() => {handleEdit(index)}}
-                        >
-                          <FormOutlined />
-                        </div>
-                        <div className="el-form-item-operate-btn-del"
-                          onClick={() => {handleDel(index)}}
-                        >
-                          <DeleteOutlined />
-                        </div>
-                      </div>
-                      {/* 添加表单项按钮 */}
-                      <div className='el-form-item-add-btn'>
-                        <div className="el-form-item-add-btn-up"
-                          onClick={() => {handleAdd('up', index)}}
-                        >
-                          <PlusOutlined />
-                        </div>
-                        <div className="el-form-item-add-btn-down"
-                          onClick={() => {handleAdd('down', index)}}
-                        >
-                          <PlusOutlined />
-                        </div>
-                      </div>
-                    </div>
-                  )
+                  <FormItemComp 
+                    formItem = {formItem}
+                    index = {index}
+                    moveItem = {moveItem}
+                  />
                 }
-                </div>
               </li>
             )
           })

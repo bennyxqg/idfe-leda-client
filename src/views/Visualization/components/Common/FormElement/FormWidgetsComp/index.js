@@ -4,12 +4,12 @@ import React from "react";
 const Index = (props) => {
   if(props.type === 'input') { // 单行文本框
     return (
-      <input className='common-input widget-item' type='text' />
+      <input className='common-input widget-item' type='text' placeholder={props.placeholder} />
     )
   }
   if(props.type === 'textarea') { // 多行文本框
     return (
-      <textarea className='common-textarea widget-item' rows='3' />
+      <textarea className='common-textarea widget-item' rows='3' placeholder={props.placeholder} />
     )
   }
   if(props.type === 'radio') { // 单选框

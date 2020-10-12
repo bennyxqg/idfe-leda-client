@@ -20,6 +20,22 @@ const rules = [
   {
     label: '邮箱',
     name: 'email'
+  },
+  {
+    label: '身份证',
+    name: 'idcard'
+  },
+  {
+    label: '数字',
+    name: 'number'
+  },
+  {
+    label: '汉字',
+    name: 'chinese'
+  },
+  {
+    label: '英文',
+    name: 'english'
   }
 ]
 
@@ -83,12 +99,16 @@ const Index = ((props) => {
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            label="提示"
-            name='placeholder'
-          >
-            <Input />
-          </Form.Item>
+          {
+            (props.data.type === 'input' || props.data.type === 'textarea') && (
+              <Form.Item
+                label="提示"
+                name='placeholder'
+              >
+                <Input />
+              </Form.Item>
+            )
+          }
           <Form.Item
             valuePropName="checked"
             label="是否必填"
@@ -96,20 +116,24 @@ const Index = ((props) => {
           >
             <Switch />
           </Form.Item>
-          <Form.Item
-            label="数据校验"
-            name='rules'
-          >
-            <Select>
-              {
-                rules.map((item) => {
-                  return (
-                    <Select.Option value={item.name} key={item.name}>{item.label}</Select.Option>
-                  )
-                })
-              }
-            </Select>
-          </Form.Item>
+          {
+            (props.data.type === 'input' || props.data.type === 'textarea' || props.data.type === 'select') && (
+              <Form.Item
+                label="数据校验"
+                name='rules'
+              >
+                <Select>
+                  {
+                    rules.map((item) => {
+                      return (
+                        <Select.Option value={item.name} key={item.name}>{item.label}</Select.Option>
+                      )
+                    })
+                  }
+                </Select>
+              </Form.Item>
+           )
+          }
           {
             (props.data.type === 'radio' || props.data.type === 'checkbox' || props.data.type === 'select') && (
               <Form.List name="items">

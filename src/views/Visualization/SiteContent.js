@@ -45,7 +45,8 @@ const Index = (props) => {
 			Object.keys(popupList).some((key) => {
 				if(popupList[key].identifer === pageItem.identifer) {
 					const popupItem = cloneDeep(popupList[key])
-					popupItem.sectionId = 'section_' + randomCode(10)
+					// popupItem.sectionId = 'section_' + randomCode(10)
+					popupItem.sectionId = randomCode(10)
 					setSectionList([popupItem])
 					return true
 				}

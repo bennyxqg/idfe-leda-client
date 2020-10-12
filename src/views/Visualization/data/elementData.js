@@ -66,7 +66,7 @@ export const elementData = () => {
         {
           itemId: 'form-item-' + randomCode(),
           type: 'radio',
-          label: '称谓1',
+          label: '称谓',
           name: 'sex',
           isVerification: false, // 是否校验
           regex: '', // 正则
@@ -84,11 +84,14 @@ export const elementData = () => {
         }
       ],
       style: {
+        // 确认按钮
         submitBtn: {
           imgUrl: 'http://dl.gamdream.com//website/image/202009/5f70337258d17.png',
-          align: 'center',
-          width: '',
-          height: '',
+          align: 'center'
+        },
+        // 成功弹窗图片
+        successPopup: {
+          imgUrl: 'http://oaa.uu.cc/manage/upload/image/oaa.uu.cc/2019-12-26/20191226_141900_325042.png',
         },
         width: 400,
         height: 300,

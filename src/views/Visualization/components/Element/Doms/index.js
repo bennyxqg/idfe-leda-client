@@ -202,6 +202,7 @@ const Index = (props) => {
             selectId === data.elementId && (
               <div className={'element-btns-wrap'}>
                 <ElementBtns 
+                  type={data.type}
                   handleDel={() => {handleBtns('del', data)}}
                   handleEdit={() => {handleBtns('edit', data)}}
                   handleConfig={() => {handleBtns('config', data)}}
