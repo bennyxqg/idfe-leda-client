@@ -1,14 +1,16 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef, useContext} from "react";
 import { Button } from 'antd';
 import SwiperComp from '@/components/SwiperComp/index'
 import { handleBgStyle } from '@/utils/helper'
 import ElementDoms from '@/views/Visualization/components/Element/Doms/index'
-
+import VisContext from "@/views/Visualization/context/VisContext";
 import './index.scss'
 
 const sectionName = 'carouselSection'
 
 const Index = (props) => {
+	const { pageKind } = useContext(VisContext)
+
 	const [data, setData] = useState(null)
 	const [bgStyle, setBgStyle] = useState(null)
 
@@ -36,6 +38,7 @@ const Index = (props) => {
 								<SwiperComp 
 									imgList={data.imgs}
 									style={data.style}
+									pageKind={pageKind}
 								/>
 							</div>
 							<div 

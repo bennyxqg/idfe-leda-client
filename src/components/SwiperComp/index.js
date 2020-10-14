@@ -14,6 +14,8 @@ const Index = (props) => {
 	const [navBtnData, setNavBtnData] = useState({})
 	const [loadDom, setLoadDom] = useState(false) // 重新挂载dom
 	const [prevStyleData, setPrevStyleData] = useState(null)
+	// 设备：pc || wap
+	const [pageKind, setPageKind] = useState('pc')
 
 	// let prevStyleData = null
 
@@ -23,6 +25,10 @@ const Index = (props) => {
 
 	useEffect(() => {
 		// init()
+		if(props.pageKind) {
+			console.log('-------props.pageKind------', props.pageKind)
+			setPageKind(props.pageKind)
+		}
 	}, []);
 
 	// useEffect(() => {
@@ -58,7 +64,7 @@ const Index = (props) => {
 	// }, [props.style]);
 
 	const init = (domChange) => {
-		console.log('-----init-----', domChange)
+		// 1:普通， 2：卡片
 		const type = props.style.type
 		const opts = {
       loop: true, // 无限循环
@@ -158,16 +164,12 @@ const Index = (props) => {
 			setNavBtnData(tempData)
 		}
 
-		
-		console.log('------opts-1-', opts)
-
 		if(domChange) {
 			if(swiperObj) {
 				swiperObj.destroy(true, true)
 				// swiperObj.update(true)
 			}
 		}
-		
 		
 		setTimeout(() => {
 			// if(swiperObj) {
@@ -188,10 +190,6 @@ const Index = (props) => {
 				style={{
 					height: props.style.height?props.style.height + 'px': 'auto',
 				}}
-				// style={{
-				// 	width: '200px',
-				// 	height: '150px',
-				// }}
 			>
 				{loadDom && 
 				<div
@@ -201,7 +199,7 @@ const Index = (props) => {
 						'swiper-container-outer-common': props.style.type != 2
 					})}
 					style={{
-						width: wrapSize.width?wrapSize.width + (props.style.type == 2?200:0) + 'px': 'auto',
+						width: wrapSize.width?wrapSize.width + (props.style.type == 2?(pageKind === 'pc'?200:0):0) + 'px': 'auto',
 					}}
 					// style={{
 					// 	width: '200px',

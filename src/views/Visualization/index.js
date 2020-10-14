@@ -21,6 +21,9 @@ const Index = () => {
 
 	const [pageData, setPageData] = useState([])
 
+	// pc、wap
+	const [pageKind, setPageKind] = useState('pc')
+
 	const [pageItem, setPageItem] = useState(null)
 
 	const [newSectionType, setNewSectionType] = useState(null)
@@ -62,11 +65,19 @@ const Index = () => {
 	}, [chooseSection]);
 
 	useEffect(() => {
+		// 切换页面时刷新
 		history.listen(route => {
 			if(route.pathname === '/visualization') {
 				window.location.reload()
 			}
 		})
+
+		if(getQueryVariable('type', history.location.search) !== 'pc') {
+			setPageKind('wap')
+		} else {
+			setPageKind('pc')
+		}
+
 		const initStart = async () => {
 			const newsList = await getAllNews()
 			setLastestNews(newsList)
@@ -199,15 +210,15 @@ const Index = () => {
 		setSectionList(sectionListTemp)
 	}
 
-	const rightFormFinish = (data) => {
-		setChooseSection(update(chooseSection, {$merge:{
-			imgs: [data.cover]
-		}}))
-	}
+	// const rightFormFinish = (data) => {
+	// 	setChooseSection(update(chooseSection, {$merge:{
+	// 		imgs: [data.cover]
+	// 	}}))
+	// }
 
-	const getImgList = (...props) => {
-		console.log('-----getImgList-------', props)
-	}
+	// const getImgList = (...props) => {
+	// 	console.log('-----getImgList-------', props)
+	// }
 
 	// 拖拽上下文
 	const manager = useRef(RNDContext);
@@ -215,6 +226,7 @@ const Index = () => {
 	return (
 		<VisContext.Provider
 			value={{
+				pageKind,
 				pageItem,
 				pageData,
 				setPageData,
@@ -236,7 +248,7 @@ const Index = () => {
 		>
 			{
 				init && (
-					<div className="visualization-wrap">
+					<div className={`visualization-wrap visualization-wrap-kind-${pageKind}`}>
 						{/* <DndDemo /> */}
 						<HeaderComp />
 						<DndProvider manager={manager.current.dragDropManager}>

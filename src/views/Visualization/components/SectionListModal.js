@@ -6,10 +6,10 @@ import {
 import { sectionData } from '@/views/Visualization/data/sectionData';
 import VisContext from "@/views/Visualization/context/VisContext";
 import classNames from 'classnames'
-import {cloneDeep} from "lodash";
+import {cloneDeep, merge} from "lodash";
 
 const Index = (props) => {
-	const { showAddModal, setShowAddModal } = useContext(VisContext)
+	const { pageKind, showAddModal, setShowAddModal } = useContext(VisContext)
 	const [modalVisible] = useState(true)
 	const [activeIndex, setActiveIndex] = useState()
 	const [examples, setExamples] = useState([])
@@ -48,10 +48,16 @@ const Index = (props) => {
     setShowAddModal(data)
 	}
 	
-	// 
 	const addSection = (item) => {
+		const tempItem = cloneDeep(item)
+		// 合并wap的数据
+		if(pageKind === 'wap') {
+			if(tempItem && tempItem.wapData) {
+				merge(tempItem.data, tempItem.wapData.data)
+			}
+		}
 		if(props.addSection) {
-			props.addSection(item)
+			props.addSection(tempItem)
 		}
 		handleCancel()
 	}

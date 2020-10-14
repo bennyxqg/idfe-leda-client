@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
 import ImageComp from './Image/index'
+import VideoComp from './Video/index'
 import TextComp from './Text/index'
 import BMapComp from './BMap/index'
 import FormComp from './Form/index'
@@ -14,7 +15,7 @@ import FormConfModal from '@/views/Visualization/components/Element/FormList/For
 
 
 const Index = (props) => {
-  const { sectionList, setSectionList } = useContext(VisContext)
+  const { sectionList, setSectionList, pageKind } = useContext(VisContext)
 
   const [showEditModal, setShowEditModal] = useState(false)
   const [currentElement, setCurrentElement] = useState(null)
@@ -49,8 +50,10 @@ const Index = (props) => {
       targetComp = TextComp
     } else if(type === "bMapElement") { // 百度地图
       targetComp = BMapComp
-    } else if(type === "formElement") { // 百度地图
+    } else if(type === "formElement") { // 表单
       targetComp = FormComp
+    } else if(type === "videoElement") { // 视频
+      targetComp = VideoComp
     }
     
     if(targetComp) {
@@ -65,6 +68,11 @@ const Index = (props) => {
   }
 
   const moveItem = (e,d, data) => {
+    // 位置不变时
+    if(data.data.style.left === d.x && data.data.style.top === d.y) {
+      return
+    }
+    
     let position_y = 0
     let position_x = 0
     
@@ -166,40 +174,54 @@ const Index = (props) => {
       
     }
     return (
-      <Rnd 
-        default={{
-          x: data.data.style.left,
-          y: data.data.style.top,
-        }}
-        style={{
-          // zIndex: selectId === data.elementId?2:1
-          zIndex: selectId === data.elementId?maxZIndex:(data.data.zIndex?data.data.zIndex:1)
-        }}
-        bounds={`.${props.section.type}-wrap-inner-${props.section.sectionId}`}
-        enableResizing={false}
-        // position={{
-        // 	x: data.btn.style.left,
-        // 	y: data.btn.style.top,
-        // }}
-        className='vis-element-drag-item'
-        onDragStop={(e,d) => moveItem(e,d, data)}
-        dragHandleClassName="rnd-handler"
-      >
-        <Component data={data} {...restProps}/>
-        <div className='hover-highlight'
-          // onClick={() => {eventLink(data.data)}}
-          onClick={() => {selectItem(data)}}
-          // onClick={() => {console.log('--data.data----', data.data, eventLink)}}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%'
+      <div style={{
+        display: 'inline-block',
+        position: 'relative'
+      }}>
+        <Rnd 
+          default={{
+            x: data.data.style.left,
+            y: data.data.style.top,
           }}
+          style={{
+            // zIndex: selectId === data.elementId?2:1
+            zIndex: selectId === data.elementId?maxZIndex:(data.data.zIndex?data.data.zIndex:1)
+          }}
+          bounds={pageKind === 'pc'?`.${props.section.type}-wrap-inner-${props.section.sectionId}`: '.visualization-wrap'}
+          enableResizing={false}
+          // position={{
+          // 	x: data.btn.style.left,
+          // 	y: data.btn.style.top,
+          // }}
+          className='vis-element-drag-item'
+          onDragStop={(e,d) => moveItem(e,d, data)}
+          // dragHandleClassName="rnd-handler"
+          // onClick={() => {selectItem(data)}}
         >
-          {
-            selectId === data.elementId && (
+          <Component data={data} {...restProps}/>
+          <div className='hover-highlight'
+            // onClick={() => {eventLink(data.data)}}
+            
+            // onClick={() => {console.log('--data.data----', data.data, eventLink)}}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%'
+            }}
+          >
+            {
+              // selectId === data.elementId && (
+              //   <div className={'element-btns-wrap'}>
+              //     <ElementBtns 
+              //       type={data.type}
+              //       handleDel={() => {handleBtns('del', data)}}
+              //       handleEdit={() => {handleBtns('edit', data)}}
+              //       handleConfig={() => {handleBtns('config', data)}}
+              //     />
+              //   </div>
+              // )
               <div className={'element-btns-wrap'}>
                 <ElementBtns 
                   type={data.type}
@@ -208,10 +230,11 @@ const Index = (props) => {
                   handleConfig={() => {handleBtns('config', data)}}
                 />
               </div>
-            )
-          }
-        </div>
-      </Rnd>)
+            }
+          </div>
+        </Rnd>
+      </div>
+    )
   }
 
 	return (

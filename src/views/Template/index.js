@@ -33,9 +33,16 @@ class Index extends React.Component  {
 
 	// 编辑
 	toEdit(type) {
-		if(type === 'pc') {
-			this.props.history.push({ pathname: `/visualization` })
-		} else {
+		if(type === 'pc' || type === 'wap' || type === 'guide') {
+			this.props.history.push({ 
+				pathname : `/visualization`,
+				// query:{
+				// 	type
+				// }
+				// query : { name: ' sunny'}
+				search: `?type=${type}`
+			})
+		} else{
 			message.warning('正在开发中...');
 		}
 	}
@@ -77,7 +84,7 @@ class Index extends React.Component  {
 								<CardComp 
 									title='落地页模板'
 									desc='快速搭建搭建个性化的落地页。'
-									editCB={() => {this.toEdit('wap')}}
+									editCB={() => {this.toEdit('guide')}}
 									previewCB={() => {this.toPreview('wap')}}
 								/> 
 							</li>

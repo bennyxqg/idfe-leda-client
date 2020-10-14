@@ -8,6 +8,7 @@ import {
 } from './utils'
 import demoNav from '@/assets/images/visualization/demo-nav.png'
 import demoCarouselCard from '@/assets/images/visualization/demo-carousel-card.png'
+import demoCarouselCommon from '@/assets/images/visualization/demo-carousel-common.png'
 import demoImgNewsCommon from '@/assets/images/visualization/demo-imgNews-common.png'
 import demoBlank from '@/assets/images/visualization/demo-blank.png'
 
@@ -131,16 +132,36 @@ export const sectionData = () => {
                 height: 370,
               }
             }
+          },
+          // 移动端配置数据
+          wapData: {
+            data: {
+              style: {
+                img: {
+                  width: 220,
+                  height: ''
+                },
+                swiper: {
+                  navBtn: { // 前后按钮
+                    show: false
+                  }
+                }
+              }
+            }
           }
         },
-        // {
-        //   img: demoCarouselCard,
-        //   data: {
-        //     style: {
-        //       type: 1
-        //     }
-        //   }
-        // }
+        {
+          img: demoCarouselCommon,
+          data: {
+            style: {
+              type: 1,
+              img: {
+                width: 375,
+                height: ''
+              }
+            }
+          }
+        }
       ],
       data: {
         name: '',

@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import { useHistory } from "react-router-dom";
 import { Modal, Form, Tabs, message,List } from 'antd';
 import VisContext from "@/views/Visualization/context/VisContext";
+import { getQueryVariable } from '@/utils/helper'
 
 const { TabPane } = Tabs;
 
@@ -61,10 +62,11 @@ const Index = (props) => {
       return
     }
     
+    const type = getQueryVariable('type', history.location.search)
     // 跳转至该页面
     history.push({
       pathname: `/visualization`,
-      search: `?id=${item.id}`
+      search: `?type=${type}&id=${item.id}`
     })
   }
 

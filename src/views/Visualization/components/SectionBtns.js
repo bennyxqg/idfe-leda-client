@@ -7,7 +7,7 @@ import VisContext from "@/views/Visualization/context/VisContext";
 
 const SectionBtns = (props) => {
 
-  const { pageItem } = useContext(VisContext)
+  const { pageItem, pageKind } = useContext(VisContext)
 
   const handleStyle = () => {
     props.handleStyle()
@@ -42,7 +42,7 @@ const SectionBtns = (props) => {
 
 	return (
     <div>
-      <div className="vis-section-item-btns">
+      <div className={`vis-section-item-btns vis-section-item-btns-kind-${pageKind}`}>
         {
           pageItem.type === 'page' && (
             <>
@@ -78,7 +78,7 @@ const SectionBtns = (props) => {
       </div>
       {
         pageItem.type === 'page' && (
-          <div className="vis-add-section-btns">
+          <div className={`vis-add-section-btns `}>
             <div className="vis-add-section-btns-up"
               onClick={() => {handleAdd('up')}}
             >

@@ -107,30 +107,12 @@ const DragableSection = ({ section, index, className, style, ...restProps }) => 
     <>{
       section? (
         <div 
-          // ref={ref} 
           className={`vis-section-item-wrap`}
           style={{ ...style }}
-          // onMouseOver={(e) => {handleMouseUserOver(e, section, index)}}
-          // onMouseLeave={(e) => {handleMouseOut(e, section, index)}}
           key={section.sectionId}>
-          {/* <div className="vis-section-item-mask" key={section.sectionId}></div> */}
           <div className="vis-section-item-inner" id={`section_${section.sectionId}`}>
             {setComponent(section)}
           </div>
-          {/* {
-            isHover && 
-            <SectionBtns 
-              handleStyle={() => {handleBtns('style', section)}}
-              handleData={() => {handleBtns('data', section)}}
-              handleDel={() => {handleBtns('del', section)}}
-              handleUp={() => {handleBtns('up', section)}}
-              handleDown={() => {handleBtns('down', section)}}
-              handleElement={() => {handleBtns('element', section)}}
-              handleAdd={(direction) => {handleBtns('add', section, {
-                direction
-              })}}
-            />
-          } */}
           {
             <div
               className={classNames({

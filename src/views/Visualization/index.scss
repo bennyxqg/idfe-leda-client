@@ -18,6 +18,13 @@
     height: 1px;
   }
 
+  // &.visualization-wrap-kind-wap {
+  //   .center-dot {
+  //     left: 0;
+  //   }
+  // }
+
+
   .vis-wrap-header {
     height: 60px;
     background-color: white;
@@ -115,7 +122,15 @@
     min-height: 600px;
     background-color: #f8f8f8;
     // padding-top: 30px;
-
+    &.vis-page-kind-wap {
+      width: 375px;
+      height: 640px;
+      margin: auto;
+      overflow: scroll;
+      &::-webkit-scrollbar {
+        width: 0!important;
+      }
+    }
     .vis-section-item-wrap {
       position: relative;
       border: 2px dotted #e8e8e8;
@@ -174,18 +189,17 @@
         font-size: 18px;
         cursor: pointer;
         z-index: 6;
-
+        
         span {
           padding: 4px 4px;
           font-weight: bold;
         }
 
-        &.vis-element-item-btns {
-          min-width: 66px;
+        &.vis-element-item-btns, &.vis-section-item-btns-kind-wap {
+          min-width: 44px;
           font-size: 14px;
           top: -22px;
           z-index: auto;
-
           span {
             padding: 0 2px;
             font-weight: normal;

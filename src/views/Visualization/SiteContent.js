@@ -8,14 +8,13 @@ import CurrentModal from './components/CurrentModal'
 import {popupData} from '@/views/Visualization/data/popupData'
 
 const Index = (props) => {
-	const { pageItem, chooseSection, setChooseSection, sectionList, setSectionList } = useContext(VisContext)
+	const { pageItem, pageKind, chooseSection, setChooseSection, sectionList, setSectionList } = useContext(VisContext)
 	const [isShowModal, setIsShowModal] = useState(false)
 	const [modalType, setModalType] = useState('')
 	const [modalSection, setModalSection] = useState(null)
 
 	useEffect(() => {
 		getPopupData()
-    console.log('-----content------', )
 	}, []);
 	
 	useEffect(() => {
@@ -108,7 +107,9 @@ const Index = (props) => {
 		<div>
 			<div 
 				// ref={dropWrapper} 
-				className="vis-wrap-siteContent">
+				className={`vis-wrap-siteContent vis-page-kind-${pageKind}`}
+				// className="vis-wrap-siteContent "
+				>
 				<div >
 					{
 						sectionList.map((section, index) => {

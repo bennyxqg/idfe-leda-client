@@ -15,6 +15,17 @@ export const elementData = () => {
       },
       ...eventData()
     }}, 
+    'videoElement': {type: 'videoElement', label: '视频', data: {
+      zIndex: 1,
+      srcUrl: 'https://tsf-pro-1251001060.cos.ap-guangzhou.myqcloud.com/10001/20191227203718151/banner42.mp4',
+      style: {
+        width: 600,
+        height: '',
+        top: 10,
+        left: 30,
+        align: 'left'
+      },
+    }}, 
     'textElement': {type: 'textElement', label: '文字', data: {
       text: '请修改文字',
       zIndex: 1,

@@ -5,6 +5,7 @@ import ImageForm from '@/views/Visualization/components/Element/FormList/Image/i
 import TextForm from '@/views/Visualization/components/Element/FormList/Text/index'
 import BMapForm from '@/views/Visualization/components/Element/FormList/BMap/index'
 import FormForm from '@/views/Visualization/components/Element/FormList/Form/index'
+import VideoForm from '@/views/Visualization/components/Element/FormList/Video/index'
 import VisContext from "@/views/Visualization/context/VisContext";
 import {getItemByKey, formPromise} from '@/utils/helper'
 import {assign, cloneDeep, merge} from 'lodash'
@@ -20,11 +21,16 @@ const layout = {
 };
 
 const Index = (props) => {
-  const { pageData, chooseSection, setChooseSection } = useContext(VisContext)
+  const { pageData, pageKind, chooseSection, setChooseSection } = useContext(VisContext)
 
   const [modalVisible] = useState(true)
   const [elementList, setElementList] = useState(Object.keys(elementData()).map(key => {
-    return (elementData())[key]
+    const elementDataItem = (elementData())[key]
+    if(pageKind !== 'pc') {
+      // 移动端默认left为0
+      elementDataItem.data.style.left = -187.5
+    }
+    return elementDataItem
   }))
   const [elementType, setElementType] = useState('')
   const [elementItem, setElementItem] = useState(null)
@@ -228,6 +234,16 @@ const Index = (props) => {
               (
                 <>
                   <FormForm 
+                    data={elementItem.data}
+                    ref={formRef} />
+                </>
+              )
+            }
+            {
+              elementType && elementType==='videoElement' &&
+              (
+                <>
+                  <VideoForm 
                     data={elementItem.data}
                     ref={formRef} />
                 </>
