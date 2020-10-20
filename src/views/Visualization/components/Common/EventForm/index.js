@@ -168,7 +168,7 @@ const Index = React.forwardRef((props, ref) => {
                   <Select>
                     {
                       pageData.map((item) => {
-                        if(item.type === 'page') {
+                        if(item.type === 'pc') {
                           return (
                             <Select.Option value={item.id} key={item.id}>{item.name}</Select.Option>
                           )

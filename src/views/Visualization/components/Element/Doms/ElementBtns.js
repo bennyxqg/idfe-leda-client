@@ -27,18 +27,21 @@ const SectionBtns = (props) => {
           <DragOutlined />
         </span> */}
         <span
+          title='修改元素'
           onClick={() => {handleEdit()}}>
           <SettingOutlined />
         </span>
         {
           props.type === 'formElement' && (
             <span
+              title='修改配置'
               onClick={() => {handleConfig()}}>
               <DatabaseOutlined />
             </span>
           )
         }
         <span
+          title='删除元素'
           onClick={() => {handleDel()}}>
           <DeleteOutlined />
         </span>

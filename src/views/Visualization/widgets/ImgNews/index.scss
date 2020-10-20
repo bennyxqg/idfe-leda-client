@@ -1,3 +1,28 @@
+.imgNews-wrap {
+  &.imgNews-wrap-kind-wap {
+    .imgNews-wrap-inner .imgNews-wrap-item {
+      width: 375px;
+      border: none;
+      .imgNews-wrap-inner-news {
+        width: 375px;
+        flex: 0 0 375px;
+        .imgNews-news-nav ul li {
+          width: 68px;
+        }
+        .imgNews-news-list ul li {
+          .imgNews-news-list-text {
+            width: 200px;
+            padding-left: 10px;
+          }
+          .imgNews-news-list-time {
+            padding-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
 .imgNews-wrap-inner {
   .ant-carousel .slick-dots li.slick-active {
     width: 16px;

@@ -13,10 +13,8 @@ import EditForm from '@/views/Visualization/components/Element/ListModal/index'
 import ElementContext from "@/views/Visualization/context/ElementContext";
 import FormConfModal from '@/views/Visualization/components/Element/FormList/Form/config/index'
 
-
 const Index = (props) => {
   const { sectionList, setSectionList, pageKind } = useContext(VisContext)
-
   const [showEditModal, setShowEditModal] = useState(false)
   const [currentElement, setCurrentElement] = useState(null)
   const [currentType, setCurrentType] = useState('')
@@ -99,7 +97,6 @@ const Index = (props) => {
   
   // 右上角按钮事件
   const handleBtns = (type, data, opts) =>{
-    console.log('---handleBtns--------', type)
     if(type === 'del') { // 删除
       // 更新模块数据
       const sectionId = props.section.sectionId
@@ -166,13 +163,20 @@ const Index = (props) => {
   
   const CommonComp = ({Component, data, ...restProps}) => {
     const selectItem = (data) => {
-      if(selectId && selectId === data.elementId) {
-        setSelectId('')
-      } else {
-        setSelectId(data.elementId)
-      }
+      // if(selectId && selectId === data.elementId) {
+      //   setSelectId('')
+      // } else {
+      //   setSelectId(data.elementId)
+      // }
+      setSelectId(data.elementId)
       
     }
+
+    // 拖拽开始
+    const dragStart = (e,d, data) => {
+      setSelectId(data.elementId)
+    }
+
     return (
       <div style={{
         display: 'inline-block',
@@ -195,13 +199,14 @@ const Index = (props) => {
           // }}
           className='vis-element-drag-item'
           onDragStop={(e,d) => moveItem(e,d, data)}
+          // onDragStart={(e,d) => dragStart(e,d, data)}
           // dragHandleClassName="rnd-handler"
           // onClick={() => {selectItem(data)}}
         >
           <Component data={data} {...restProps}/>
           <div className='hover-highlight'
             // onClick={() => {eventLink(data.data)}}
-            
+            // onClick={() => {selectItem(data)}}
             // onClick={() => {console.log('--data.data----', data.data, eventLink)}}
             style={{
               position: 'absolute',

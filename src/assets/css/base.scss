@@ -52,6 +52,16 @@ li {
   display: none;
 }
 
+.cursor-p {
+  cursor: pointer;
+}
+
+.hover-blue {
+  &:hover {
+    color: #1890ff;
+  }
+}
+
 .ant-input[type='color'] {
   width: 50px;
   padding: 4px 8px;

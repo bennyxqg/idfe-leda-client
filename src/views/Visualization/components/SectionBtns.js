@@ -44,40 +44,46 @@ const SectionBtns = (props) => {
     <div>
       <div className={`vis-section-item-btns vis-section-item-btns-kind-${pageKind}`}>
         {
-          pageItem.type === 'page' && (
+          (pageItem.type === 'pc' || pageItem.type === 'guide' || pageItem.type === 'wap') && (
             <>
               <span
+                title='上移'
                 onClick={() => {handleUp()}}
               ><ArrowUpOutlined /></span>
               <span
+                title='下移'
                 onClick={() => {handleDown()}}
               ><ArrowDownOutlined /></span>
             </>
           )
         }
         <span
+          title='修改样式'
           onClick={() => {handleStyle()}}
         ><MagicIcon /></span>
         <span
+          title='修改数据'
           onClick={() => {handleData()}}
         >
           <SettingOutlined />
         </span>
         <span
+          title='添加元素'
           onClick={() => {handleElement()}}
         >
           <AppstoreOutlined />
         </span>
         {
-           pageItem.type === 'page' && (
+          (pageItem.type === 'pc' || pageItem.type === 'guide' || pageItem.type === 'wap') && (
             <span
+              title='删除模块'
               onClick={() => {handleDel()}}
             ><DeleteOutlined /></span>
            )
         }
       </div>
       {
-        pageItem.type === 'page' && (
+        (pageItem.type === 'pc' || pageItem.type === 'guide' || pageItem.type === 'wap') && (
           <div className={`vis-add-section-btns `}>
             <div className="vis-add-section-btns-up"
               onClick={() => {handleAdd('up')}}

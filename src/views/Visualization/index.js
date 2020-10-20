@@ -8,10 +8,9 @@ import HeaderComp from './HeaderComp'
 import VisContext from "@/views/Visualization/context/VisContext";
 import './index.scss'
 import { randomCode, getQueryVariable } from '@/utils/helper'
-import update from 'immutability-helper';
 import { sectionData } from '@/views/Visualization/data/sectionData';
 import RNDContext from '@/views/Visualization/context/RNDContext'
-import { configGet, getPageList, getPopupList } from '@/http/hvisualization'
+import { configGet, getPageList, getPopupList, allPageList } from '@/http/hvisualization'
 import { getAllNewsByGroup, getAllCarouselByGroup, getAllNews } from '@/utils/data'
 import {cloneDeep, merge} from 'lodash'
 import { useHistory } from "react-router-dom";
@@ -61,10 +60,6 @@ const Index = () => {
 	const [init, setInit] = useState(false)
 
 	useEffect(() => {
-		console.log('-------chooseSection-------', chooseSection)
-	}, [chooseSection]);
-
-	useEffect(() => {
 		// 切换页面时刷新
 		history.listen(route => {
 			if(route.pathname === '/visualization') {
@@ -72,8 +67,13 @@ const Index = () => {
 			}
 		})
 
-		if(getQueryVariable('type', history.location.search) !== 'pc') {
-			setPageKind('wap')
+		let pathType = getQueryVariable('type', history.location.search)
+		if(pathType) {
+			if(pathType === 'guide' || pathType === 'wap') {
+				setPageKind('wap')
+			} else {
+				setPageKind(pathType)
+			}
 		} else {
 			setPageKind('pc')
 		}
@@ -92,63 +92,62 @@ const Index = () => {
 
 	// 获取数据库数据
 	const getJSONData = async (imgList) => {
-		const popupRep = await getPopupList()
-		const pageRep = await getPageList()
+		const allPageRep = await allPageList()
 		let indexId = getQueryVariable('id', history.location.search)
-		const pageDataTemp = []
-		if(pageRep.error_code === 0) {
-			pageDataTemp.push(...(pageRep.data.map(item=> {
-				return {
-					id: item.id,
-					name: item.name,
-					identifer: item.identifer,
-					type: 'page'
-				}
-			})))
-		}
-		if(popupRep.error_code === 0) {
-			pageDataTemp.push(...(popupRep.data.map(item=> {
-				return {
-					id: item.id,
-					name: item.name,
-					identifer: item.identifer,
-					type: 'popup'
-				}
-			})))
-			// pageDataTemp.push({
-			// 	id: '4',
-			// 	name: '申请弹窗',
-			// 	identifer: 'apply',
-			// 	type: 'popup'
-			// })
-		}
+		let pageType = getQueryVariable('type', history.location.search)
+		const pageDataTemp = allPageRep.data.map(item=> {
+			let typeStr = ''
+			if(item.type == 0) {
+				typeStr = 'pc'
+			} else if(item.type == 1) {
+				typeStr = 'popup'
+			} else if(item.type == 2) {
+				typeStr = 'guide'
+			} else if(item.type == 3) {
+				typeStr = 'wap'
+			}
+			return {
+				id: item.id,
+				name: item.name,
+				identifer: item.identifer,
+				type: typeStr
+			}
+		})
 		let currentPage = null
-		pageDataTemp.forEach((page) => {
+		pageDataTemp.some((page) => {
 			if(indexId) {
 				if(page.id == indexId) {
 					// setPageType(page.type == 1?'page':'popup')
 					currentPage = page
 					setPageItem(page)
+					return true
 				}
-			} else {
+			} else if(pageType && page.type === pageType) {
+				currentPage = page
+				indexId = page.id
+				setPageItem(page)
+				return true
+			} 
+			return false
+		})
+		if(!currentPage) {
+			pageDataTemp.some((page) => {
 				if(page.identifer === 'index') {
 					currentPage = page
 					indexId = page.id
 					setPageItem(page)
+					return true
 				}
-			}
-		})
+			})
+			return false
+		}
+
+
 		if(!currentPage) {
 			setPageItem({})
 		}
 		setPageData(pageDataTemp)
-		console.log('----556----', currentPage)
-		// if(indexId == 4) { // 测试数据
-		// 	setInit(true)
-		// 	buildModuleData(imgList, [])
-		// 	setSectionList([])
-		// 	return
-		// }
+
 		configGet({ 
 			id: indexId
 		}).then((rep) => {
@@ -255,7 +254,7 @@ const Index = () => {
 							<SiteContent newSection={newSectionType}  />
 						</DndProvider>
 						{
-							pageItem && pageItem.type === 'page' && (
+							pageItem && (pageItem.type === 'pc' || pageItem.type === 'guide' || pageItem.type === 'wap') && (
 								<LeftMenu 
 									// addSection={addSection} 
 								/>
@@ -263,7 +262,7 @@ const Index = () => {
 						}
 						{/* <RightMenu onFinish={rightFormFinish} /> */}
 						{
-								// 显示添加模块的弹窗
+							// 显示添加模块的弹窗
 							showAddModal && showAddModal.show &&
 							<SectionListModal 
 								addSection={addSection}
@@ -271,7 +270,7 @@ const Index = () => {
 							/>
 						}
 						{
-								// 显示添加模块的弹窗
+							// 显示添加模块的弹窗
 							showPagesModal && showPagesModal.show &&
 							<PagesModal 
 							/>

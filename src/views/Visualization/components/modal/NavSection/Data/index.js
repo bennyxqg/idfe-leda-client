@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef, useCallback, useContext} from "react";
-import { Modal, Button, Form, Input, message, InputNumber, Space, Table } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { DndProvider, useDrag, useDrop, createDndContext, DragSource } from 'react-dnd';
+import { Modal, Button, Form, Input, message, Table } from 'antd';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import ImgUpload from '@/components/ImgUpload'
 import update from 'immutability-helper';
 import { randomCode, addOrEditForListItem, getItemByKey } from '@/utils/helper'
@@ -72,11 +71,10 @@ const layout = {
   wrapperCol: { span: 22 },
 };
 const Index = (props) => {
-  const { pageData, sectionList, setSectionList } = useContext(VisContext)
+  const { pageData, sectionList } = useContext(VisContext)
 
   const [modalVisible, setModalVisible] = useState(true)
   const [editModalVisible, setEditModalVisible] = useState(false)
-  const [bindModalVisible, setBindModalVisible] = useState(false)
   const [tableData, setTableData] = useState([])
   const [editForm, setEditForm] = useState(null)
 

@@ -53,3 +53,51 @@ export const getPopupList = (params = {}) => {
     data: qs.stringify(params)
   });
 }
+
+// 落地列表
+export const getGuidePageList = (params = {}) => {
+  return $axios({
+    method: 'post',
+    url: adminApi + '/Admin/download_page_list',
+    data: qs.stringify(params)
+  });
+}
+
+// 落地列表
+export const addGuidePage = (params = {}) => {
+  return $axios({
+    method: 'post',
+    url: adminApi + '/Admin/download_page_add',
+    data: qs.stringify(params)
+  });
+}
+
+
+// 落地列表
+export const editGuidePage = (params = {}) => {
+  return $axios({
+    method: 'post',
+    url: adminApi + '/Admin/download_page_edit',
+    data: qs.stringify(params)
+  });
+}
+
+
+// 落地列表
+export const delGuidePage = (params = {}) => {
+  return $axios({
+    method: 'post',
+    url: adminApi + '/Admin/download_page_del',
+    data: qs.stringify(params)
+  });
+}
+
+// 所有页面列表（0=页面  1=弹窗 2=下载落地页）
+export const allPageList = (params = {}) => {
+  return $axios({
+    method: 'post',
+    url: adminApi + '/Admin/website_config_list',
+    data: qs.stringify(params)
+  });
+}
+

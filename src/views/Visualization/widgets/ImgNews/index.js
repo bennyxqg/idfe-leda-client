@@ -10,7 +10,7 @@ import ElementDoms from '@/views/Visualization/components/Element/Doms/index'
 const sectionName = 'imgNews'
 
 const Index = (props) => {
-	const { allNews, setAllNews, lastestNews } = useContext(VisContext)
+	const { allNews, pageKind, lastestNews } = useContext(VisContext)
 
 	const [data, setData] = useState(null)
 	const [currentNews, setCurrentNews] = useState([])
@@ -79,33 +79,38 @@ const Index = (props) => {
 
 
 	return (
-		<div className={`${sectionName}-wrap`} style={baseStyle}>
+		<div className={`${sectionName}-wrap ${sectionName}-wrap-kind-${pageKind}`} style={baseStyle}>
 			{
 				data && (
 					<div className={`${sectionName}-wrap-inner ${sectionName}-wrap-inner-${props.data.sectionId}`}> 
 						<div className={`${sectionName}-wrap-item`} >
-							<div className="imgNews-wrap-inner-carousel">
-								{
-									data.imgs.list && 
-									<Carousel 
-									// autoplay={data.style.swiper.autoPlay}
-									autoplaySpeed={data.style.swiper.delay}
-									// appendDots={appendDots}
-									customPaging={customPaging}
-									// dots={{className: data.style.carousel.nav.type == 1?'': 'circle-dots'}}
-									> 
-									{
-										data.imgs.list.map((item, index) => {
-											return (
-												<div key={index}>
-													<img src={item.url} alt={item.title} />
-												</div>
-											)
-										})
-									}
-									</Carousel>
-								}
-							</div>
+							{
+								pageKind === 'pc' && (
+									<div className="imgNews-wrap-inner-carousel">
+										{
+											data.imgs.list && 
+											<Carousel 
+											// autoplay={data.style.swiper.autoPlay}
+											autoplaySpeed={data.style.swiper.delay}
+											// appendDots={appendDots}
+											customPaging={customPaging}
+											// dots={{className: data.style.carousel.nav.type == 1?'': 'circle-dots'}}
+											> 
+											{
+												data.imgs.list.map((item, index) => {
+													return (
+														<div key={index}>
+															<img src={item.url} alt={item.title} />
+														</div>
+													)
+												})
+											}
+											</Carousel>
+										}
+									</div>
+								)
+							}
+							
 							<div className="imgNews-wrap-inner-news" style={newsBgStyle}>
 								<div className="imgNews-news-nav">
 									<ul style={{'color': `${data.style.news.nav.fontColor}`, 'fontSize': `${data.style.news.nav.fontSize}px`, 'fontWeight': data.style.news.nav.isBold?'bold':'normal'}}>

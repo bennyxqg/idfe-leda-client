@@ -17,16 +17,16 @@ const Index = (props) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    getList('page')
+    getList('pc')
   }, []);
 
   // 获取列表
-  const getList = (type = 'page') => {
-    if(type === 'page') { // 页面
+  const getList = (type = 'pc') => {
+    if(type === 'pc') { // 页面
       if(pageList.length) {
         return
       }
-      setPageList(pageData.filter(item => item.type === 'page'))
+      setPageList(pageData.filter(item => item.type === 'pc'))
     } else if(type === 'popup') { // 弹窗
       if(popupList.length) {
         return
@@ -47,26 +47,23 @@ const Index = (props) => {
     })
   }
 
-  const onFinish = values => {
-    message.success('操作成功');
-    const sendData = values
-    props.onFinish(sendData);
-  };
-
   const changeTab = (value) => {
     getList(value)
   }
 
   const toPage = (item) => {
+
+    // console.log('---toPage---item----', item)
+    // return
     if(pageItem.id == item.id) {
       return
     }
     
-    const type = getQueryVariable('type', history.location.search)
+    // const type = getQueryVariable('type', history.location.search)
     // 跳转至该页面
     history.push({
       pathname: `/visualization`,
-      search: `?type=${type}&id=${item.id}`
+      search: `?type=${item.type}&id=${item.id}`
     })
   }
 

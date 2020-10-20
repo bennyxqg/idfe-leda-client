@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 import GlobalContext from "@/views/layout/GlobalContext";
 import { sectionData } from "@/views/Visualization/data/sectionData";
 import { popupData } from "@/views/Visualization/data/popupData";
-import { elementData } from "@/views/Visualization/data/elementData";
+import GuidePageModal from "@/views/Visualization/components/Common/GuidePageModal/index";
 
 const Index = memo((props) => {
 	let history = useHistory();
@@ -17,6 +17,7 @@ const Index = memo((props) => {
 	const { pageItem, sectionList, setSectionList, setShowPagesModal } = useContext(VisContext)
 	const [address, setAddress] = useState({})
 	const [updateBtn, setUpdateBtn] = useState(false)
+	const [showGuildPage, setShowGuildPage] = useState(false)
 
 	useEffect(() => {
 		websiteAddress()
@@ -33,10 +34,16 @@ const Index = memo((props) => {
 		toReq('publish')
 	}	
 
+	// 显示普通页面列表
 	const showPageModal = () => {
 		setShowPagesModal({
 			show: true
 		})
+	}
+
+	// 显示落地页列表
+	const handleGuidePage = () => {
+		setShowGuildPage(true)
 	}
 
 	const save = () => {
@@ -133,6 +140,10 @@ const Index = memo((props) => {
 		}
 	}
 
+	const guideModalChange = () => {
+		setShowGuildPage(false)
+	}
+
 	return (
 		<div className="vis-wrap-header">
 			<Row className='vis-wrap-header-inner'>
@@ -169,12 +180,23 @@ const Index = memo((props) => {
 					<div className='mar-r-32'>
 						<Button
 							type="primary" 
+							onClick={handleGuidePage}
+							className='mar-r-40 mar-t-4'>管理落地页</Button>
+						<Button
+							type="primary" 
 							onClick={back}
 							className='mar-r-20 mar-t-4'>返回</Button>
 						<span>{userInfo.name}</span>
 					</div>
 				</Col>
 			</Row>
+			{
+				showGuildPage && (
+					<GuidePageModal 
+						modalChange={guideModalChange}
+					/>
+				)
+			}
 		</div>
 	)
 })

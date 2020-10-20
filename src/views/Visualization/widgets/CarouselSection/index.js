@@ -1,5 +1,4 @@
-import React, {useState, useEffect, useRef, useContext} from "react";
-import { Button } from 'antd';
+import React, {useState, useEffect, useContext} from "react";
 import SwiperComp from '@/components/SwiperComp/index'
 import { handleBgStyle } from '@/utils/helper'
 import ElementDoms from '@/views/Visualization/components/Element/Doms/index'
