@@ -10,7 +10,7 @@ import './index.scss'
 import { randomCode, getQueryVariable } from '@/utils/helper'
 import { sectionData } from '@/views/Visualization/data/sectionData';
 import RNDContext from '@/views/Visualization/context/RNDContext'
-import { configGet, getPageList, getPopupList, allPageList } from '@/http/hvisualization'
+import { configGet, allPageList } from '@/http/hvisualization'
 import { getAllNewsByGroup, getAllCarouselByGroup, getAllNews } from '@/utils/data'
 import {cloneDeep, merge} from 'lodash'
 import { useHistory } from "react-router-dom";

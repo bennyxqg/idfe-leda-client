@@ -115,7 +115,7 @@ const Index = (props) => {
 										)
 									}
 									{
-										pageKind === 'wap' && (
+										(pageKind === 'wap' && data.navList.length > 0) && (
 											<div>
 												<div className={`${sectionName}-navbar-right-menu-icon`}>
 													<span 

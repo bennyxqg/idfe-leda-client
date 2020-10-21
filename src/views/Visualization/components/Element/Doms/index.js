@@ -121,7 +121,6 @@ const Index = (props) => {
 
   // 显示配置弹窗
   const activeModalComp = (params) => {
-    console.log('----showModalComp--props.section.sectionId----', params, props.section.sectionId)
     if(params) {
       if(params.type === 'edit') {
         return <EditForm 
@@ -178,10 +177,6 @@ const Index = (props) => {
     }
 
     return (
-      <div style={{
-        display: 'inline-block',
-        position: 'relative'
-      }}>
         <Rnd 
           default={{
             x: data.data.style.left,
@@ -189,13 +184,13 @@ const Index = (props) => {
           }}
           style={{
             // zIndex: selectId === data.elementId?2:1
-            zIndex: selectId === data.elementId?maxZIndex:(data.data.zIndex?data.data.zIndex:1)
+            // zIndex: selectId === data.elementId?maxZIndex:(data.data.zIndex?data.data.zIndex:1)
           }}
           bounds={pageKind === 'pc'?`.${props.section.type}-wrap-inner-${props.section.sectionId}`: '.visualization-wrap'}
           enableResizing={false}
           // position={{
-          // 	x: data.btn.style.left,
-          // 	y: data.btn.style.top,
+          // 	x: data.data.style.left,
+          // 	y: data.data.style.top,
           // }}
           className='vis-element-drag-item'
           onDragStop={(e,d) => moveItem(e,d, data)}
@@ -238,7 +233,6 @@ const Index = (props) => {
             }
           </div>
         </Rnd>
-      </div>
     )
   }
 
