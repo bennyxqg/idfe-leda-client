@@ -114,6 +114,7 @@ class Editer extends Component {
     xhr.addEventListener("abort", errorFn, false)
   
     fd.append('img', param.file)
+    fd.append('site_id', localStorage.currentSiteId || '')
     fd.append('token', localStorage.token || '')
     xhr.open('POST', serverURL, true)
     xhr.send(fd)

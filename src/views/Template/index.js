@@ -7,6 +7,7 @@ import {
 	EyeOutlined
 } from '@ant-design/icons';
 import tempIcon from '@/assets/images/visualization/temp-icon.png'
+import { getWebsiteAddress } from '@/http/hvisualization'
 
 const CardComp = (props) => {
 	return (
@@ -28,8 +29,12 @@ const CardComp = (props) => {
 
 class Index extends React.Component  {
 	state = {
-		
+		address: {}
 	};
+
+	componentDidMount() {
+		this.websiteAddress()
+	}
 
 	// 编辑
 	toEdit(type) {
@@ -49,13 +54,30 @@ class Index extends React.Component  {
 
 	// 预览
 	toPreview(type) {
-		message.warning('正在开发中...');
-		return
-		if(type === 'pc') {
-			this.props.history.push({ pathname: `/visualization` })
-		} else {
-			message.warning('功能开发中，敬请期待...');
+		let addressStr = ''
+		if(type === 'wap') {
+			addressStr = '/wap' + addressStr
 		}
+		if(this.state.address.index) {
+			addressStr = this.state.address.index + addressStr
+		} else {
+			message.warning('请先配置站点域名！');
+		}
+		
+		window.open(addressStr)
+	}
+
+	websiteAddress() {
+		const sendData = {}
+		getWebsiteAddress(sendData).then((rep) => {
+			if(rep.error_code === 0) {
+				this.setState({
+					address: rep.data
+				})
+			} else {
+				message.error(rep.msg);
+			}
+		})
 	}
 
 	render() {
@@ -80,14 +102,14 @@ class Index extends React.Component  {
 									previewCB={() => {this.toPreview('wap')}}
 								/> 
 							</li>
-							<li className="template-item"> 
+							{/* <li className="template-item"> 
 								<CardComp 
 									title='落地页模板'
 									desc='快速搭建搭建个性化的落地页。'
 									editCB={() => {this.toEdit('guide')}}
 									previewCB={() => {this.toPreview('wap')}}
 								/> 
-							</li>
+							</li> */}
 						</ul>
 						
 						

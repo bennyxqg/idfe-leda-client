@@ -135,7 +135,6 @@ const Index = (props) => {
         })
       }
     })
-    
 	}
 
   const toPage = (item) => {

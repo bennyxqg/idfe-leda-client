@@ -319,6 +319,26 @@ export const sectionData = () => {
           ...swiperData()
         }
       }
-    }
+    },
+    'newsDetailSection': {
+      type: 'newsDetailSection',
+      label: '新闻详情',
+      examples: [
+        {
+          img: demoBlank
+        }
+      ],
+      data: {
+        name: '',
+        newsId: '', // 固定id
+        bindPathParam: true, // 是否使用地址栏中的参数
+        pathParam: 'newsId', // 绑定地址栏中的参数
+        style: {
+          width: '',
+          height: 500,
+          ...bgData()
+        }
+      }
+    },
   }
 }

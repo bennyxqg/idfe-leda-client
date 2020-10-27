@@ -63,7 +63,7 @@ export const getGuidePageList = (params = {}) => {
   });
 }
 
-// 落地列表
+// 新增落地
 export const addGuidePage = (params = {}) => {
   return $axios({
     method: 'post',
@@ -92,7 +92,7 @@ export const delGuidePage = (params = {}) => {
   });
 }
 
-// 所有页面列表（0=页面  1=弹窗 2=下载落地页）
+// 所有页面列表（0=页面  1=弹窗 2=下载落地页 3=wap页）
 export const allPageList = (params = {}) => {
   return $axios({
     method: 'post',
@@ -101,3 +101,20 @@ export const allPageList = (params = {}) => {
   });
 }
 
+// 新增页面
+export const addPage = (params = {}) => {
+  return $axios({
+    method: 'post',
+    url: adminApi + '/Admin/website_config_add',
+    data: qs.stringify(params)
+  });
+}
+
+// 编辑页面
+export const editPage = (params = {}) => {
+  return $axios({
+    method: 'post',
+    url: adminApi + '/Admin/website_config_edit',
+    data: qs.stringify(params)
+  });
+}

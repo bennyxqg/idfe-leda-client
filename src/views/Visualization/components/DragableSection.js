@@ -12,6 +12,7 @@ import {
   CarouselSection,
   NavSection,
   MainSection,
+  NewsDetailSection,
   SubscribePopup,
   ApplyPopup
 } from "../widgets";
@@ -42,6 +43,8 @@ const DragableSection = ({ section, index, className, style, ...restProps }) => 
 				return <NavSection data={section}/>;
       } else if(type === 'mainSection') {
 				return <MainSection data={section}/>;
+      }  else if(type === 'newsDetailSection') {
+				return <NewsDetailSection data={section}/>;
       } else if(type === 'subscribePopup') {
         // return <SubscribePopup data={section}/>;
         return <ApplyPopup data={section}/>;

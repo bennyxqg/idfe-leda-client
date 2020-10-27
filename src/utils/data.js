@@ -88,13 +88,17 @@ export const getCarouselGroups = () => {
 export const getAllCarouselByGroup = async () => {
    const groups = await getCarouselGroups()
    const carousel = await getAllCarousel()
-   groups.forEach((g) => {
-    g.list = []
-    carousel.forEach((c) => {
-      if(c.groups.indexOf(g.id) !== -1) {
-        g.list.push(c)
+   if(groups) {
+    groups.forEach((g) => {
+      g.list = []
+      if(carousel) {
+        carousel.forEach((c) => {
+          if(c.groups.indexOf(g.id) !== -1) {
+            g.list.push(c)
+          }
+        })
       }
-    })
-   })
+     })
+   }
    return groups
 }

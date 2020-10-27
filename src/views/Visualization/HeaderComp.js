@@ -1,9 +1,8 @@
 import React, {useState, useEffect, useContext, memo} from "react";
 import { Button, message, Row, Col } from 'antd';
 import VisContext from "@/views/Visualization/context/VisContext";
-import { configSave, configPublish } from '@/http/hvisualization'
+import { configSave, configPublish, getWebsiteAddress } from '@/http/hvisualization'
 import {cloneDeep, merge} from 'lodash'
-import { getWebsiteAddress } from '@/http/hvisualization'
 import { useHistory } from "react-router-dom";
 import GlobalContext from "@/views/layout/GlobalContext";
 import { sectionData } from "@/views/Visualization/data/sectionData";
@@ -25,7 +24,22 @@ const Index = memo((props) => {
 
 	// 预览
 	const preview = () => {
-		window.open(address.index_pre)
+		let addressStr = ''
+		// if(pageItem.identifer === 'index') {
+		// 	addressStr = '/' + pageItem.identifer
+		// } else {
+		// 	addressStr = '/' + pageItem.identifer
+		// }
+		addressStr = '/' + pageItem.identifer
+		if(pageItem.type === 'popup') {
+			addressStr = '/index'
+		}
+		addressStr = '/preview/pages' + addressStr
+		if(pageItem.type === 'wap') {
+			addressStr = '/wap' + addressStr
+		}
+		addressStr = address.index + addressStr
+		window.open(addressStr)
 	}
 
 	// 发布
@@ -178,10 +192,10 @@ const Index = memo((props) => {
 				</Col>
 				<Col span={8} className='header-part header-part-right'>
 					<div className='mar-r-32'>
-						<Button
+						{/* <Button
 							type="primary" 
 							onClick={handleGuidePage}
-							className='mar-r-40 mar-t-4'>管理落地页</Button>
+							className='mar-r-40 mar-t-4'>管理落地页</Button> */}
 						<Button
 							type="primary" 
 							onClick={back}

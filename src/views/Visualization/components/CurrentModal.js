@@ -12,6 +12,8 @@ import NavSectionData from './modal/NavSection/Data/index'
 import NavSectionStyle from './modal/NavSection/Style/index'
 import MainSectionData from './modal/MainSection/Data/index'
 import MainSectionStyle from './modal/MainSection/Style/index'
+import NewsDetailSectionData from './modal/NewsDetailSection/Data/index'
+import NewsDetailSectionStyle from './modal/NewsDetailSection/Style/index'
 import SubscribePopupData from './modal/popup/SubscribePopup/Data/index'
 import SubscribePopupStyle from './modal/popup/SubscribePopup/Style/index'
 import ApplyPopupData from './modal/popup/ApplyPopup/Data/index'
@@ -85,6 +87,13 @@ const Index = (props) => {
         }
         if(type === 'style') {
           targetComp = MainSectionStyle
+        }
+      }  else if(sectionType === 'newsDetailSection') { // 新闻详情
+        if(type === 'data') {
+          targetComp = NewsDetailSectionData
+        }
+        if(type === 'style') {
+          targetComp = NewsDetailSectionStyle
         }
       } else if(sectionType === 'subscribePopup') { // 预约弹窗
         if(type === 'data') {
