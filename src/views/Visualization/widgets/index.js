@@ -5,7 +5,7 @@ import SingleImg from "./SingleImg";
 import CarouselSection from "./CarouselSection";
 import NavSection from "./NavSection";
 import MainSection from "./MainSection";
-import NewsDetailSection from "./newsDetailSection";
+import NewsDetailSection from "./NewsDetailSection";
 
 import SubscribePopup from "./popup/SubscribePopup/index";
 import ApplyPopup from "./popup/ApplyPopup/index";

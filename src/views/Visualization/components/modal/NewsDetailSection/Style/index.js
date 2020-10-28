@@ -99,7 +99,6 @@ const Index = (props) => {
               </Col> */}
               <Col span={8}>
                 <Form.Item
-                  rules={[{ required: true, message: '请输入高度' }]}
                   labelCol={{span: 8}}
                   wrapperCol={{span: 10}}
                   name='height' label="高度:">

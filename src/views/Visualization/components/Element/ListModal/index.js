@@ -6,6 +6,7 @@ import TextForm from '@/views/Visualization/components/Element/FormList/Text/ind
 import BMapForm from '@/views/Visualization/components/Element/FormList/BMap/index'
 import FormForm from '@/views/Visualization/components/Element/FormList/Form/index'
 import VideoForm from '@/views/Visualization/components/Element/FormList/Video/index'
+import RichTextForm from '@/views/Visualization/components/Element/FormList/RichText/index'
 import VisContext from "@/views/Visualization/context/VisContext";
 import {getItemByKey, formPromise} from '@/utils/helper'
 import {assign, cloneDeep, merge} from 'lodash'
@@ -86,7 +87,6 @@ const Index = (props) => {
         }
       }
       valueData.event = eventVal
-
     }
     updateSection(valueData)
   }
@@ -216,6 +216,10 @@ const Index = (props) => {
                       ref={fontFormRef}
                     />
                   }
+                  <EventForm 
+                    data={elementItem.data.event}
+                    ref={eventFormRef}
+                  />
                 </>
               )
             }
@@ -244,6 +248,16 @@ const Index = (props) => {
               (
                 <>
                   <VideoForm 
+                    data={elementItem.data}
+                    ref={formRef} />
+                </>
+              )
+            }
+            {
+              elementType && elementType==='richTextElement' &&
+              (
+                <>
+                  <RichTextForm 
                     data={elementItem.data}
                     ref={formRef} />
                 </>

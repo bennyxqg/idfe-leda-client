@@ -11,6 +11,7 @@ import demoCarouselCard from '@/assets/images/visualization/demo-carousel-card.p
 import demoCarouselCommon from '@/assets/images/visualization/demo-carousel-common.png'
 import demoImgNewsCommon from '@/assets/images/visualization/demo-imgNews-common.png'
 import demoBlank from '@/assets/images/visualization/demo-blank.png'
+import demoNewsDetailCommon from '@/assets/images/visualization/demo-newsDetail-common.png'
 
 export const sectionData = () => {
   return {
@@ -325,7 +326,7 @@ export const sectionData = () => {
       label: '新闻详情',
       examples: [
         {
-          img: demoBlank
+          img: demoNewsDetailCommon
         }
       ],
       data: {
@@ -335,7 +336,7 @@ export const sectionData = () => {
         pathParam: 'newsId', // 绑定地址栏中的参数
         style: {
           width: '',
-          height: 500,
+          height: '',
           ...bgData()
         }
       }

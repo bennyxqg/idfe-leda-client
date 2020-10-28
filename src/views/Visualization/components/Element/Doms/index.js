@@ -4,6 +4,7 @@ import VideoComp from './Video/index'
 import TextComp from './Text/index'
 import BMapComp from './BMap/index'
 import FormComp from './Form/index'
+import RichTextComp from './RichText/index'
 import {Rnd} from 'react-rnd'
 import {cloneDeep} from 'lodash'
 import { getItemIndexByKey } from '@/utils/helper'
@@ -52,6 +53,8 @@ const Index = (props) => {
       targetComp = FormComp
     } else if(type === "videoElement") { // 视频
       targetComp = VideoComp
+    } else if(type === "richTextElement") { // 富文本
+      targetComp = RichTextComp
     }
     
     if(targetComp) {

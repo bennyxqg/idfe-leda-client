@@ -95,7 +95,7 @@ const EditModal = (props) => {
         >
           <Switch onChange={(val) => {changeBind(val)}} />
         </Form.Item>
-        {
+        {/* {
             usePathParam && (
 
           <Form.Item
@@ -105,7 +105,7 @@ const EditModal = (props) => {
             <Input />
           </Form.Item>
           )
-        }
+        } */}
         {
           !usePathParam && (
             <Form.Item

@@ -42,7 +42,8 @@ export const elementData = () => {
           lineHeight: '',
           letterSpacing: '' // normal / length
         }
-      }
+      },
+      ...eventData()
     }}, 
     'bMapElement': {type: 'bMapElement', label: '百度地图', data: {
       zIndex: 1,
@@ -110,6 +111,17 @@ export const elementData = () => {
         left: 30,
       }
     }},
+    richTextElement: {type: 'richTextElement', label: '富文本', data: {
+      text: '请修改富文本',
+      zIndex: 1,
+      style: {
+        width: 200,
+        height: '',
+        top: 10,
+        left: 30,
+        align: 'left'
+      }
+    }}, 
   }
 } 
 

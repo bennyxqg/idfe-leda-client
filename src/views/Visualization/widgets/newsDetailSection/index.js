@@ -87,6 +87,7 @@ const Index = (props) => {
 					data && (
 						<div 
 							className={`${sectionName}-wrap-inner ${sectionName}-wrap-inner-${props.data.sectionId}`} 
+							style={styleData}
 						>
 							<div className={`news-title`} >
 								{title}
