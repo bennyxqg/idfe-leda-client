@@ -17,8 +17,10 @@ const GlobalConfig = (props) => {
   const getInfo = () => {
     siteInfo().then((rep) => {
       if(rep.error_code === 0) {
-        setFormParams(rep.data)
-        form.setFieldsValue(rep.data)
+        if(rep.data) {
+          setFormParams(rep.data)
+          form.setFieldsValue(rep.data)
+        }
       } else {
         message.error(rep.msg);
       }
@@ -52,7 +54,7 @@ const GlobalConfig = (props) => {
   return (
     <div className="shadow-radius">
       <div style={{width: '600px', margin: 'auto'}}>
-        <div style={{fontSize: '16px', fontWeight: '700', marginBottom: '16px'}}>基本信息</div>
+        <div className='mar-t-30' style={{fontSize: '16px', fontWeight: '700', marginBottom: '16px'}}>基本信息</div>
         <Form labelCol={{ span: 4 }} 
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -76,7 +78,7 @@ const GlobalConfig = (props) => {
           <Form.Item label="网站描述" name="description">
             <TextArea rows={3} />
           </Form.Item>
-          <Form.Item label="上传证件">
+          <Form.Item label="上传图标">
             <ImgUpload 
               imgUrl={formParams.icon}
               successCB={(val) => {uploadSuccess(val)}}></ImgUpload>

@@ -1,0 +1,38 @@
+.newsDetailSection-wrap {
+  background-color: white;
+  overflow: hidden;
+  .news-title {
+    text-align: center;
+    font-size: 36px;
+    color: #666666;
+    margin: 24px auto;
+  }
+  .news-time {
+    text-align: center;
+    font-size: 20px;
+    color: #666666;
+  }
+  .news-content {
+    width: 1200px;
+    margin: 24px auto;
+    img {
+      max-width: 1200px !important;
+    }
+  }
+  &.newsDetailSection-wrap-kind-wap {
+    .news-title {
+      font-size: 20px;
+    }
+    .news-time {
+      font-size: 16px;
+    }
+    .news-content {
+      width: 375px;
+      padding: 6px;
+      img {
+        max-width: 100% !important;
+      }
+    }
+
+  }
+}

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import { Provider } from 'react-redux';
-import './assets/css/base.less'
+import './assets/css/base.scss'
 // import './assets/css/dsky-antd.scss'
 import Router from './router'
 import store from './store'
@@ -13,6 +13,14 @@ import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
 console.log('--buildTime--', process.env.buildTime)
+// console.log('--publicPath--', process.env.publicPath)
+// setTimeout(() => {
+//     const siteIcon = document.querySelector('#site_icon')
+//     if(siteIcon) {
+//         siteIcon.href = process.env.publicPath + '/logo.ico'
+//     }
+// }, 2000);
+
 
 ReactDOM.render(
     <Provider store={store}>

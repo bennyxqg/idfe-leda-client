@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useRef, useContext } from "react";
 import { Modal, Table, Button, Form, Input, message } from 'antd';
-import lodash from 'lodash'
 import { addBasicConfig } from '@/http/hwebInfo'
 import GlobalContext from "@/views/layout/GlobalContext";
 

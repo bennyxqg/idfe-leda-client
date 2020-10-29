@@ -1,0 +1,92 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+body {
+  ol, ul, dl {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+li {
+  list-style: none;
+}
+
+.text-r {
+  text-align: right;
+}
+
+.text-l {
+  text-align: left;
+}
+
+.text-c {
+  text-align: center;
+}
+
+.width-p100 {
+  width: 100%
+}
+
+.form-item-inline {
+  display: inline-block !important;
+}
+
+.hidden {
+  display: none;
+}
+
+.cursor-p {
+  cursor: pointer;
+}
+
+.hover-blue {
+  &:hover {
+    color: #1890ff;
+  }
+}
+
+.ant-input[type='color'] {
+  width: 50px;
+  padding: 4px 8px;
+}
+
+$fs-num-list:12 13 14 15 16 18 20 22 24 26 28;
+@each $num in $fs-num-list {
+	.fs#{$num}{
+		font-size: #{$num}px;
+	}
+}
+
+@each $styleAb, $styleName in ('mar', 'margin'), ('pad', 'padding') {
+  @each $direction, $directName in ('all', 'all'), ('t', 'top'), ('r', 'right'), ('b', 'bottom'), ('l', 'left') {
+    @for $val from 1 through 100 {
+      $realVal: $val * 1;
+      @if ($direction == 'all') {
+        .#{$styleAb}-#{$realVal} {
+          #{$styleName}: $realVal + px;
+        }
+      }  @else {
+        .#{$styleAb}-#{$direction}-#{$realVal} {
+          #{$styleName}-#{$directName}: $realVal + px;
+        }
+      }
+    }
+  }
+}

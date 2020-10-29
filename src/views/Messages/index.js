@@ -3,9 +3,8 @@ import { Table, Button, Form, Select, Input, DatePicker, Modal, message } from '
 import './index.less'
 import { messagePage, dealMessage } from '@/http/hmessages'
 import { formatTime } from '@/utils/helper'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import GlobalContext from "@/views/layout/GlobalContext";
 import moment from 'moment'
 
 const FormItem = Form.Item;
@@ -153,7 +152,7 @@ class Index extends React.Component {
     getPageList(pageNum) {
         let searchData = {}
         if(this.formRef.current) {
-            searchData = lodash.cloneDeep(this.formRef.current.getFieldsValue()) 
+            searchData = cloneDeep(this.formRef.current.getFieldsValue()) 
             
             if(searchData.timeRange && searchData.timeRange.length === 2) {
                 searchData.start_time = Math.round(moment(searchData.timeRange[0].format('YYYY-MM-DD') + ' 00:00:00').valueOf() / 1000)
@@ -228,7 +227,7 @@ class Index extends React.Component {
             onOk: () => {
                 return new Promise((resolve, reject) => {
                     const rowTemp = Object.assign({}, row)
-                    let reply_info = lodash.cloneDeep(rowTemp.reply_info)
+                    let reply_info = cloneDeep(rowTemp.reply_info)
                     if(reply_info && Array.isArray(reply_info)) {
                         if(reply_info.length <= 1) {
                             reply_info = ''

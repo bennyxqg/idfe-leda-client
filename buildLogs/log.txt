@@ -1,0 +1,1 @@
+{"template":"E:\\cmwork\\kalabiqiu\\2\\official_website_frontend\\public\\index.html","templateContent":false,"filename":"index.html","hash":false,"inject":true,"compile":true,"favicon":false,"minify":"auto","cache":true,"showErrors":true,"chunks":"all","excludeChunks":[],"chunksSortMode":"auto","meta":{},"base":false,"title":"Webpack App","xhtml":false,"publicPath":""}

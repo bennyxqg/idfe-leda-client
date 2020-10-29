@@ -5,7 +5,7 @@ import Editor from '@/components/ReactQuill'
 import ImgUpload from '@/components/ImgUpload'
 import { addNews, editNews, newsCateList, newsDetail } from '@/http/hnews'
 import { getQueryVariable } from '@/utils/helper'
-import lodash from 'lodash'
+import {cloneDeep} from 'lodash'
 import './index.less'
 const { Option } = Select;
 const { TextArea } = Input;
@@ -52,7 +52,9 @@ class index extends Component {
         this.refs.editForm.setFieldsValue({
           news_categories_id: rep.data.news_categories_id,
           title: rep.data.title,
-          decription: rep.data.decription
+          decription: rep.data.decription,
+          small_url: rep.data.small_url,
+          big_url: rep.data.big_url
         })
       } else {
         message.error(rep.msg);
@@ -83,10 +85,8 @@ class index extends Component {
     console.log(value)
   }
   onFinish = (value) => {
-    const sendData = lodash.cloneDeep(value)
+    const sendData = cloneDeep(value)
     sendData.content = this.state.formParams.editorContent
-    sendData.big_url = this.state.formParams.big_url
-    sendData.small_url = this.state.formParams.small_url
     // sendData.decription = sendData.decription || ''
     if(!sendData.big_url) {
       message.error('请上传缩略图(电脑端)');
@@ -140,7 +140,6 @@ class index extends Component {
 
   // 上传成功
   uploadSuccess = (val, type) => {
-    console.log('-----uploadSuccess------', val.data.url, type)
     let data = {}
     if(type === 'pc_pic') {
       data = {
@@ -163,15 +162,6 @@ class index extends Component {
   render() {
     // const { getFieldDecorator } = this.props.form;
     const { imageUrl, newsCateData } = this.state;
-    // this.refs.editForm.setFieldsValue
-    // formParams: {
-        //   editorContent: '',
-        //   small_url: '',
-        //   big_url: '',
-        //   news_categories_id: '',
-        //   title: '',
-        //   decription: ''
-        // },
     let initialValues = {}
     return (
       <div className="shadow-radius">
@@ -184,22 +174,6 @@ class index extends Component {
           onFinish={this.onFinish}
           ref='editForm'
         >
-          {/* <Form.Item>
-            <Select
-              showSearch
-              allowClear
-              placeholder="搜索新闻标题"
-              optionFilterProp="children"
-              onChange={this.onChange}
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="tom">Tom</Option>
-            </Select>
-          </Form.Item> */}
           <Form.Item
             label="新闻栏目"
             name="news_categories_id"
@@ -244,18 +218,16 @@ class index extends Component {
           <Form.Item
             label="缩略图(电脑端)"
             name="big_url"
+            rules={[{required: true,message: '请上传缩略图(电脑端)!'}]}
           >
-            <ImgUpload 
-              imgUrl={this.state.formParams.big_url}
-              successCB={(val) => {this.uploadSuccess(val, 'pc_pic')}}></ImgUpload>
+            <ImgUpload />
           </Form.Item>
           <Form.Item
             label="缩略图(手机端)"
             name="small_url"
+            rules={[{required: true,message: '请上传缩略图(手机端)!'}]}
           >
-            <ImgUpload 
-              imgUrl={this.state.formParams.small_url}
-              successCB={(val) => {this.uploadSuccess(val, 'phone_pic')}}></ImgUpload>
+            <ImgUpload />
           </Form.Item>
           <Form.Item
             label="新闻详情"

@@ -264,16 +264,17 @@ class Index extends React.Component {
 							optionFilterProp="children"
 							onChange={this.onSearchChange}
 							onSearch={this.onSearch}
-							filterOption={(input, option) =>
-								option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-							}
+							filterOption={(input, option) => {
+								if(option.children) {
+									return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+								}
+								return false
+							}}
 						>
 							{
                 this.state.allNewsList.map(item => (
-                  <Option key={item.id} value={item.id}>
-										<span title={item.title}>
-											{item.title}
-										</span>
+                  <Option key={item.id} value={item.id} title={item.title}>
+										{item.title}
                   </Option>
                 ))
               }

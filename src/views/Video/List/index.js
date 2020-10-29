@@ -73,7 +73,6 @@ class Index extends React.Component {
 	}
 
 	handleEdit(type, row) {
-		console.log('------handleEdit-----', row)
 		this.handleEditModal(row)
 	}
 
@@ -101,6 +100,7 @@ class Index extends React.Component {
 						})
 					})
 					this.setState({'tableData': rep.data.list})
+					this.setState({'pagination': Object.assign({}, this.state.pagination, {total: 10 * rep.data.total_page})})
 				} else {
 					this.setState({'tableData': []})
 				}
@@ -114,15 +114,10 @@ class Index extends React.Component {
 	}
 
 	successCB = () => {
-		this.getPageList()
+		this.getPageList(this.state.pagination.current)
 		this.modalChange(false)
 	}
-
-	onFinish(value) {
-		console.log(value)
-	}
 	
-
 	// 删除
 	handleDel(row) {
 		Modal.confirm({
@@ -178,7 +173,6 @@ class Index extends React.Component {
 				<Form
 					ref={this.formRef}
 					className="search-form"
-					onFinish={this.onFinish}
 				>
 					<FormItem>
 						<div style={{textAlign: 'right'}}>

@@ -1,0 +1,73 @@
+.subscribePopup-wrap-item {
+  .subscribePopup-phone-select {
+    position: relative;
+    margin-bottom: 24px;
+    margin: 0 auto;
+    text-align: center;
+    .subscribePopup-phone-select-item {
+      font-size: 24px;
+      font-weight: bold;
+      width: 100px;
+      height: 100px;
+      color: #999999;
+      display: inline-block;
+      position: relative;
+      line-height: 140px;
+      text-align: center;
+      margin-left: 35px;
+      margin-right: 35px;
+      cursor: pointer;
+      &.active {
+        &:after {
+          width: 90%;
+          height: 3px;
+          position: absolute;
+          left: 5%;
+          bottom: -4px;
+          content: "";
+          background: #3A90C2;
+          transition: .2s;
+        }
+      }
+    }
+  }
+  .subscribePopup-phone-input,  .subscribePopup-code-input{
+    width: 614px;
+    height: 108px;
+    position: relative;
+    margin: 0 auto;
+    .input-text {
+      width: 518px;
+      height: 60px;
+      font-size: 16px;
+      color: #757575;
+      position: relative;
+      outline: none;
+      top: 24px;
+      vertical-align: top;
+      left: 48px;
+      display: inline-block;
+      background: white;
+      border: 0;
+      padding-left: 10px;
+    }
+    .get-code-button {
+      color: #666666;
+      font-size: 16px;
+      width: 150px;
+      height: 60px;
+      background: #e1e1e1;
+      line-height: 60px;
+      display: inline-block;
+      position: absolute;
+      text-align: center;
+      right: 24px;
+      top: 24px;
+    }
+  }
+  .subscribePopup-submit-button {
+    text-align: center;
+    margin-top: 24px;
+    cursor: pointer;
+  }
+}
