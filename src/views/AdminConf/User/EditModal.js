@@ -157,6 +157,18 @@ const EditModal = (props) => {
           <Radio value="0">停用</Radio>
         </Radio.Group>
       </Form.Item>
+      <Form.Item
+        label="手机号"
+        name="phone"
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="邮箱"
+        name="email"
+      >
+        <Input />
+      </Form.Item>
     </Form>
     <div>
       <Transfer

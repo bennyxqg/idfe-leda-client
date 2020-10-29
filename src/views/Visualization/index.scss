@@ -9,6 +9,15 @@
     }
   }
 
+  .vis-element-drag-item {
+    &:hover {
+      .hover-highlight {
+        border: 1px dotted #007ed3;
+        background-color: rgba(150, 198, 239, .3)
+      }
+    }
+  }
+
   // 中心点
   .center-dot {
     position: absolute;

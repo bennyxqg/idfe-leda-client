@@ -6,13 +6,14 @@ import BMapComp from './BMap/index'
 import FormComp from './Form/index'
 import RichTextComp from './RichText/index'
 import {Rnd} from 'react-rnd'
-import {cloneDeep} from 'lodash'
+import {cloneDeep, merge} from 'lodash'
 import { getItemIndexByKey } from '@/utils/helper'
 import VisContext from "@/views/Visualization/context/VisContext";
 import ElementBtns from './ElementBtns'
 import EditForm from '@/views/Visualization/components/Element/ListModal/index'
 import ElementContext from "@/views/Visualization/context/ElementContext";
 import FormConfModal from '@/views/Visualization/components/Element/FormList/Form/config/index'
+import classNames from 'classnames'
 
 const Index = (props) => {
   const { sectionList, setSectionList, pageKind } = useContext(VisContext)
@@ -21,6 +22,7 @@ const Index = (props) => {
   const [currentType, setCurrentType] = useState('')
   const [selectId, setSelectId] = useState('')
   const [maxZIndex, setMaxZIndex] = useState(10)
+  const [resizeId, setResizeId] = useState('')
 
 	useEffect(() => {
     let zIndexTemp = 1
@@ -69,6 +71,7 @@ const Index = (props) => {
   }
 
   const moveItem = (e,d, data) => {
+    console.log('-----moveItem------', e,d, data)
     // 位置不变时
     if(data.data.style.left === d.x && data.data.style.top === d.y) {
       return
@@ -84,16 +87,26 @@ const Index = (props) => {
       return
     }
     
+    updateSectiondata(data.elementId, {
+      style: {
+        top: position_y,
+        left: position_x
+      }
+    })
+  }
 
-		// 更新模块数据
+  // 更新模块数据
+  const updateSectiondata = (elementId, dataObj) => {
+    // 更新模块数据
 		const sectionId = props.section.sectionId
 		const sectionIndex = getItemIndexByKey(sectionList, 'sectionId', sectionId)
     const sectionListTemp = cloneDeep(sectionList)
-    
-    const elementId = data.elementId
+
     const elementIndex = getItemIndexByKey(sectionListTemp[sectionIndex].data.elements, 'elementId', elementId)
-    sectionListTemp[sectionIndex].data.elements[elementIndex].data.style.top = position_y
-    sectionListTemp[sectionIndex].data.elements[elementIndex].data.style.left = position_x
+    // sectionListTemp[sectionIndex].data.elements[elementIndex].data.style.top = position_y
+    // sectionListTemp[sectionIndex].data.elements[elementIndex].data.style.left = position_x
+
+    merge(sectionListTemp[sectionIndex].data.elements[elementIndex].data, dataObj)
 
 		setSectionList(sectionListTemp)
   }
@@ -161,6 +174,40 @@ const Index = (props) => {
     setCurrentElement(null)
   }
 
+  // 缩放停止
+  const handleResizeStop = (e,d,dom,size, position,data) => {
+    console.log('-----handleResizeStop---e---', e,d,dom,size, position,data)
+    // console.log('-----handleResizeStop---d---', d, data)
+    // setResizeId('')
+    // return
+    const directionStr = d.toLowerCase()
+    
+    const styleObj = {}
+    if(directionStr.indexOf('left') !==0 || directionStr.indexOf('top') !==0) {
+      // 绝对定位位置发生改变
+      styleObj.top = position.y
+      styleObj.left = position.x
+
+    } else{
+      // 绝对定位位置不发生改变
+    }
+
+    const domWidth = dom.getBoundingClientRect().width
+    const domHeight = dom.getBoundingClientRect().height
+
+    styleObj.width = domWidth
+    styleObj.height = domHeight - 1
+    updateSectiondata(data.elementId, {
+      style: styleObj
+    })
+  }
+
+  // 缩放开始
+  const handleResizeStart = (e,d, data) => {
+    console.log('-----handleResizeStart------', e,d, data)
+    //setResizeId(data.elementId)
+    
+  }
   
   
   const CommonComp = ({Component, data, ...restProps}) => {
@@ -179,6 +226,8 @@ const Index = (props) => {
       setSelectId(data.elementId)
     }
 
+    
+
     return (
         <Rnd 
           default={{
@@ -190,7 +239,7 @@ const Index = (props) => {
             // zIndex: selectId === data.elementId?maxZIndex:(data.data.zIndex?data.data.zIndex:1)
           }}
           bounds={pageKind === 'pc'?`.${props.section.type}-wrap-inner-${props.section.sectionId}`: '.visualization-wrap'}
-          enableResizing={false}
+          // enableResizing={false}
           // position={{
           // 	x: data.data.style.left,
           // 	y: data.data.style.top,
@@ -200,9 +249,15 @@ const Index = (props) => {
           // onDragStart={(e,d) => dragStart(e,d, data)}
           // dragHandleClassName="rnd-handler"
           // onClick={() => {selectItem(data)}}
+          onResizeStop={(e,d,g,h, p) => handleResizeStop(e,d,g,h, p,data)}
+          onResizeStart={(e,d) => handleResizeStart(e,d, data)}
         >
           <Component data={data} {...restProps}/>
-          <div className='hover-highlight'
+          <div
+            className={classNames({
+              'hover-highlight': true,
+              // 'hover': data.elementId === resizeId,
+            })}
             // onClick={() => {eventLink(data.data)}}
             // onClick={() => {selectItem(data)}}
             // onClick={() => {console.log('--data.data----', data.data, eventLink)}}
