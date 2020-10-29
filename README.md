@@ -1,68 +1,40 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 文档信息
 
-## Available Scripts
+**编撰：** benny.xu
 
-In the project directory, you can run:
+本文档由`IDFE 前端开发团队`审校发布。
 
-### `npm start`
+名称 | 产品说明
+--------|------|
+当前版本 | v1.0.2
+参与人群 | IDFE 前端开发团队
+最后更新 | 2020.10.26
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# 什么是乐搭
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+游戏官网的开发包括电脑端的开发，手机端的开发，以及活动落地页的开发，一直以来是比较头疼的事情，痛点在于需求比较繁琐，而且大多是重复技术难度较低的劳动。在此之前尝试做过一个可配置后台，但是因为其灵活性较低，可配置项较少，不支持seo等原因，不能很好的解决问题，在此背景下就产生了 **乐搭** 这个产品。
 
-### `npm test`
+**帮助文档** http://frontend.idreamsky.com/idfe/#/5?page_id=51
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# 乐搭的价值
 
-### `npm run build`
+* 方便运营按照自身的需求，自主搭建游戏官网，游戏活动页面；
+* 降低每个项目的开发投入成本；
+* 提高项目的迭代效率，以及页面调整的便捷性；
+* 形成统一的设计语言和UI视觉风格；
+* 提供一套的可视化配置官网管理后台。
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+以《金翎奖》为例，单独开发一个页面需要0.5天的时间，另外还要部署和发布。而通过乐搭，只需要30分钟的时间即可完成搭建和发布的操作，重要的是不需要开发介入，将开放同事完全释放出来。
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+# 当前进度
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+当前版本```v1.0.2```, 已经完成pc端官网模板开发，移动官网模板的开发，并且实现了页面自定义的功能，满足落地页的需求。
 
-### `npm run eject`
+# 案例说明
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1. 《金翎奖》投票页面 https://leda.uu.cc/news_detail
+2. 《创量》官网 *（未发布）*
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# 未来的规划
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+将乐搭推向业务场景，在业务场景中不断的验证，针对业务的实际需求不断的模块扩展，完善产品。
