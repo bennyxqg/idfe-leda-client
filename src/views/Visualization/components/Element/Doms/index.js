@@ -176,7 +176,7 @@ const Index = (props) => {
 
   // 缩放停止
   const handleResizeStop = (e,d,dom,size, position,data) => {
-    console.log('-----handleResizeStop---e-2 1 --', e,d,dom,size, position,data)
+    console.log('-----handleResizeStop---e-2-1 --', e,d,dom,size, position,data)
     // console.log('-----handleResizeStop---d---', d, data)
     // setResizeId('')
     // return
