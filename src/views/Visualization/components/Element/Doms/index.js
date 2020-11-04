@@ -14,6 +14,8 @@ import EditForm from '@/views/Visualization/components/Element/ListModal/index'
 import ElementContext from "@/views/Visualization/context/ElementContext";
 import FormConfModal from '@/views/Visualization/components/Element/FormList/Form/config/index'
 import classNames from 'classnames'
+import { animationElementList } from "@/views/Visualization/utils/cacheData";
+import AnimationForm from '@/views/Visualization/components/Element/AnimationForm/index'
 
 const Index = (props) => {
   const { sectionList, setSectionList, pageKind } = useContext(VisContext)
@@ -22,7 +24,6 @@ const Index = (props) => {
   const [currentType, setCurrentType] = useState('')
   const [selectId, setSelectId] = useState('')
   const [maxZIndex, setMaxZIndex] = useState(10)
-  const [resizeId, setResizeId] = useState('')
 
 	useEffect(() => {
     let zIndexTemp = 1
@@ -37,6 +38,8 @@ const Index = (props) => {
       setMaxZIndex(zIndexTemp + 1)
     }
   }, []);
+
+  
   
   const showComp = (item, index) => {
     if(!props.section) {
@@ -64,14 +67,13 @@ const Index = (props) => {
         <CommonComp 
           key={index}
           Component={targetComp}
-          data={item}/>
+          data={item}/> 
       )
     }
     return null
   }
 
   const moveItem = (e,d, data) => {
-    console.log('-----moveItem------', e,d, data)
     // 位置不变时
     if(data.data.style.left === d.x && data.data.style.top === d.y) {
       return
@@ -86,7 +88,11 @@ const Index = (props) => {
     } else {
       return
     }
-    
+    // console.log('---animationElementList-111--', animationElementList)
+    // if(animationElementList.indexOf(data.elementId) !== -1) {
+    //   animationElementList.splice(animationElementList.indexOf(data.elementId), 1)
+    // }
+    // console.log('---animationElementList-222--', animationElementList)
     updateSectiondata(data.elementId, {
       style: {
         top: position_y,
@@ -150,6 +156,11 @@ const Index = (props) => {
           />
         }
       }
+      if(params.type === 'animation') {
+        return <AnimationForm 
+          {...params}
+        />
+      }
     }
     return null
   }
@@ -176,10 +187,6 @@ const Index = (props) => {
 
   // 缩放停止
   const handleResizeStop = (e,d,dom,size, position,data) => {
-    console.log('-----handleResizeStop-2--e-2-1 --', e,d,dom,size, position,data)
-    // console.log('-----handleResizeStop---d---', d, data)
-    // setResizeId('')
-    // return
     const directionStr = d.toLowerCase()
     
     const styleObj = {}
@@ -202,15 +209,24 @@ const Index = (props) => {
     })
   }
 
-  // 缩放开始
-  const handleResizeStart = (e,d, data) => {
-    console.log('-----handleResizeStart------', e,d, data)
-    //setResizeId(data.elementId)
-    
-  }
-  
   
   const CommonComp = ({Component, data, ...restProps}) => {
+    useEffect(() => {
+    }, []);
+
+    let isHidden = false
+
+    let animationJson = ''
+    if(data.data.animation) {
+      animationJson = JSON.stringify(data.data.animation)
+
+      if(data.data.animation.type !== 'none') {
+        if(animationElementList.indexOf(data.elementId) === -1) {
+          isHidden = true
+        }
+      }
+    }
+
     const selectItem = (data) => {
       // if(selectId && selectId === data.elementId) {
       //   setSelectId('')
@@ -250,9 +266,20 @@ const Index = (props) => {
           // dragHandleClassName="rnd-handler"
           // onClick={() => {selectItem(data)}}
           onResizeStop={(e,d,g,h, p) => handleResizeStop(e,d,g,h, p,data)}
-          onResizeStart={(e,d) => handleResizeStart(e,d, data)}
         >
-          <Component data={data} {...restProps}/>
+          {/* <VelocityComponent animation={{ opacity:  1}} duration={500}>
+            <Component data={data} {...restProps}/>
+          </VelocityComponent> */}
+          <div className={`el-wrapper el-wrapper-animate el-wrapper-${data.elementId}`}
+            // style={{position: 'absolute'}}
+            style={{position: 'relative',
+              visibility: isHidden? 'hidden': 'inherit'
+            }}
+            data-id={`${data.elementId}`}
+            data-animation-json={`${animationJson}`}
+          >
+            <Component data={data} {...restProps}/>
+          </div>
           <div
             className={classNames({
               'hover-highlight': true,
@@ -286,6 +313,7 @@ const Index = (props) => {
                   handleDel={() => {handleBtns('del', data)}}
                   handleEdit={() => {handleBtns('edit', data)}}
                   handleConfig={() => {handleBtns('config', data)}}
+                  handleAnimation={() => {handleBtns('animation', data)}}
                 />
               </div>
             }

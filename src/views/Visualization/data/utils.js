@@ -43,3 +43,16 @@ export const eventData = () => {
     }
   }
 }
+
+export const animationData = () => {
+  return {
+    animation: { // 动画信息
+      type: 'none', // none: 无  scale: 缩放 slide: 滑动  shake: 摇晃 bounce: 跳动 flash:闪烁  fadeIn: 淡入
+      duration: 1, // 持续
+      delay: 0, // 延迟
+      loop: false, // 循环
+      direction: 'left', // 切入方向 slide
+      // triggerType: 'scroll', // 触发类型 scroll：滚动  hover：悬停
+    }
+  }
+}

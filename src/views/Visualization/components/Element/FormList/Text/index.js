@@ -1,8 +1,6 @@
-import React, {useState, useEffect, useRef, useImperativeHandle} from "react";
-import { Modal, Button, Form, Input, message, InputNumber, Select, Radio, Row, Col, Collapse } from 'antd';
-import ImgUpload from '@/components/ImgUpload'
+import React, {useEffect, useImperativeHandle} from "react";
+import { Form, Input, InputNumber, Radio, Row, Col } from 'antd';
 import {cloneDeep} from 'lodash'
-import FontStyleForm from '@/views/Visualization/components/Common/FontStyleForm/index'
 
 const { TextArea } = Input;
 

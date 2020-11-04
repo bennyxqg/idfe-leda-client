@@ -1,5 +1,5 @@
 import { randomCode, addOrEditForListItem } from '@/utils/helper'
-import { eventData } from './utils'
+import { eventData, animationData } from './utils'
 
 export const elementData = () => {
   return {
@@ -13,7 +13,8 @@ export const elementData = () => {
         left: 30,
         align: 'left'
       },
-      ...eventData()
+      ...eventData(),
+      ...animationData()
     }}, 
     'videoElement': {type: 'videoElement', label: '视频', data: {
       zIndex: 1,
@@ -25,6 +26,7 @@ export const elementData = () => {
         left: 30,
         align: 'left'
       },
+      ...animationData()
     }}, 
     'textElement': {type: 'textElement', label: '文字', data: {
       text: '请修改文字',
@@ -43,7 +45,8 @@ export const elementData = () => {
           letterSpacing: '' // normal / length
         }
       },
-      ...eventData()
+      ...eventData(),
+      ...animationData()
     }}, 
     'bMapElement': {type: 'bMapElement', label: '百度地图', data: {
       zIndex: 1,
@@ -59,7 +62,8 @@ export const elementData = () => {
         height: 300,
         top: 10,
         left: 30,
-      }
+      },
+      ...animationData()
     }},
     'formElement': {type: 'formElement', label: '表单', data: {
       zIndex: 1,
@@ -109,7 +113,8 @@ export const elementData = () => {
         height: 300,
         top: 10,
         left: 30,
-      }
+      },
+      ...animationData()
     }},
     richTextElement: {type: 'richTextElement', label: '富文本', data: {
       text: '请修改富文本',
@@ -120,7 +125,8 @@ export const elementData = () => {
         top: 10,
         left: 30,
         align: 'left'
-      }
+      },
+      ...animationData()
     }}, 
   }
 } 

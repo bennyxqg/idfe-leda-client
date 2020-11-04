@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { SettingOutlined, DeleteOutlined, DragOutlined, DatabaseOutlined} from '@ant-design/icons';
+import { SettingOutlined, DeleteOutlined, SendOutlined, DatabaseOutlined} from '@ant-design/icons';
 
 const SectionBtns = (props) => {
 
@@ -17,6 +17,10 @@ const SectionBtns = (props) => {
 
   const handleConfig = () => {
     props.handleConfig()
+  }
+
+  const handleAnimation = () => {
+    props.handleAnimation()
   }
 
 	return (
@@ -40,6 +44,11 @@ const SectionBtns = (props) => {
             </span>
           )
         }
+        <span
+          title='编辑动画'
+          onClick={() => {handleAnimation()}}>
+          <SendOutlined />
+        </span>
         <span
           title='删除元素'
           onClick={() => {handleDel()}}>
