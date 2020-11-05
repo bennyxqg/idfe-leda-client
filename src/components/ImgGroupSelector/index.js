@@ -54,9 +54,14 @@ const Index = React.forwardRef((props, ref) => {
       align: 'center',
       width: 200,
       render: (text, record, index) => (
-        <div className="btns">
-            <Button size="small" onClick={() => { handleEdit('edit', record) }} type="primary">编辑</Button>
-            <Button size="small" onClick={() => { handleDel(record, index) }} danger type="primary">删除</Button>
+        <div>
+            <Button className='mar-r-2' size="small" onClick={() => { handleEdit('edit', record) }} type="primary">编辑</Button>
+            <Button className='mar-r-2' size="small" onClick={() => { handleDel(record, index) }} danger type="primary">删除</Button>
+            {
+              props.showEleBtn && (
+                <Button size="small" onClick={() => { handleElement(record, index) }}>元素</Button>
+              )
+            }
         </div>
       )
     },
@@ -148,7 +153,13 @@ const Index = React.forwardRef((props, ref) => {
     setAllPic(imgList)
     changeGroup(currentGroup, imgList)
     setEditModalVisible(false)
-	}
+  }
+  
+  const handleElement = (item) => {
+    if(props.handleElement) {
+      props.handleElement(item)
+    }
+  }
 
 
   return <div ref={ref}>

@@ -3,11 +3,13 @@ import { Modal, Button, Form, Input, message } from 'antd';
 import ImgGroupSelector from '@/components/ImgGroupSelector/index'
 import {cloneDeep} from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
+import ElementModal from '@/views/Visualization/components/Element/ListModal/index'
 
 const EditModal = (props) => {
   const { chooseSection, setChooseSection } = useContext(VisContext)
 
   const [modalVisible] = useState(true)
+  const [showElementModal, setShowElementModal] = useState(false)
 
   const Img = useRef();
 
@@ -42,6 +44,12 @@ const EditModal = (props) => {
     }
   }
 
+  // 处理元素
+  const handleElement = () => {
+    console.log('----handleElement--------')
+    setShowElementModal(true)
+  }
+
   return <Modal
     maskClosable={false}
     title={'编辑轮播图数据'}
@@ -56,7 +64,15 @@ const EditModal = (props) => {
       <ImgGroupSelector 
         ref={Img}
         imgData={props.data.data.imgs}
+        showEleBtn={true}
+        handleElement={(item) => {handleElement(item)}}
       />
+      {/* {
+        showElementModal && (
+          <ElementModal />
+        )
+      } */}
+
     </div>
   </Modal>
 

@@ -1,11 +1,19 @@
 import React, {useEffect} from "react";
-import { SettingOutlined, DeleteOutlined, SendOutlined, DatabaseOutlined} from '@ant-design/icons';
+import { SettingOutlined, DeleteOutlined, 
+  SendOutlined, DatabaseOutlined, 
+  LinkOutlined, DisconnectOutlined } from '@ant-design/icons';
 
 const SectionBtns = (props) => {
 
   useEffect(() => {
     
   }, []);
+
+  let hasParent = false
+  console.log('----props.parent-----', props.parent)
+  if(props.parent) {
+    hasParent = true
+  }
 
   const handleDel = () => {
     props.handleDel()
@@ -23,6 +31,12 @@ const SectionBtns = (props) => {
     props.handleAnimation()
   }
 
+  // 依附于轮播图上
+  const handleAttach = () => {
+    console.log('------props.section-------', props.section)
+    props.handleAttach()
+  }
+
 	return (
     <div>
       <div className="vis-section-item-btns vis-element-item-btns">
@@ -30,6 +44,21 @@ const SectionBtns = (props) => {
           className={'rnd-handler'}>
           <DragOutlined />
         </span> */}
+        {
+          props.section.type === 'carouselSection' && (
+            <span
+              title={hasParent?'取消依附':'依附'}
+              onClick={() => {handleAttach()}}>
+                {
+                  hasParent? (
+                    <DisconnectOutlined />
+                  ):(
+                    <LinkOutlined />
+                  )
+                }
+            </span>
+          )
+        }
         <span
           title='修改元素'
           onClick={() => {handleEdit()}}>
