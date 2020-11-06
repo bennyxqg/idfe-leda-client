@@ -128,11 +128,13 @@ const Index = (props) => {
       }
       elementItemTemp = merge(original_element, elementItemTemp)
       elementItemTemp.elementId = `element_${randomCode(8)}`
-      if(chooseSection.data.elements && chooseSection.data.elements.length) {
-        chooseSection.data.elements.push(elementItemTemp)
+      const chooseSectionTemp = cloneDeep(chooseSection)
+      if(chooseSectionTemp.data.elements && chooseSectionTemp.data.elements.length) {
+        chooseSectionTemp.data.elements.push(elementItemTemp)
       } else {
-        chooseSection.data.elements = [elementItemTemp]
+        chooseSectionTemp.data.elements = [elementItemTemp]
       }
+      setChooseSection(chooseSectionTemp)
       props.modalChange(false)
     }
     

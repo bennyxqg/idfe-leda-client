@@ -239,8 +239,23 @@ const Index = (props) => {
     const sectionListTemp = cloneDeep(sectionList)
     
     const elementId = currentElement.elementId
-    const elementIndex = getItemIndexByKey(sectionListTemp[sectionIndex].data.elements, 'elementId', elementId)
-    sectionListTemp[sectionIndex].data.elements[elementIndex].data = data
+    if(currentElement.parent === 'carousel') {
+      let currentIndex = 0
+      if(carouselListIndexMap[sectionId]) {
+        currentIndex = carouselListIndexMap[sectionId]
+      }
+      const elementList = sectionListTemp[sectionIndex].data.imgs.elements[`index_${currentIndex}`]
+      const elementIndex = getItemIndexByKey(elementList, 'elementId', elementId)
+      if(elementIndex > -1) {
+        elementList[elementIndex].data = data
+      }
+    } else {
+      const elementIndex = getItemIndexByKey(sectionListTemp[sectionIndex].data.elements, 'elementId', elementId)
+      if(elementIndex > -1) {
+        sectionListTemp[sectionIndex].data.elements[elementIndex].data = data
+      }
+    }
+    
     setSectionList(sectionListTemp)
     editFormModalChange()
   }

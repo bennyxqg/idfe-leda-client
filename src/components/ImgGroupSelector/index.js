@@ -1,11 +1,8 @@
 import React, {useState, useEffect, useRef, useContext, useImperativeHandle} from "react";
 import { Modal, Button, Form, Input, message, Select, Table } from 'antd';
 import { addPic, editPic, delPic } from '@/http/hcarousel'
-import ImgUpload from '@/components/ImgUpload'
 import EditModal from './EditModal'
 import GroupModal from './GroupModal'
-import { randomCode, getItemIndexByKey } from '@/utils/helper'
-import { groupPage } from '@/http/hcarousel'
 import {cloneDeep} from 'lodash'
 import VisContext from "@/views/Visualization/context/VisContext";
 import { getAllCarouselByGroup } from '@/utils/data'
@@ -57,11 +54,6 @@ const Index = React.forwardRef((props, ref) => {
         <div>
             <Button className='mar-r-2' size="small" onClick={() => { handleEdit('edit', record) }} type="primary">编辑</Button>
             <Button className='mar-r-2' size="small" onClick={() => { handleDel(record, index) }} danger type="primary">删除</Button>
-            {
-              props.showEleBtn && (
-                <Button size="small" onClick={() => { handleElement(record, index) }}>元素</Button>
-              )
-            }
         </div>
       )
     },
@@ -154,12 +146,7 @@ const Index = React.forwardRef((props, ref) => {
     changeGroup(currentGroup, imgList)
     setEditModalVisible(false)
   }
-  
-  const handleElement = (item) => {
-    if(props.handleElement) {
-      props.handleElement(item)
-    }
-  }
+
 
 
   return <div ref={ref}>
