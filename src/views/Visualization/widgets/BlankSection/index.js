@@ -9,6 +9,7 @@ const sectionName = 'blankSection'
 const Index = (props) => {
 	const [data, setData] = useState(null)
 	const [styleData, setStyleData] = useState({})
+	const [videoBg, setVideoBg] = useState('')
 
 	useEffect(() => {
 		setData(props.data.data)
@@ -35,7 +36,8 @@ const Index = (props) => {
 				}
 			}
 			if(tempData.bg.bgType == 3 && tempData.bg.bgVideo) {
-				result.backgroundImage = `url(${tempData.bg.bgVideo})` 
+				// result.backgroundImage = `url(${tempData.bg.bgVideo})` 
+				setVideoBg(tempData.bg.bgVideo)
 			}
 		}
 		setStyleData(result)
@@ -49,6 +51,28 @@ const Index = (props) => {
 						<div className={`${sectionName}-wrap-inner ${sectionName}-wrap-inner-${props.data.sectionId}`} 
 							>
 							<div className={`${sectionName}-wrap-item`} style={styleData}>
+								{
+									videoBg && (
+										<div
+											style={{
+												textAlign: 'center',
+												overflow: "hidden",
+												position: 'relative',
+												height: '100%'
+											}}
+											>
+											<video 
+												style={{
+													position: 'absolute',
+													left: '50%',
+													// marginLeft: '-50%'
+													transform: 'translate(-50%)'
+												}}
+												autoPlay loop muted src={videoBg}>
+											</video>
+										</div>
+									)
+								}
 								<div 
 									// 以中心点为参照
 									className='center-dot'
