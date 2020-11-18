@@ -12,6 +12,8 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
+
+
 console.log('--buildTime--', process.env.buildTime)
 // console.log('--publicPath--', process.env.publicPath)
 // setTimeout(() => {

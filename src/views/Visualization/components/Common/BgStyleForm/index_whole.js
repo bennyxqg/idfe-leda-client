@@ -94,11 +94,7 @@ const Index = React.forwardRef((props, ref) => {
         <Form.Item
           name='bgVideo'
         >
-          <CommonUpload 
-            className='mar-l-20'
-            btnLabel='上传视频'
-            placeholder='请输入视频地址'
-          />
+          <Input placeholder='请输入视频地址' />
         </Form.Item>
       }
       </Form>

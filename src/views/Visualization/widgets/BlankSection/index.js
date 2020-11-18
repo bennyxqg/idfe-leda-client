@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { Button } from 'antd';
 import ElementDoms from '@/views/Visualization/components/Element/Doms/index'
+import VideoBgComp from '@/views/Visualization/components/Common/VideoBgComp/index'
 
 import './index.scss'
 
@@ -34,9 +35,6 @@ const Index = (props) => {
 					result.backgroundSize = `${tempData.width}px ${tempData.height}px`
 				}
 			}
-			if(tempData.bg.bgType == 3 && tempData.bg.bgVideo) {
-				result.backgroundImage = `url(${tempData.bg.bgVideo})` 
-			}
 		}
 		setStyleData(result)
 	}
@@ -49,6 +47,9 @@ const Index = (props) => {
 						<div className={`${sectionName}-wrap-inner ${sectionName}-wrap-inner-${props.data.sectionId}`} 
 							>
 							<div className={`${sectionName}-wrap-item`} style={styleData}>
+								<VideoBgComp
+									bg={data.style.bg}
+								/>
 								<div 
 									// 以中心点为参照
 									className='center-dot'

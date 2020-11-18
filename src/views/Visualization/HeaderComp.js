@@ -120,6 +120,11 @@ const Index = memo((props) => {
 					delete item.data.newsList
 				}
 			}
+			if(item.type === 'carouselSection') { // 处理轮播的提交数据
+				if(item.data.imgs && item.data.imgs.list) {
+					delete item.data.imgs.list
+				}
+			}
 		});
 		const sendData = {
 			id: pageItem.id

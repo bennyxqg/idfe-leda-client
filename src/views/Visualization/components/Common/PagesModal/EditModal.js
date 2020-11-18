@@ -71,37 +71,50 @@ const Index = (props, ref) => {
         initialValues={{}}
         form={form}
       >
-      <Form.Item
-        label="页面名称"
-        name='name'
-        rules={[{ required: true, message: '请输入页面名称' }]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="页面标识"
-        name='identifer'
-        rules={[{ required: true, message: '请输入页面标识' }]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="页面类型"
-        name='type'
-        rules={[{ required: true, message: '请选择页面类型' }]}
-      >
-        <Radio.Group disabled={!!data.id}>
-          <Radio value="0">PC端</Radio>
-          <Radio value="3">移动端</Radio>
-        </Radio.Group>
-      </Form.Item>
-      <Form.Item
-        label="页面描述"
-        name='desc'
-        rules={[{ required: true, message: '请输入页面描述' }]}
-      >
-        <Input />
-      </Form.Item>
+        <Form.Item
+          label="页面名称"
+          name='name'
+          rules={[{ required: true, message: '请输入页面名称' }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="页面标识"
+          name='identifer'
+          rules={[{ required: true, message: '请输入页面标识' }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="页面类型"
+          name='type'
+          rules={[{ required: true, message: '请选择页面类型' }]}
+        >
+          <Radio.Group disabled={!!data.id}>
+            <Radio value="0">PC端</Radio>
+            <Radio value="3">移动端</Radio>
+          </Radio.Group>
+        </Form.Item>
+        <Form.Item
+          label="页面描述"
+          name='desc'
+          rules={[{ required: true, message: '请输入页面描述' }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="页面标题"
+          name='title'
+          placeholder='234'
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="页面关键词"
+          name='keywords'
+        >
+          <Input />
+        </Form.Item>
       </Form>
     </Modal>
   )

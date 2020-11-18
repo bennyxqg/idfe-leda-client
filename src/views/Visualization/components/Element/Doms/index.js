@@ -14,6 +14,10 @@ import EditForm from '@/views/Visualization/components/Element/ListModal/index'
 import ElementContext from "@/views/Visualization/context/ElementContext";
 import FormConfModal from '@/views/Visualization/components/Element/FormList/Form/config/index'
 import classNames from 'classnames'
+import { animationElementList } from "@/views/Visualization/utils/cacheData";
+import AnimationForm from '@/views/Visualization/components/Element/AnimationForm/index'
+import { carouselListIndexMap } from "@/views/Visualization/utils/cacheData";
+import { message, Modal } from 'antd';
 
 const Index = (props) => {
   const { sectionList, setSectionList, pageKind } = useContext(VisContext)
@@ -22,7 +26,6 @@ const Index = (props) => {
   const [currentType, setCurrentType] = useState('')
   const [selectId, setSelectId] = useState('')
   const [maxZIndex, setMaxZIndex] = useState(10)
-  const [resizeId, setResizeId] = useState('')
 
 	useEffect(() => {
     let zIndexTemp = 1
@@ -37,6 +40,8 @@ const Index = (props) => {
       setMaxZIndex(zIndexTemp + 1)
     }
   }, []);
+
+  
   
   const showComp = (item, index) => {
     if(!props.section) {
@@ -64,14 +69,13 @@ const Index = (props) => {
         <CommonComp 
           key={index}
           Component={targetComp}
-          data={item}/>
+          data={item}/> 
       )
     }
     return null
   }
 
   const moveItem = (e,d, data) => {
-    console.log('-----moveItem------', e,d, data)
     // 位置不变时
     if(data.data.style.left === d.x && data.data.style.top === d.y) {
       return
@@ -86,8 +90,12 @@ const Index = (props) => {
     } else {
       return
     }
-    
-    updateSectiondata(data.elementId, {
+    // console.log('---animationElementList-111--', animationElementList)
+    // if(animationElementList.indexOf(data.elementId) !== -1) {
+    //   animationElementList.splice(animationElementList.indexOf(data.elementId), 1)
+    // }
+    // console.log('---animationElementList-222--', animationElementList)
+    updateSectiondata(data, {
       style: {
         top: position_y,
         left: position_x
@@ -96,34 +104,72 @@ const Index = (props) => {
   }
 
   // 更新模块数据
-  const updateSectiondata = (elementId, dataObj) => {
+  const updateSectiondata = (data, dataObj) => {
+    const elementId = data.elementId
     // 更新模块数据
-		const sectionId = props.section.sectionId
-		const sectionIndex = getItemIndexByKey(sectionList, 'sectionId', sectionId)
+    const sectionId = props.section.sectionId
+    const sectionIndex = getItemIndexByKey(sectionList, 'sectionId', sectionId)
     const sectionListTemp = cloneDeep(sectionList)
 
-    const elementIndex = getItemIndexByKey(sectionListTemp[sectionIndex].data.elements, 'elementId', elementId)
-    // sectionListTemp[sectionIndex].data.elements[elementIndex].data.style.top = position_y
-    // sectionListTemp[sectionIndex].data.elements[elementIndex].data.style.left = position_x
-
-    merge(sectionListTemp[sectionIndex].data.elements[elementIndex].data, dataObj)
-
-		setSectionList(sectionListTemp)
+    if(data.parent === 'carousel') {
+      let currentIndex = 0
+      if(carouselListIndexMap[sectionId]) {
+        currentIndex = carouselListIndexMap[sectionId]
+      }
+      const elementList = sectionListTemp[sectionIndex].data.imgs.elements[`index_${currentIndex}`]
+      const elementIndex = getItemIndexByKey(elementList, 'elementId', elementId)
+      merge(elementList[elementIndex].data, dataObj)
+    } else {
+      const elementIndex = getItemIndexByKey(sectionListTemp[sectionIndex].data.elements, 'elementId', elementId)
+      merge(sectionListTemp[sectionIndex].data.elements[elementIndex].data, dataObj)
+    }
+    setSectionList(sectionListTemp)
   }
   
   // 右上角按钮事件
   const handleBtns = (type, data, opts) =>{
     if(type === 'del') { // 删除
-      // 更新模块数据
-      const sectionId = props.section.sectionId
-      const sectionIndex = getItemIndexByKey(sectionList, 'sectionId', sectionId)
-      const sectionListTemp = cloneDeep(sectionList)
-      
-      const elementId = data.elementId
-      const elementIndex = getItemIndexByKey(sectionListTemp[sectionIndex].data.elements, 'elementId', elementId)
-      sectionListTemp[sectionIndex].data.elements.splice(elementIndex, 1)
-      
+      const sectionListTemp = delElement(data)
       setSectionList(sectionListTemp)
+    } else if(type === 'attach') { // 依附轮播图
+      console.log('----data-------', data)
+      const elementTemp = cloneDeep(data)
+      let contentStr = '确认依附在当前轮播图上吗?'
+      if(elementTemp.parent === 'carousel') {
+        contentStr = '取消依附吗?'
+      }
+
+      Modal.confirm({
+        content: contentStr,
+        onOk: () => {
+          const sectionId = props.section.sectionId
+          const sectionIndex = getItemIndexByKey(sectionList, 'sectionId', sectionId)
+          const sectionListTemp = delElement(data)
+          const sectionTemp = sectionListTemp[sectionIndex]
+          if(elementTemp.parent === 'carousel') { // 取消依附
+            elementTemp.parent = ''
+            sectionListTemp[sectionIndex].data.elements.push(elementTemp)
+          } else {
+            elementTemp.parent = 'carousel'
+            // 加入轮播图元素
+            if(sectionTemp.data.imgs) {
+              let imgIndex = 0
+              if(carouselListIndexMap[`${sectionId}`]) {
+                imgIndex = carouselListIndexMap[`${sectionId}`]
+              }
+              console.log('----imgIndex------', imgIndex, carouselListIndexMap)
+              if(!sectionTemp.data.imgs.elements) {
+                sectionTemp.data.imgs.elements = {}
+              }
+              if(!sectionTemp.data.imgs.elements[`index_${imgIndex}`]) {
+                sectionTemp.data.imgs.elements[`index_${imgIndex}`] = []
+              }
+              sectionTemp.data.imgs.elements[`index_${imgIndex}`].push(elementTemp)
+            }
+          }
+          setSectionList(sectionListTemp)
+        }
+      })
     } else {
       if(type === 'edit') { // 编辑
         
@@ -133,6 +179,32 @@ const Index = (props) => {
       setCurrentType(type)
       setShowEditModal(true)
     }
+  }
+
+  const delElement = (data) => {
+    // 更新模块数据
+    const sectionId = props.section.sectionId
+    const sectionIndex = getItemIndexByKey(sectionList, 'sectionId', sectionId)
+    const sectionListTemp = cloneDeep(sectionList)
+    const elementId = data.elementId
+
+    if(data.parent === 'carousel') {
+      if(props.section.data.imgs.elements) {
+        let currentIndex = 0
+        if(carouselListIndexMap[sectionId]) {
+          currentIndex = carouselListIndexMap[sectionId]
+        }
+        const elementList = sectionListTemp[sectionIndex].data.imgs.elements[`index_${currentIndex}`]
+        const elementIndex = getItemIndexByKey(elementList, 'elementId', elementId)
+        elementList.splice(elementIndex, 1)
+      }
+    } else {
+      
+      const elementIndex = getItemIndexByKey(sectionListTemp[sectionIndex].data.elements, 'elementId', elementId)
+      sectionListTemp[sectionIndex].data.elements.splice(elementIndex, 1)
+    }
+    return sectionListTemp
+    
   }
 
   // 显示配置弹窗
@@ -150,6 +222,11 @@ const Index = (props) => {
           />
         }
       }
+      if(params.type === 'animation') {
+        return <AnimationForm 
+          {...params}
+        />
+      }
     }
     return null
   }
@@ -162,8 +239,23 @@ const Index = (props) => {
     const sectionListTemp = cloneDeep(sectionList)
     
     const elementId = currentElement.elementId
-    const elementIndex = getItemIndexByKey(sectionListTemp[sectionIndex].data.elements, 'elementId', elementId)
-    sectionListTemp[sectionIndex].data.elements[elementIndex].data = data
+    if(currentElement.parent === 'carousel') {
+      let currentIndex = 0
+      if(carouselListIndexMap[sectionId]) {
+        currentIndex = carouselListIndexMap[sectionId]
+      }
+      const elementList = sectionListTemp[sectionIndex].data.imgs.elements[`index_${currentIndex}`]
+      const elementIndex = getItemIndexByKey(elementList, 'elementId', elementId)
+      if(elementIndex > -1) {
+        elementList[elementIndex].data = data
+      }
+    } else {
+      const elementIndex = getItemIndexByKey(sectionListTemp[sectionIndex].data.elements, 'elementId', elementId)
+      if(elementIndex > -1) {
+        sectionListTemp[sectionIndex].data.elements[elementIndex].data = data
+      }
+    }
+    
     setSectionList(sectionListTemp)
     editFormModalChange()
   }
@@ -176,10 +268,6 @@ const Index = (props) => {
 
   // 缩放停止
   const handleResizeStop = (e,d,dom,size, position,data) => {
-    console.log('-----handleResizeStop-2--e-2-1 --', e,d,dom,size, position,data)
-    // console.log('-----handleResizeStop---d---', d, data)
-    // setResizeId('')
-    // return
     const directionStr = d.toLowerCase()
     
     const styleObj = {}
@@ -197,20 +285,29 @@ const Index = (props) => {
 
     styleObj.width = domWidth
     styleObj.height = domHeight - 1
-    updateSectiondata(data.elementId, {
+    updateSectiondata(data, {
       style: styleObj
     })
   }
 
-  // 缩放开始
-  const handleResizeStart = (e,d, data) => {
-    console.log('-----handleResizeStart------', e,d, data)
-    //setResizeId(data.elementId)
-    
-  }
-  
   
   const CommonComp = ({Component, data, ...restProps}) => {
+    useEffect(() => {
+    }, []);
+
+    let isHidden = false
+
+    let animationJson = ''
+    if(data.data.animation) {
+      animationJson = JSON.stringify(data.data.animation)
+
+      if(data.data.animation.type !== 'none') {
+        if(animationElementList.indexOf(data.elementId) === -1) {
+          isHidden = true
+        }
+      }
+    }
+
     const selectItem = (data) => {
       // if(selectId && selectId === data.elementId) {
       //   setSelectId('')
@@ -235,6 +332,7 @@ const Index = (props) => {
             y: data.data.style.top,
           }}
           style={{
+            zIndex: 1
             // zIndex: selectId === data.elementId?2:1
             // zIndex: selectId === data.elementId?maxZIndex:(data.data.zIndex?data.data.zIndex:1)
           }}
@@ -250,9 +348,20 @@ const Index = (props) => {
           // dragHandleClassName="rnd-handler"
           // onClick={() => {selectItem(data)}}
           onResizeStop={(e,d,g,h, p) => handleResizeStop(e,d,g,h, p,data)}
-          onResizeStart={(e,d) => handleResizeStart(e,d, data)}
         >
-          <Component data={data} {...restProps}/>
+          {/* <VelocityComponent animation={{ opacity:  1}} duration={500}>
+            <Component data={data} {...restProps}/>
+          </VelocityComponent> */}
+          <div className={`el-wrapper el-wrapper-animate el-wrapper-${data.elementId}`}
+            // style={{position: 'absolute'}}
+            style={{position: 'relative',
+              visibility: isHidden? 'hidden': 'inherit'
+            }}
+            data-id={`${data.elementId}`}
+            data-animation-json={`${animationJson}`}
+          >
+            <Component data={data} {...restProps}/>
+          </div>
           <div
             className={classNames({
               'hover-highlight': true,
@@ -282,10 +391,14 @@ const Index = (props) => {
               // )
               <div className={'element-btns-wrap'}>
                 <ElementBtns 
+                  section={props.section}
                   type={data.type}
+                  parent={data.parent}
                   handleDel={() => {handleBtns('del', data)}}
                   handleEdit={() => {handleBtns('edit', data)}}
                   handleConfig={() => {handleBtns('config', data)}}
+                  handleAnimation={() => {handleBtns('animation', data)}}
+                  handleAttach={() => {handleBtns('attach', data)}}
                 />
               </div>
             }

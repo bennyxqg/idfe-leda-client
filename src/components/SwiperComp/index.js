@@ -4,6 +4,7 @@ import Swiper from "swiper"
 import classNames from 'classnames' 
 import {randomCode} from '@/utils/helper'
 import {isEqual} from "lodash";
+import { carouselListIndexMap } from "@/views/Visualization/utils/cacheData";
 import './index.scss'
 
 const Index = (props) => {
@@ -64,6 +65,7 @@ const Index = (props) => {
 	// }, [props.style]);
 
 	const init = (domChange) => {
+		console.log('--init-----sectionId----', props.sectionId)
 		// 1:普通， 2：卡片
 		const type = props.style.type
 		const opts = {
@@ -73,8 +75,21 @@ const Index = (props) => {
 			observeSlideChildren:true,
 			onSlideChangeEnd: function(swiper){ 
 				swiper.update();  
-				swiper.startAutoplay();
+				// swiper.startAutoplay();
 				swiper.reLoop();  
+			},
+			on:{
+				slideChange: function(){
+					let activeIndex = this.activeIndex - 1
+					if(data.list.length === activeIndex) {
+						activeIndex = 0
+					}
+					if(activeIndex === -1) {
+						activeIndex = data.list.length - 1
+					}
+					
+					carouselListIndexMap[`${props.sectionId}`] = activeIndex
+				},
 			}
 		}
 		if(type == 2) {
@@ -181,6 +196,9 @@ const Index = (props) => {
 			// }
 			const swiper = new Swiper('.swiper-container-' + swiperId, opts);
 			setSwiperObj(swiper)
+			if(carouselListIndexMap[`${props.sectionId}`]) {
+				swiper.slideTo(carouselListIndexMap[`${props.sectionId}`] + 1, 0)
+			}
 		}, 100);
 	}
 
@@ -210,6 +228,7 @@ const Index = (props) => {
 						<div 
 							className = {classNames({
 								'swiper-container': true,
+								'swiper-no-swiping': true,
 								['swiper-container-' + swiperId]: true
 							})}
 							style={{
@@ -241,12 +260,15 @@ const Index = (props) => {
 											return (
 												<div key={index} className="swiper-slide"
 												>
-													<img src={item.url} 
-														style={{
-															width: props.style.img.width?props.style.img.width + 'px': 'auto',
-															height: props.style.img.height?props.style.img.height + 'px': 'auto',
-														}}
-													alt={item.title} />
+													<div className="swiper-slide-inner" style={{position: 'relative'}}>
+														<img src={item.url} 
+															style={{
+																width: props.style.img.width?props.style.img.width + 'px': 'auto',
+																height: props.style.img.height?props.style.img.height + 'px': 'auto',
+															}}
+														alt={item.title} />
+														{props.renderItemExtra(item, index)}
+													</div>
 												</div>
 											)
 										})

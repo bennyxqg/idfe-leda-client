@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useRef, useCallback, useContext} from "react";
-import {cloneDeep} from 'lodash'
+import React, {useState, useEffect, useRef, memo, useContext} from "react";
+import {cloneDeep, isEqual} from 'lodash'
 import { getItemIndexByKey, swapArray } from '@/utils/helper'
 import SectionBtns from './SectionBtns'
 import VisContext from "@/views/Visualization/context/VisContext";
@@ -23,11 +23,8 @@ import {
 //   console.log('--widgets---files-----', component)
 // })
 
-const DragableSection = ({ section, index, className, style, ...restProps }) => {
-  const { chooseSection, setChooseSection, sectionList, setSectionList, setShowAddModal } = useContext(VisContext)
-  const [isHover, setIsHover] = useState(false)
-  
-  const ref = React.useRef();
+const DragableSection = memo(({ section, index, className, style, ...restProps }) => {
+  const { setChooseSection, sectionList, setSectionList, setShowAddModal } = useContext(VisContext)
   
 	const setComponent = (section) =>{
     const type = section.type
@@ -53,13 +50,6 @@ const DragableSection = ({ section, index, className, style, ...restProps }) => 
       }
 	}
   
-  const handleMouseUserOver = (e, section, index) =>{
-    setIsHover(true)
-  }
-
-  const handleMouseOut = (e, section, index) =>{
-    setIsHover(false)
-  }
 
   // 右上角按钮事件
   const handleBtns = (type, section, opts) =>{
@@ -141,6 +131,13 @@ const DragableSection = ({ section, index, className, style, ...restProps }) => 
     }
     </>
 	)
-};
+}, 
+// (prevProps, nextProps) => true
+(prevProps, nextProps) => {
+  const isSame = isEqual(prevProps.section.data, nextProps.section.data)
+  console.log('----isSame-----', isSame)
+  return isSame
+}
+)
 
 export default DragableSection

@@ -18,6 +18,10 @@
     }
   }
 
+  // .el-wrapper-animate {
+  //   display: none;
+  // }
+
   // 中心点
   .center-dot {
     position: absolute;
@@ -205,12 +209,12 @@
         }
 
         &.vis-element-item-btns, &.vis-section-item-btns-kind-wap {
-          min-width: 44px;
-          font-size: 14px;
-          top: -22px;
+          min-width: 36px;
+          font-size: 12px;
+          top: -1px;
           z-index: auto;
           span {
-            padding: 0 2px;
+            padding: 0 1px;
             font-weight: normal;
           }
         }

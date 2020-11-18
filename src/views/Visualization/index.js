@@ -14,6 +14,7 @@ import { configGet, allPageList } from '@/http/hvisualization'
 import { getAllNewsByGroup, getAllCarouselByGroup, getAllNews } from '@/utils/data'
 import {cloneDeep, merge} from 'lodash'
 import { useHistory } from "react-router-dom";
+import { handleAnimate } from "@/views/Visualization/utils/animation";
 
 const Index = () => {
 	let history = useHistory();
@@ -160,6 +161,7 @@ const Index = () => {
 					}
 					// 设置好section后再挂载dom，init必须放最后
 					setInit(true)
+					handleAnimate()
 				}
 			}
 		})

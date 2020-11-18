@@ -134,6 +134,8 @@ const Index = (props) => {
             desc: item.desc, 
             identifer: item.identifer,
             type: item.type,
+            title: item.title,
+            keywords: item.keywords,
             address: addressStr
           })
       }
@@ -199,7 +201,9 @@ const Index = (props) => {
 
   const toPage = (item) => {
     if(pageItem.id == item.id) {
-      setShowEditComp(false)
+      setShowPagesModal({
+        show: false
+      })
       return
     }
     
@@ -230,6 +234,7 @@ const Index = (props) => {
     okText='确定'
     onOk={handleOk}
     onCancel={handleCancel}
+    footer={null}
     width='700px'
   >
     <div>

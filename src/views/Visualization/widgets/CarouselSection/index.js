@@ -38,7 +38,27 @@ const Index = (props) => {
 									imgList={data.imgs}
 									style={data.style}
 									pageKind={pageKind}
-								/>
+									sectionId={props.data.sectionId}
+									renderItemExtra={(item, index) => {
+										return (
+											<div 
+												// 以中心点为参照
+												className='center-dot'
+											>
+												{
+													//item.url
+													// 元素组件
+													data.imgs.elements && data.imgs.elements[`index_` + index] && <ElementDoms 
+														list={data.imgs.elements[`index_` + index]}
+														section={props.data}
+													/>
+												}
+											</div>
+										)
+									}}
+								>
+									
+								</SwiperComp>
 							</div>
 							<div 
 								// 以中心点为参照

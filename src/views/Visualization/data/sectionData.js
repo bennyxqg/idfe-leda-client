@@ -32,19 +32,6 @@ export const sectionData = () => {
         }
       }
     },
-    // 'mainSection': {type: 'mainSection', label: '首屏模块', data: {
-    //   text: '首屏模块',
-    //   style: {
-    //     width: '',
-    //     height: 500,
-    //     bg: {
-    //       bgType: 2,
-    //       bgColor: '#ffffff',
-    //       bgImg: '//dl.gamdream.com//website/image/202009/5f4f7f8168692.png',
-    //       bgVideo: ''
-    //     }
-    //   }
-    // }}, 
     'navSection': {
       type: 'navSection',
       label: '导航菜单',
@@ -59,17 +46,11 @@ export const sectionData = () => {
         navList: [{
             Uid: randomCode(),
             label: '首页',
-            // linkType: '1', // 1：锚点，2：当前窗口打开，3：新窗口打开
-            // url: 'https://www.jianshu.com/p/256b28d7b816',
-            // sectionId: null
             ...eventData()
           },
           {
             Uid: randomCode(),
             label: '联系我们',
-            // linkType: '2', // 1：锚点，2：当前窗口打开，3：新窗口打开
-            // sectionId: null,
-            // url: ''
             ...eventData()
           }
         ],
@@ -123,6 +104,26 @@ export const sectionData = () => {
       name: '',
       examples: [
         {
+          img: demoCarouselCommon,
+          data: {
+            style: {
+              type: 1
+            }
+          },
+          // 移动端配置数据
+          wapData: {
+            data: {
+              style: {
+                type: 1,
+                img: {
+                  width: 375,
+                  height: ''
+                }
+              }
+            }
+          }
+        },
+        {
           img: demoCarouselCard,
           data: {
             style: {
@@ -151,18 +152,6 @@ export const sectionData = () => {
             }
           }
         },
-        {
-          img: demoCarouselCommon,
-          data: {
-            style: {
-              type: 1,
-              img: {
-                width: 375,
-                height: ''
-              }
-            }
-          }
-        }
       ],
       data: {
         name: '',
