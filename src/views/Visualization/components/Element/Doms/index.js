@@ -332,7 +332,7 @@ const Index = (props) => {
             y: data.data.style.top,
           }}
           style={{
-            zIndex: 1
+            zIndex: data.data.zIndex?data.data.zIndex:1
             // zIndex: selectId === data.elementId?2:1
             // zIndex: selectId === data.elementId?maxZIndex:(data.data.zIndex?data.data.zIndex:1)
           }}
