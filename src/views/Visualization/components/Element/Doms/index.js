@@ -336,7 +336,8 @@ const Index = (props) => {
             // zIndex: selectId === data.elementId?2:1
             // zIndex: selectId === data.elementId?maxZIndex:(data.data.zIndex?data.data.zIndex:1)
           }}
-          bounds={pageKind === 'pc'?`.${props.section.type}-wrap-inner-${props.section.sectionId}`: '.visualization-wrap'}
+          // bounds={pageKind === 'pc'?`.${props.section.type}-wrap-inner-${props.section.sectionId}`: '.visualization-wrap'}
+          bounds={pageKind === 'pc'?null: '.visualization-wrap'}
           // enableResizing={false}
           // position={{
           // 	x: data.data.style.left,
