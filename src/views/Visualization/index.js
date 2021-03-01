@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { DndProvider } from 'react-dnd';
 import SiteContent from './SiteContent'
 import LeftMenu from './LeftMenu'
@@ -12,7 +12,7 @@ import { sectionData } from '@/views/Visualization/data/sectionData';
 import RNDContext from '@/views/Visualization/context/RNDContext'
 import { configGet, allPageList } from '@/http/hvisualization'
 import { getAllNewsByGroup, getAllCarouselByGroup, getAllNews } from '@/utils/data'
-import {cloneDeep, merge} from 'lodash'
+import { cloneDeep, merge } from 'lodash'
 import { useHistory } from "react-router-dom";
 import { handleAnimate } from "@/views/Visualization/utils/animation";
 
@@ -63,14 +63,14 @@ const Index = () => {
 	useEffect(() => {
 		// 切换页面时刷新
 		history.listen(route => {
-			if(route.pathname === '/visualization') {
+			if (route.pathname === '/visualization') {
 				window.location.reload()
 			}
 		})
 
 		let pathType = getQueryVariable('type', history.location.search)
-		if(pathType) {
-			if(pathType === 'guide' || pathType === 'wap') {
+		if (pathType) {
+			if (pathType === 'guide' || pathType === 'wap') {
 				setPageKind('wap')
 			} else {
 				setPageKind(pathType)
@@ -96,16 +96,18 @@ const Index = () => {
 		const allPageRep = await allPageList()
 		let indexId = getQueryVariable('id', history.location.search)
 		let pageType = getQueryVariable('type', history.location.search)
-		const pageDataTemp = allPageRep.data.map(item=> {
+		const pageDataTemp = allPageRep.data.map(item => {
 			let typeStr = ''
-			if(item.type == 0) {
+			if (item.type == 0) {
 				typeStr = 'pc'
-			} else if(item.type == 1) {
+			} else if (item.type == 1) {
 				typeStr = 'popup'
-			} else if(item.type == 2) {
+			} else if (item.type == 2) {
 				typeStr = 'guide'
-			} else if(item.type == 3) {
+			} else if (item.type == 3) {
 				typeStr = 'wap'
+			} else if (item.type == 4) {
+				typeStr = 'sidebar'
 			}
 			return {
 				id: item.id,
@@ -116,77 +118,80 @@ const Index = () => {
 		})
 		let currentPage = null
 		pageDataTemp.some((page) => {
-			if(indexId) {
-				if(page.id == indexId) {
+			if (indexId) {
+				if (page.id == indexId) {
 					// setPageType(page.type == 1?'page':'popup')
 					currentPage = page
-					setPageItem(page)
 					return true
 				}
-			} else if(pageType && page.type === pageType) {
+			} else if (pageType && page.type === pageType) {
 				currentPage = page
 				indexId = page.id
-				setPageItem(page)
 				return true
-			} 
+			}
 			return false
 		})
-		if(!currentPage) {
+		if (!currentPage) {
 			pageDataTemp.some((page) => {
-				if(page.identifer === 'index') {
+				if (page.identifer === 'index') {
 					currentPage = page
 					indexId = page.id
-					setPageItem(page)
 					return true
 				}
 			})
 			return false
 		}
 
-
-		if(!currentPage) {
-			setPageItem({})
+		if (!currentPage) {
+			currentPage = {}
 		}
+		
 		setPageData(pageDataTemp)
 
-		configGet({ 
+		configGet({
 			id: indexId
 		}).then((rep) => {
-			if(rep.error_code === 0) {
-				if(rep.data) {
-					if(rep.data.config_json_pre) {
-						const configobj = JSON.parse(rep.data.config_json_pre) 
+			if (rep.error_code === 0) {
+				if (rep.data) {
+					if (rep.data.config_json_pre) {
+						const configobj = JSON.parse(rep.data.config_json_pre)
 						buildModuleData(imgList, configobj.moduleList)
 						setSectionList(configobj.moduleList)
+
+						// 获取页面属性
+						if(configobj.props) {
+							currentPage.props = configobj.props
+						}
 					}
 					// 设置好section后再挂载dom，init必须放最后
+					setPageItem(currentPage)
 					setInit(true)
 					handleAnimate()
 				}
 			}
 		})
-		
 	}
+
 
 	// 构造数据
 	const buildModuleData = (imgList, list) => {
 		list.forEach((item) => {
-			if(item.type === 'imgNews' || item.type === 'carouselSection') {
+			if (item.type === 'imgNews' || item.type === 'carouselSection') {
 				const groupId = item.data.imgs.groupId
-				if(groupId) {
+				if (groupId) {
 					imgList.some((img) => {
-						if(img.id == groupId) {
-							item.data.imgs.list = cloneDeep(img.list) 
+						if (img.id == groupId) {
+							item.data.imgs.list = cloneDeep(img.list)
 							return true
 						}
 						return false
 					})
 				}
-				
+
 			}
 		})
 	}
-	
+
 	// 新增模块
 	const addSection = (item) => {
 		const type = item.value
@@ -195,7 +200,7 @@ const Index = () => {
 		// 	sectionId: randomCode(10)
 		// }))
 		const sectionTemp = (sectionData())[type]
-		if(sectionTemp.examples) {
+		if (sectionTemp.examples) {
 			delete sectionTemp.examples
 		}
 		const newItem = Object.assign(sectionTemp, {
@@ -203,7 +208,7 @@ const Index = () => {
 		})
 		merge(newItem.data, uniqueData)
 		const sectionListTemp = cloneDeep(sectionList)
-		if(typeof showAddModal.index !== 'undefined') {
+		if (typeof showAddModal.index !== 'undefined') {
 			sectionListTemp.splice(showAddModal.index, 0, newItem);
 		} else {
 			sectionListTemp.push(newItem)
@@ -229,6 +234,7 @@ const Index = () => {
 			value={{
 				pageKind,
 				pageItem,
+				setPageItem,
 				pageData,
 				setPageData,
 				sectionList,
@@ -253,12 +259,12 @@ const Index = () => {
 						{/* <DndDemo /> */}
 						<HeaderComp />
 						<DndProvider manager={manager.current.dragDropManager}>
-							<SiteContent newSection={newSectionType}  />
+							<SiteContent newSection={newSectionType} />
 						</DndProvider>
 						{
 							pageItem && (pageItem.type === 'pc' || pageItem.type === 'guide' || pageItem.type === 'wap') && (
-								<LeftMenu 
-									// addSection={addSection} 
+								<LeftMenu
+								// addSection={addSection} 
 								/>
 							)
 						}
@@ -266,7 +272,7 @@ const Index = () => {
 						{
 							// 显示添加模块的弹窗
 							showAddModal && showAddModal.show &&
-							<SectionListModal 
+							<SectionListModal
 								addSection={addSection}
 								index={showAddModal.index}
 							/>
@@ -274,7 +280,7 @@ const Index = () => {
 						{
 							// 显示添加模块的弹窗
 							showPagesModal && showPagesModal.show &&
-							<PagesModal 
+							<PagesModal
 							/>
 						}
 					</div>

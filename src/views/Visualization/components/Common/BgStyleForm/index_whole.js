@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useImperativeHandle} from "react";
+import React, { useState, useEffect, useRef, useImperativeHandle } from "react";
 import { Switch, Button, Form, Input, message, InputNumber, Select, Radio } from 'antd';
 import CommonUpload from '@/components/CommonUpload/index'
 
@@ -17,22 +17,101 @@ const Index = React.forwardRef((props, ref) => {
   }));
 
   useEffect(() => {
-    if(props.data) {
-      if(props.data.bgType) {
+    if (props.data) {
+      if (props.data.bgType) {
         setBgType(props.data.bgType)
       }
-      form.setFieldsValue(props.data)
+      if (!props.noWrapper) {
+        form.setFieldsValue(props.data)
+      }
     }
   }, []);
 
   useEffect(() => {
-    if(props.defaultType) {
+    if (props.defaultType) {
       setBgType(props.defaultType)
     }
   }, [props.defaultType]);
 
   const changeType = (e) => {
     setBgType(e.target.value)
+  }
+
+  // 处理表单项的name
+  const handleName = (name) => {
+    if (props.noWrapper) {
+      return ['bg', name]
+    }
+    return name
+  }
+
+  const fieldItems = () => {
+    return (
+      <>
+        <Form.Item
+          valuePropName="checked"
+          label="关闭背景"
+          name={handleName('disabled')}
+        >
+          <Switch />
+        </Form.Item>
+        <Form.Item
+          label="背景类型"
+          name={handleName('bgType')}
+          rules={[{ required: true, message: '请选择背景类型' }]}
+        >
+          <Radio.Group onChange={changeType}>
+            <Radio value={1}>
+              <span className='mar-r-8'>颜色</span>
+            </Radio>
+            <Radio value={2}>
+              <span className='mar-r-8'>图片</span>
+            </Radio>
+            {
+              !props.hideVideo &&
+              <Radio value={3}>
+                <span className='mar-r-8'>视频</span>
+              </Radio>
+            }
+
+          </Radio.Group>
+        </Form.Item>
+        {
+          bgType == 1 &&
+          <Form.Item
+            label="背景颜色"
+            name={handleName('bgColor')}
+          >
+            <Input type='color' defaultValue='#ffffff' />
+          </Form.Item>
+        }
+        {
+          bgType == 2 &&
+          <Form.Item
+            rules={[{ required: true, message: '请上传图片或输入图片地址' }]}
+            name={handleName('bgImg')}
+          >
+            <CommonUpload
+              className='mar-l-20'
+              btnLabel='上传图片'
+              placeholder='请输入图片地址'
+            />
+          </Form.Item>
+        }
+        {
+          bgType == 3 && !props.hideVideo &&
+          <Form.Item
+            name={handleName('bgVideo')}
+          >
+            <Input placeholder='请输入视频地址' />
+          </Form.Item>
+        }
+      </>
+    )
+  }
+
+  if (props.noWrapper) {
+    return fieldItems()
   }
 
   return (
@@ -44,59 +123,9 @@ const Index = React.forwardRef((props, ref) => {
         ref={ref}
         form={form}
       >
-      <Form.Item
-        valuePropName="checked"
-        label="关闭背景"
-        name='disabled'
-      >
-        <Switch />
-      </Form.Item>
-      <Form.Item
-        label="背景类型"
-        name='bgType'
-        rules={[{ required: true, message: '请选择背景类型' }]}
-      >
-        <Radio.Group onChange={changeType}>
-          <Radio value={1}>
-            <span className='mar-r-8'>颜色</span>
-          </Radio>
-          <Radio value={2}>
-            <span className='mar-r-8'>图片</span>
-          </Radio>
-          <Radio value={3}>
-            <span className='mar-r-8'>视频</span>
-          </Radio>
-        </Radio.Group>
-      </Form.Item>
-      {
-        <Form.Item
-          label="背景颜色"
-          name='bgColor'
-        >
-          <Input type='color' />
-        </Form.Item>
-      }
-      {
-        bgType == 2 &&
-        <Form.Item
-          rules={[{ required: true, message: '请上传图片或输入图片地址' }]}
-          name='bgImg'
-        >
-          <CommonUpload 
-            className='mar-l-20'
-            btnLabel='上传图片'
-            placeholder='请输入图片地址'
-          />
-        </Form.Item>
-      }
-      {
-        bgType == 3 &&
-        <Form.Item
-          name='bgVideo'
-        >
-          <Input placeholder='请输入视频地址' />
-        </Form.Item>
-      }
+        {
+          fieldItems()
+        }
       </Form>
     </>
   )

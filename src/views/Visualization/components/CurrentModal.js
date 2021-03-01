@@ -18,6 +18,8 @@ import SubscribePopupData from './modal/popup/SubscribePopup/Data/index'
 import SubscribePopupStyle from './modal/popup/SubscribePopup/Style/index'
 import ApplyPopupData from './modal/popup/ApplyPopup/Data/index'
 import ApplyPopupStyle from './modal/popup/ApplyPopup/Style/index'
+import SidebarData from './modal/Sidebar/Data/index'
+import SidebarStyle from './modal/Sidebar/Style/index'
 
 import VisContext from "@/views/Visualization/context/VisContext";
 import update from 'immutability-helper';
@@ -108,6 +110,13 @@ const Index = (props) => {
         }
         if(type === 'style') {
           targetComp = ApplyPopupStyle
+        }
+      } else if(sectionType === 'commonSidebar') { // 侧边栏
+        if(type === 'data') {
+          targetComp = SidebarData
+        }
+        if(type === 'style') {
+          targetComp = SidebarStyle
         }
       }
     }

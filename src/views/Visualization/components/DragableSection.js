@@ -4,6 +4,8 @@ import { getItemIndexByKey, swapArray } from '@/utils/helper'
 import SectionBtns from './SectionBtns'
 import VisContext from "@/views/Visualization/context/VisContext";
 import classNames from 'classnames'
+import {copyText} from '@/views/Visualization/utils/index.js'
+import {message} from 'antd'
 
 import {
 	BlankSection,
@@ -14,7 +16,8 @@ import {
   MainSection,
   NewsDetailSection,
   SubscribePopup,
-  ApplyPopup
+  ApplyPopup,
+  Sidebar,
 } from "../widgets";
 
 // const contexts = require.context('../widgets', true, /\.js$/);
@@ -47,12 +50,15 @@ const DragableSection = memo(({ section, index, className, style, ...restProps }
         return <ApplyPopup data={section}/>;
       } else if(type === 'applyPopup') {
 				return <ApplyPopup data={section}/>;
+      } else if(type === 'commonSidebar') {
+				return <Sidebar data={section}/>;
       }
 	}
   
 
   // 右上角按钮事件
   const handleBtns = (type, section, opts) =>{
+    console.log('----handleBtns-----', type)
     if(type === 'style') { // 样式
       setChooseSection(section)
       restProps.showModal(type, section)
@@ -93,6 +99,10 @@ const DragableSection = memo(({ section, index, className, style, ...restProps }
     } else if(type === 'element') { // 添加元素到模块中
       setChooseSection(section)
       restProps.showModal(type, section)
+    } else if(type === 'getInfo') { // 复制id
+      console.log('------section----', section)
+      copyText('section_' + section.sectionId)
+      message.success('复制id成功')
     }
   }
   
@@ -114,6 +124,7 @@ const DragableSection = memo(({ section, index, className, style, ...restProps }
               })}
             >
               <SectionBtns 
+                section={section}
                 handleStyle={() => {handleBtns('style', section)}}
                 handleData={() => {handleBtns('data', section)}}
                 handleDel={() => {handleBtns('del', section)}}
@@ -123,6 +134,7 @@ const DragableSection = memo(({ section, index, className, style, ...restProps }
                 handleAdd={(direction) => {handleBtns('add', section, {
                   direction
                 })}}
+                handleGetInfo={(direction) => {handleBtns('getInfo', section)}}
               />
             </div>
           }
@@ -136,7 +148,7 @@ const DragableSection = memo(({ section, index, className, style, ...restProps }
 (prevProps, nextProps) => {
   const isSame = isEqual(prevProps.section.data, nextProps.section.data)
   console.log('----isSame-----', isSame)
-  return isSame
+  return false
 }
 )
 

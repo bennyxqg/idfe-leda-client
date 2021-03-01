@@ -98,6 +98,7 @@ const Index = (props) => {
       'pc': '0',
       'popup': '1',
       'wap': '3',
+      'sidebar': '4',
     }
     if(allPages.length === 0 || reload) {
       await allPageList().then((result) => {
@@ -123,7 +124,7 @@ const Index = (props) => {
         if(address && address.index) {
           addressStr = address.index + addressStr
         }
-        if(type === 'popup') {
+        if(type === 'popup' || type === 'sidebar') {
           addressStr = ''
         }
 
@@ -244,6 +245,8 @@ const Index = (props) => {
         <TabPane tab="移动端页面" key="wap">
         </TabPane>
         <TabPane tab="弹框模块" key="popup">
+        </TabPane>
+        <TabPane tab="侧边栏" key="sidebar">
         </TabPane>
       </Tabs>
       <div>

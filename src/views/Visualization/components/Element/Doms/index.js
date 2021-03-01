@@ -18,6 +18,7 @@ import { animationElementList } from "@/views/Visualization/utils/cacheData";
 import AnimationForm from '@/views/Visualization/components/Element/AnimationForm/index'
 import { carouselListIndexMap } from "@/views/Visualization/utils/cacheData";
 import { message, Modal } from 'antd';
+import {copyText} from '@/views/Visualization/utils/index.js'
 
 const Index = (props) => {
   const { sectionList, setSectionList, pageKind } = useContext(VisContext)
@@ -170,6 +171,9 @@ const Index = (props) => {
           setSectionList(sectionListTemp)
         }
       })
+    } else if(type === 'getInfo') {
+      copyText(data.elementId)
+      message.success('复制id成功')
     } else {
       if(type === 'edit') { // 编辑
         
@@ -393,6 +397,7 @@ const Index = (props) => {
               <div className={'element-btns-wrap'}>
                 <ElementBtns 
                   section={props.section}
+                  element={data}
                   type={data.type}
                   parent={data.parent}
                   handleDel={() => {handleBtns('del', data)}}
@@ -400,6 +405,7 @@ const Index = (props) => {
                   handleConfig={() => {handleBtns('config', data)}}
                   handleAnimation={() => {handleBtns('animation', data)}}
                   handleAttach={() => {handleBtns('attach', data)}}
+                  handleGetInfo={() => {handleBtns('getInfo', data)}}
                 />
               </div>
             }

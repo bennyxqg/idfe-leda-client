@@ -1,13 +1,14 @@
-import React, {useState, useEffect, useContext, memo} from "react";
+import React, { useState, useEffect, useContext, memo } from "react";
 import { Button, message, Row, Col } from 'antd';
 import VisContext from "@/views/Visualization/context/VisContext";
 import { configSave, configPublish, getWebsiteAddress } from '@/http/hvisualization'
-import {cloneDeep, merge} from 'lodash'
+import { cloneDeep, merge } from 'lodash'
 import { useHistory } from "react-router-dom";
 import GlobalContext from "@/views/layout/GlobalContext";
 import { sectionData } from "@/views/Visualization/data/sectionData";
 import { popupData } from "@/views/Visualization/data/popupData";
 import GuidePageModal from "@/views/Visualization/components/Common/GuidePageModal/index";
+import ViewPropModal from "@/views/Visualization/components/Common/ViewPropModal/index";
 
 const Index = memo((props) => {
 	let history = useHistory();
@@ -17,6 +18,7 @@ const Index = memo((props) => {
 	const [address, setAddress] = useState({})
 	const [updateBtn, setUpdateBtn] = useState(false)
 	const [showGuildPage, setShowGuildPage] = useState(false)
+	const [showPropModal, setShowPropModal] = useState(false)
 
 	useEffect(() => {
 		websiteAddress()
@@ -31,11 +33,11 @@ const Index = memo((props) => {
 		// 	addressStr = '/' + pageItem.identifer
 		// }
 		addressStr = '/' + pageItem.identifer
-		if(pageItem.type === 'popup') {
+		if (pageItem.type === 'popup') {
 			addressStr = '/index'
 		}
 		addressStr = '/preview/pages' + addressStr
-		if(pageItem.type === 'wap') {
+		if (pageItem.type === 'wap') {
 			addressStr = '/wap' + addressStr
 		}
 		addressStr = address.index + addressStr
@@ -46,7 +48,7 @@ const Index = memo((props) => {
 	const publish = async () => {
 		await toReq('save', false)
 		toReq('publish')
-	}	
+	}
 
 	// 显示普通页面列表
 	const showPageModal = () => {
@@ -70,7 +72,7 @@ const Index = memo((props) => {
 	}
 
 	const showUpdateBtn = () => {
-		if(userInfo.name === 'admin') {
+		if (userInfo.name === 'admin') {
 			setUpdateBtn(!updateBtn)
 		}
 	}
@@ -80,13 +82,13 @@ const Index = memo((props) => {
 		const listTemp = []
 		sectionList.forEach((item) => {
 			let itemTemp = null
-			if(item.type.indexOf('Popup') !== -1) { // 弹窗
+			if (item.type.indexOf('Popup') !== -1) { // 弹窗
 				itemTemp = popupData()[item.type]
 			} else {
 				itemTemp = sectionData()[item.type]
 			}
-			if(itemTemp) {
-				if(itemTemp.examples) {
+			if (itemTemp) {
+				if (itemTemp.examples) {
 					delete itemTemp.examples
 				}
 				itemTemp = merge(itemTemp, item)
@@ -100,7 +102,7 @@ const Index = memo((props) => {
 	const websiteAddress = () => {
 		const sendData = {}
 		getWebsiteAddress(sendData).then((rep) => {
-			if(rep.error_code === 0) {
+			if (rep.error_code === 0) {
 				setAddress(rep.data)
 			} else {
 				message.error(rep.msg);
@@ -112,16 +114,16 @@ const Index = memo((props) => {
 	const toReq = (type, showSuccess = true) => {
 		const sectionListTemp = cloneDeep(sectionList)
 		sectionListTemp.forEach(item => {
-			if(item.type === 'imgNews') { // 处理图文信息的提交数据
+			if (item.type === 'imgNews') { // 处理图文信息的提交数据
 				item.data.imgs = {
 					groupId: item.data.imgs.groupId
 				}
-				if(item.data.newsList) {
+				if (item.data.newsList) {
 					delete item.data.newsList
 				}
 			}
-			if(item.type === 'carouselSection') { // 处理轮播的提交数据
-				if(item.data.imgs && item.data.imgs.list) {
+			if (item.type === 'carouselSection') { // 处理轮播的提交数据
+				if (item.data.imgs && item.data.imgs.list) {
 					delete item.data.imgs.list
 				}
 			}
@@ -131,19 +133,21 @@ const Index = memo((props) => {
 		}
 
 		let reqFunc = configSave
-		if(type === 'publish') {
+		if (type === 'publish') {
 			reqFunc = configPublish
 			sendData.config_json = JSON.stringify({
-				moduleList: sectionListTemp
+				moduleList: sectionListTemp,
+				props: pageItem.props,
 			})
 		} else {
 			sendData.config_json_pre = JSON.stringify({
-				moduleList: sectionListTemp
+				moduleList: sectionListTemp,
+				props: pageItem.props,
 			})
 		}
 		return reqFunc(sendData).then((rep) => {
-			if(rep.error_code === 0) {
-				if(showSuccess) {
+			if (rep.error_code === 0) {
+				if (showSuccess) {
 					message.success('操作成功');
 				}
 			} else {
@@ -154,7 +158,7 @@ const Index = memo((props) => {
 
 	const getPageData = () => {
 		return {
-			type: (pageItem && pageItem.type === 'popup')?'弹窗':'页面',
+			type: (pageItem && pageItem.type === 'popup') ? '弹窗' : '页面',
 			name: pageItem && pageItem.name
 		}
 	}
@@ -163,14 +167,23 @@ const Index = memo((props) => {
 		setShowGuildPage(false)
 	}
 
+	// 视图属性
+	const viewProp = () => {
+		setShowPropModal(true)
+	}
+
+	const propModalChange = () => {
+		setShowPropModal(false)
+	}
+
 	return (
 		<div className="vis-wrap-header">
 			<Row className='vis-wrap-header-inner'>
 				<Col span={8} className='header-part'>
-					<Button type="primary" 
+					<Button type="primary"
 						onClick={save}
 						className='mar-l-32'>保存</Button>
-					<Button type="primary" 
+					<Button type="primary"
 						onClick={publish}
 						className='mar-l-10'>发布</Button>
 					<Button
@@ -197,12 +210,16 @@ const Index = memo((props) => {
 				</Col>
 				<Col span={8} className='header-part header-part-right'>
 					<div className='mar-r-32'>
-						{/* <Button
-							type="primary" 
-							onClick={handleGuidePage}
-							className='mar-r-40 mar-t-4'>管理落地页</Button> */}
+						{
+							(pageItem.type == 'wap' || pageItem.type == 'pc') && (
+								<Button
+									type="primary"
+									onClick={viewProp}
+									className='mar-r-10 mar-t-4'>页面属性</Button>
+							)
+						}
 						<Button
-							type="primary" 
+							type="primary"
 							onClick={back}
 							className='mar-r-20 mar-t-4'>返回</Button>
 						<span>{userInfo.name}</span>
@@ -211,8 +228,15 @@ const Index = memo((props) => {
 			</Row>
 			{
 				showGuildPage && (
-					<GuidePageModal 
+					<GuidePageModal
 						modalChange={guideModalChange}
+					/>
+				)
+			}
+			{
+				showPropModal && (
+					<ViewPropModal
+						modalChange={propModalChange}
 					/>
 				)
 			}

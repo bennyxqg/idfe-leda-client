@@ -1,7 +1,8 @@
 import React, {useEffect} from "react";
 import { SettingOutlined, DeleteOutlined, 
   SendOutlined, DatabaseOutlined, 
-  LinkOutlined, DisconnectOutlined } from '@ant-design/icons';
+  LinkOutlined, DisconnectOutlined,
+  InfoCircleOutlined } from '@ant-design/icons';
 
 const SectionBtns = (props) => {
 
@@ -33,8 +34,11 @@ const SectionBtns = (props) => {
 
   // 依附于轮播图上
   const handleAttach = () => {
-    console.log('------props.section-------', props.section)
     props.handleAttach()
+  }
+
+  const handleGetInfo = () => {
+    props.handleGetInfo()
   }
 
 	return (
@@ -44,6 +48,10 @@ const SectionBtns = (props) => {
           className={'rnd-handler'}>
           <DragOutlined />
         </span> */}
+        <span
+          title={props.element.elementId}
+          onClick={() => {handleGetInfo()}}
+        ><InfoCircleOutlined /></span>
         {
           props.section.type === 'carouselSection' && (
             <span

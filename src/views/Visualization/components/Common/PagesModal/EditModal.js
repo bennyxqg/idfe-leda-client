@@ -16,7 +16,6 @@ const Index = (props, ref) => {
   useEffect(() => {
     if(props.data) {
       setData(cloneDeep(props.data))
-      console.log('-----cloneDeep(props.data)------', cloneDeep(props.data))
       form.setFieldsValue(cloneDeep(props.data))
     } else {
       const typeMapping = {
@@ -93,6 +92,8 @@ const Index = (props, ref) => {
           <Radio.Group disabled={!!data.id}>
             <Radio value="0">PC端</Radio>
             <Radio value="3">移动端</Radio>
+            <Radio value="1">弹窗</Radio>
+            <Radio value="4">侧边栏</Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item

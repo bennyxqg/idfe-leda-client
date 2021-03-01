@@ -10,6 +10,8 @@ import NewsDetailSection from "./NewsDetailSection";
 import SubscribePopup from "./popup/SubscribePopup/index";
 import ApplyPopup from "./popup/ApplyPopup/index";
 
+import Sidebar from "./Sidebar";
+
 export {
   BlankSection,
   ImgNews,
@@ -19,6 +21,7 @@ export {
   MainSection,
   NewsDetailSection,
   SubscribePopup,
-  ApplyPopup
+  ApplyPopup,
+  Sidebar,
 }
 

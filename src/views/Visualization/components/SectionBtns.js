@@ -1,7 +1,8 @@
 import React, {useContext} from "react";
 import { ArrowUpOutlined, ArrowDownOutlined, 
   SettingOutlined,DeleteOutlined,
-  PlusOutlined, AppstoreOutlined } from '@ant-design/icons';
+  PlusOutlined, AppstoreOutlined,
+  InfoCircleOutlined, } from '@ant-design/icons';
 import {MagicIcon} from '@/utils/icons'
 import VisContext from "@/views/Visualization/context/VisContext";
 
@@ -40,9 +41,17 @@ const SectionBtns = (props) => {
     props.handleAdd(type)
   }
 
+  const handleGetInfo = () => {
+    props.handleGetInfo()
+  }
+
 	return (
     <div>
       <div className={`vis-section-item-btns vis-section-item-btns-kind-${pageKind}`}>
+        <span
+          title={'section_' + props.section.sectionId}
+          onClick={() => {handleGetInfo()}}
+        ><InfoCircleOutlined /></span>
         {
           (pageItem.type === 'pc' || pageItem.type === 'guide' || pageItem.type === 'wap') && (
             <>

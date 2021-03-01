@@ -6,6 +6,7 @@ import VisContext from "@/views/Visualization/context/VisContext";
 import DragableSection from './components/DragableSection'
 import CurrentModal from './components/CurrentModal'
 import {popupData} from '@/views/Visualization/data/popupData'
+import {sidebarData} from '@/views/Visualization/data/sidebarData'
 
 const Index = (props) => {
 	const { pageItem, pageKind, chooseSection, setChooseSection, sectionList, setSectionList } = useContext(VisContext)
@@ -15,6 +16,7 @@ const Index = (props) => {
 
 	useEffect(() => {
 		getPopupData()
+		getSidebarData()
 	}, []);
 	
 	useEffect(() => {
@@ -54,6 +56,27 @@ const Index = (props) => {
 		}
 	}
 
+	// 获取侧边栏初始数据
+	const getSidebarData = () => {
+		console.log('-----getSidebarData--00--', sectionList.length, pageItem)
+		if(sectionList.length) {
+			return
+		}
+		if(pageItem.type === 'sidebar') {
+			const sidebarList = sidebarData()
+			Object.keys(sidebarList).some((key, index) => {
+				if(index === 0) {
+					const itemData = cloneDeep(sidebarList[key])
+					itemData.sectionId = randomCode(10)
+					console.log('-----getSidebarData----', itemData)
+					setSectionList([itemData])
+					return true
+				}
+				return false
+			})
+		}
+	}
+
 	const sectionIndex = (section) => {
 		let index = -1
 		sectionList.some((item, idx) => {
@@ -73,6 +96,7 @@ const Index = (props) => {
 	
 	// 显示操作弹窗
 	const showModal = (type, section) => {
+		console.log('----showModal-----', type, section)
 		setIsShowModal(true)
 		setModalType(type)
 		setModalSection(section)
